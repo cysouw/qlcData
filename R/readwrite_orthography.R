@@ -110,7 +110,7 @@ write.profile <- function(strings
 # orthography profiles are just TSV files, so this is just convenience
 # ====================================================================
 
-read.profile <- function(file) {
+read.profile <- function(profile) {
   
   profile <- read.table(profile
                         , sep = "\t"
@@ -122,8 +122,10 @@ read.profile <- function(file) {
   
   # checking header
   
-  if (sum(colnames == "Grapheme") != 1) {
+  if (sum(colnames(profile) == "Grapheme") != 1) {
     stop("There needs to be a column called \'Grapheme\'")
+  } else {
+    return(profile)
   }
 
 }
