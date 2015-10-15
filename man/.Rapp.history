@@ -1,0 +1,12 @@
+library(qlcTokenize)
+example <- "ÄӒÄᴀ𝐀"#
+write.profile(example)
+example <- "ÄӒÄᴀ𝐀"#
+write.profile(example)
+tokenize(example)
+example <- "ÄӒÄ"#
+write.profile(example)
+example <- "ÄӒÄӒ"#
+write.profile(example)
+example <- "ÄӒÄӒΑ̈"#
+write.profile(example)

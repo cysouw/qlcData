@@ -1,0 +1,168 @@
+---
+title: 'Specifying orthography: harmonization, tokenization and transliteration'
+author: "Michael Cysouw"
+date: '`r Sys.Date()`'
+mainfont: Charis SIL
+monofont: Menlo
+output:
+  rmarkdown::html_vignette:
+  md_document:
+    variant: markdown_github
+  pdf_document:
+    number_sections: yes
+    latex_engine: xelatex
+#   keep_tex: true
+vignette: >
+  %\VignetteIndexEntry{Specifying orthography}
+  \usepackage[utf8]{inputenc}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r setup, include = FALSE}
+library(qlcTokenize)
+```
+
+# Introduction
+
+Given any collection of linguistic strings, there are various issues that often arise in using these linguistic strings in the computational processing of such data. This vignette will give a short practical introduction to the solutions offered in the `qlcTokenize` package. For a full theoretical discussion of all issues involved, see Moran & Cysouw (forthcoming).
+
+All proposals made here (and in the paper by Moran & Cysouw) are crucially rooted in the structure and technologies developed over the last few decades by the Unicode Consortion. Specifically the implementation as provided by the UCI and their porting to R in the `stringi` package are crucial for the functions described here. One might even question, whether there is any need for the functions in this package, and whether the functionality of `stringi` is not already sufficient. We see our additions as high-level functionality that (hopefully) is easily enough to be applied to also allow non-technically-inclined linguists to use it.
+
+Specifically, we offer an approach to document *tailorder grapheme clusters* (as they are called by the Unicode consortium). To deal consistenly with such clusters, the official Unicode route would be to produce *Unicode Local Descriptions*, which are overly complex for the use-cases that we have in mind. In general, our goal is to allow for quick and easy processing, which can be used for dozens (or even hundreds) of different languages/orthographies without becoming a life-long project.
+
+We see various use-cases for the `qlcTokenize` package, e.g.:
+
+- checking consistency of the orthographic represenation in some data;
+- tokenization of the orthography into functional units ("graphemes"), which is highly useful in language comparison (e.g. character alignment);
+- checking for consistent application of a pre-defined orthography structure (e.g. the IPA);
+- transliteration of orthography to another orthographic representation, specifically in cases in which the transliteration is geared towards reducing orthographic complexity (e.g. sound classes).
+
+In general, our solutions will not be practical for ideosyncratic orthographies like English or French, nor for chracter-based orthographies like Chinese or Japanese, but is mostly geared towards practical orthographies as used in the hundreds (thousands) of other languages in the world.
+
+# Installing the package
+
+The current alpha-version of the package `qlcTokenize` is not yet available on CRAN (_Comprehensive R Archive Network_) for easy download and application. If you haven't done so already, please install the package `devtools` and then install the package `qlcTokenize` directly from github.
+
+```{r, eval = FALSE}
+# install devtools from CRAN
+install.packages("devtools")
+# install qlcTokenize from github using devtools
+devtools::install_github("cysouw/qlcTokenize")
+# load qlcTokenize package
+library(qlcTokenize)
+# access help files of the package
+help(qlcTokenize)
+```
+
+# Orthography Profiles
+
+The basic object in `qlcTokenize` is the *Orthography Profile*. This is basically just a simple tab-separated file listing all (tailored) graphemes in some data. An orthography profile can be easily made by using `write.profile`. The result of this function is an R-dataframe, but it can also be directly written to a file by using the option `file = path/filename`.
+
+```{r}
+test <- "hállo hállо"
+```
+```{r, eval = FALSE}
+write.profile(test)
+```
+```{r echo=FALSE, results='asis'}
+# some example string
+knitr::kable(write.profile(test))
+```
+
+There are a few interesting aspects in this orthography profile. 
+
+- First note that spaces are included in the orthography profile. Space is just treated as any other character in this bare-bones function. 
+- Second, note that there are two different "o" characters. Looking at the Unicode codepoints and names it becomes clear that the one is a latin letter and the other a cyrillic letter. On most computer screens/fonts these symbols look completely identical, so it is actually easy for such a thing to happen (e.g. when writing with a russian keyboard-setting you might type a cyrillic "o", but when copy-pasting something from some other source, you might end up with a latin "o"). The effect is that some words might look identical, but that they are not identical for the computer
+
+```{r}
+# the differenec between various "o" characters is mostly invisible on screen
+"o" == "o"  # these are the same "o" characters, so this statement in true
+"o" == "о"  # this is one latin and and cyrillic "o" character, so this statement is false
+```
+
+- Third, there are two different "á" characters, one being composed of two elements (the small letter a with a separate combining acute accent), the second being a single "precomposed" element (called "small letter a with acute"). The same problem as with the "o" occurs here: they look identical, but they are not (always) identical to the computer. For this second problem there is an official Unicode solution (called 'normalisation', more on that below). It might even happen that when you just copy-paste the above test-string into your own R-console, that the problem automagically vanishes (because the clipboard might automatically do so-called NFC-normalisation).
+- By default, this function lists all the Unicode codepoints and names. If you don't want them, add the option `info = FALSE`.
+- By default, this functions does not add a column "replacements" which will be used for transliteration later. If you want this columns, add the option `editing = TRUE`
+- Finally, note that the function also accepts vectors of strings:
+
+```{r}
+test <- c("this thing", "is", "a", "vector", "with", "many", "strings")
+```
+```{r, eval = FALSE}
+write.profile(test)
+```
+```{r echo=FALSE, results='asis'}
+# some example string
+knitr::kable(write.profile(test))
+```
+
+Normally, you won't type your data directly into R, but load the data from some file with functions like `scan` or `read.table`, and then perform `write.profile` on the data. Given the information as provided by the orthography profile, you might then want to go back to the original file and correct the inconsistencies, and then check again to see if everything is consistent now.
+
+# Tokenization
+
+In most cases you will probably want to use the function `tokenize`. Besides creating orthography profiles, it will also check orthography profiles against new data (and give warnings if there is something), it will separate the input strings into graphemes, and even perform transliteration. Let's run through a typical workflow using `tokenize`.
+
+Given some data in a specific orthography, you can call `tokenize` on the data to create an initial orthography profile (just like with `write.profile` discussed above, though there are a few small differences. For example: spaces are not included by default in the profile, and spaces in the original are replaced by hashes).
+
+The output of `tokenize` always is a list of four elements: `$strings`, `$profile`, `$errors`, and `$missing`. The second element in the list `$profile` is the table we already encountered above. The first element `$strings` is a table with the original strings, and the tokenization into graphemes as specified by the orthography profile (which in the case below was automatically produced, so there is nothing strange happening here, just a splitting into letters). The `$errors` and `$missing` are just empty at this stage, but it will contain information about strings that cannot be tokenized with a pre-established profile.
+
+```{r}
+tokenize(test)
+```
+
+Now, you can work further with this profile inside R, but it is easier to write the results to a file, then correct/change these files, and use R again to process the data again. In this vignette we will not start writing anything to your disk (so the following commands will not be executed), but you might try something like the following:
+
+```{r, eval = FALSE}
+dir.create("~/Desktop/tokenize")
+setwd("~/Desktop/tokenize")
+tokenize(test, file.out = "test")
+```
+
+We are going to add two new "tailored grapheme clusters" to this profile: open the file "test_profile.txt" (in the folder "tokenize" on your Desktop) with a text editor like Textmate, Textwrangler or Notepad++ (don't use Microsoft Word!!!). First, add a new line with only "th" on it and, second, add another line with only "ng" on it. The file will then roughly look like this:
+
+```{r, echo = FALSE, results='asis'}
+tmp <- as.data.frame(rbind(as.matrix(tokenize(test)$profile),c(" ", "th"),c(" ","ng")))
+knitr::kable(tmp)
+```
+
+Now try to use this this profile with the function `tokenize`. Note that you will get a different tokenization of the strings ("th" and "ng" are now treated as a complex grapheme) and you will also obtain an updated orthography profile, which you could also immediately use to overwrite the existing profile on your disk.
+
+```{r, eval = FALSE}
+tokenize(test, profile = "test")
+
+# with overwriting of the existing profile:
+# tokenize(test, profile = "test", file = "test")
+
+# note that you can abbreviate this in R:
+# tokenize_old(test, p = "test", f = "test")
+```
+
+```{r, echo = FALSE}
+tokenize(test, profile = tmp)
+```
+
+Now that we have an orthography profile, we can use this orthography profile on other data, using the profile to produce a tokenization, and at the same time checking the data for any strings that do not appear in the profile (which might be errors in the data). Note that the following will give a warning, but it will still go through and give some output. The all symbols that were not in the orthography profile are simply separated according to unicode grapheme definitions, a new orthogrphy profile explicitly for this dataset is made, and the problematic string are summarised in the warnings of the output, linked to the original strings in which they occured. In this way it is easy to find the problems in the data.
+
+```{r, eval = FALSE}
+tokenize(c("think", "thin", "both"), o = "test")
+```
+
+```{r, echo = FALSE}
+tokenize(c("think", "thin", "both"), profile = tmp)
+```
+
+# Contexts, Classes and Regular Expressions
+
+[todo]
+
+# Transliteration
+
+After tokenization (possibly including the usage of rules), the resulting tokenized string can then be transliterated into a different orthographic representation by using the option `transliterate`. Then the grapheme as specified are used (by default this columns is called "Replacement", but other names can be used, and one orthography profile can include multiple transliteration columns).
+
+Note that to achieve contextually determined replacements (e.g. in Italian <c> becomes /k/ except before <i,e>, the it becomes /tʃ/), all combinations will have to specified in the orthogaphy profile, as there is currently no proviso for rules of transliteration. However, we expect that most contextually determined transliterations can be easily specified in a few written down tailored grapheme clusters, e.g. add 
+
+```{r, echo = FALSE, results='asis'}
+Grapheme <- c("c", "ci", "ce")
+Replacement <- c("k", "tʃi", "tʃe")
+knitr::kable(cbind(Grapheme, Replacement))
+```

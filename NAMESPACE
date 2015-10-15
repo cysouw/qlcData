@@ -1,0 +1,3 @@
+exportPattern("^[[:alpha:]]+")
+import("stringi")
+importFrom("yaml","as.yaml","yaml.load_file")
