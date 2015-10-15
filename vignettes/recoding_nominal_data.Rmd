@@ -3,11 +3,11 @@ title: "Recoding nominal data"
 author: "Michael Cysouw"
 date: "`r Sys.Date()`"
 output: 
+  rmarkdown::html_vignette:
   pdf_document:
     number_sections: yes
   md_document:
     variant: markdown_github
-  rmarkdown::html_vignette:
 vignette: >
   %\VignetteIndexEntry{Specifying orthography tokenization}
   %\VignetteEngine{knitr::rmarkdown}
