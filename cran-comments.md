@@ -5,6 +5,12 @@
 ## R CMD check results
 There were no ERRORs or WARNINGs. 
 
+There was 1 NOTE locally:
+
+* checking CRAN incoming feasibility ... NOTE
+Maintainer: ‘Michael Cysouw <cysouw@mac.com>’
+New submission
+
 There was 1 NOTE under windows:
 
 * checking re-building of vignette outputs ... NOTE
