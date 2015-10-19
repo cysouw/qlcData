@@ -64,7 +64,7 @@ Michael Cysouw <cysouw@mac.com>
 write.profile(example)
 
 # note the differences. Again, look at the example in the console!
-(example <- "ÙÚÛ\u0055\u0300\u0055\u0301\u0055\u0302")
+(example <- "\u00d9\u00da\u00db\u0055\u0300\u0055\u0301\u0055\u0302")
 # default settings
 write.profile(example)
 # split according to unicode codepoints

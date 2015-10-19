@@ -23,6 +23,3 @@ The result will be a dataframe with \code{doculects} as rows and \code{alignment
 \author{
 Michael Cysouw <cysouw@mac.com>
 }
-\examples{
-
-}

@@ -15,7 +15,7 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
-library(qlcRecode)
+library(qlcData)
 ```
 
 # Introduction
@@ -114,14 +114,14 @@ expand.grid(c(levels(newdata$size),NA),c(levels(newdata$age),NA))
 
 # Using recoding templates
 
-Specifying recodings is often rather tedious within R. Also, the resulting nested list datastructure in R is not very insightful to share or publish. As an alternative, I propose to use a YAML representation of the recoding for editing and sharing. The function `write.recoding.template` can be used to produce a template that can then be manually edited. All the necessary information for the recoding will be included in the file.
+Specifying recodings is often rather tedious within R. Also, the resulting nested list datastructure in R is not very insightful to share or publish. As an alternative, I propose to use a YAML representation of the recoding for editing and sharing. The function `write.recoding` can be used to produce a template that can then be manually edited. All the necessary information for the recoding will be included in the file.
 
-The list of the attributes that one wants to recode should be specified as a **list** in the function `write.recoding.template`. In that way it is possible to both recode individual attributes, but also combinations of attributes. For example, `write.recoding.template( list(1, c(1,2)), data = data, file = file)` will write the following YAML information to `file`. The tildes `~` show the missing information to be added. Note that the second recoding is a combination of two attributes.
+The list of the attributes that one wants to recode should be specified as a **list** in the function `write.recoding`. In that way it is possible to both recode individual attributes, but also combinations of attributes. For example, `write.recoding( list(1, c(1,2)), data = data, file = file)` will write the following YAML information to `file`. The tildes `~` show the missing information to be added. Note that the second recoding is a combination of two attributes.
 
 The function `recode` also accepts a path to a YAML-file as an input of a recoding.
 
 ```{r yamloutput, echo = FALSE}
-cat(as.yaml(write.recoding.template(list(1,c(1,2)),data,yaml=F)))
+cat(yaml::as.yaml(write.recoding(list(1,c(1,2)),data,yaml=F)))
 ```
 
 # Using recoding shortcuts
@@ -193,5 +193,5 @@ meta <- list(
   )
 recoding <- read.recoding(short_recoding, file = NULL , data =  data)
 outfile <- c(meta, list(recoding = recoding))
-cat(as.yaml(outfile))
+cat(yaml::as.yaml(outfile))
 ```

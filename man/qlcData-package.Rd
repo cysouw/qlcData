@@ -16,9 +16,9 @@ Version: \tab 0.1\cr
 Date: \tab 2015-04-03\cr
 License: \tab GPL-3\cr
 }
-Various functions to read specific data formats of QLC are documented in \link{read.data}.
+Various functions to read specific data formats of QLC are documented in \code{\link{read.align}}, \code{\link{read.profile}}, \code{\link{read.recoding}}.
 
-The \code{\link{recode}} function allows for an easy and transparent way to specify a recoding of an existing nominal dataset. The specification of the recoding-decisions is preferably saved in an easily accessible YAML-file. There are utility function for writing and reading such files included.
+The \code{\link{recode}} function allows for an easy and transparent way to specify a recoding of an existing nominal dataset. The specification of the recoding-decisions is preferably saved in an easily accessible YAML-file. There are utility function \code{\link{write.profile}} for writing and reading such files included.
 
 For processing of strings using orthography profiles, the central function is \code{\link{tokenize}}. A basic sceleton for an orthography profile can be produced with \code{\link{write.profile}}
 }

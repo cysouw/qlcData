@@ -33,5 +33,3 @@ BDPA is available at \url{http://alignments.lingpy.org}. PAD is available at \ur
 \author{
 Michael Cysouw <cysouw@mac.com>
 }
-\examples{
-}

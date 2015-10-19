@@ -33,7 +33,7 @@ tokenize(strings,
   Method for ordering. Currently three different methods are implemented, which can be combined (see Details below): \code{size}, \code{context}, \code{reverse} and \code{frequency}. Use \code{NULL} to prevent ordering and use the top to bottom order as specified in the orthography profile.
 }
   \item{sep}{
-  Separator to be inserted between graphemes. Defaults to space. This function assumes that the separator specified here does not occur in the data. If it does, unexpected things might happen. Consider removing the chosen seperator from your strings first, e.g. by using \code{\link{gsub}}.
+  Separator to be inserted between graphemes. Defaults to space. This function assumes that the separator specified here does not occur in the data. If it does, unexpected things might happen. Consider removing the chosen seperator from your strings first, e.g. by using \code{\link[base]{gsub}}.
 }
   \item{sep.replace}{
   Sometimes, the chosen separator (see above) occurs in the strings to be parsed. This is technically not a problem, but the result might show unexpected sequences. When \code{sep.replace} is specified, this marking is inserted in the string at those places where the \code{sep} marker occurs. Typical usage in linguistics would be \code{sep = " ", sep.replace = "#"} adding spaces between graphemes and replacing spaces in the input string by hashes in the output string.
@@ -45,7 +45,7 @@ tokenize(strings,
   Which normalization to use before tokenization, defaults to "NFC". Other option is "NFD". Any other input will result in no normalisation being performed.
 }
   \item{regex}{
-  Logical: when \code{regex = FALSE} internally the matching of graphemes is done exact, i.e. without using regular expressions. When \code{regex = TRUE} ICU-style regular expression (see \link[stringi]{stri_search_regex}) are used, so any reserved characters have to be escaped in the orthography profile. Specifically, add a slash "\" before any occurrence of the characters \code{ [](){}|+*.-!?ˆ$\ } in your profile (except of course when these characters are used in their regular expression meaning).
+  Logical: when \code{regex = FALSE} internally the matching of graphemes is done exact, i.e. without using regular expressions. When \code{regex = TRUE} ICU-style regular expression (see \code{\link[stringi]{stringi-search-regex}}) are used, so any reserved characters have to be escaped in the orthography profile. Specifically, add a slash "\" before any occurrence of the characters \code{ [](){}|+*.-!?ˆ$\ } in your profile (except of course when these characters are used in their regular expression meaning).
   
 Note that this parameter also influences whether contexts should be considered in the tokenization (internally, contextual searching uses regular expressions). By default, when \code{regex = FALSE}, context is ignored. If \code{regex = TRUE} then the function checks whether there are columns called \code{Left} (for the left context) and \code{Right} (for the right context), and optionally a column called \code{Class} (for the specification of grapheme-classes) in the orthography profile. These are hard-coded column-names, so please adapt your orthography profile accordingly. The columns \code{Left} and \code{Right} allow for regular expression to specify context.
 }
@@ -96,8 +96,8 @@ When \code{regex = TRUE}, regular expressions are acceptable in the columns `Gra
 \item . (U+002E, FULL STOP)
 \item ( (U+0028, LEFT PARENTHESIS)
 \item ) (U+0029, RIGHT PARENTHESIS)
-\item [ (U+005B, LEFT SQUARE BRACKET)
-\item ] (U+005D, RIGHT SQUARE BRACKET)
+\item \[ (U+005B, LEFT SQUARE BRACKET)
+\item \] (U+005D, RIGHT SQUARE BRACKET)
 \item \{ (U+007B, LEFT CURLY BRACKET)
 \item | (007C, VERTICAL LINE)
 \item \} (U+007D, RIGHT CURLY BRACKET)
@@ -108,7 +108,7 @@ When \code{regex = TRUE}, regular expressions are acceptable in the columns `Gra
 \item $ (U+0024, DOLLAR SIGN)
 }
 
-Note that overlapping matching does not (yet) work with regular expressions. That means that for example "aa" is only found once in "aaa". In some special cases this might lead to problems that might have to be explicitly specified in the profile, e.g. a grapheme "aa" with a left context "a". See examples below. This problem arises because overlap is only available in literal searches \link[stringi]{stri_opts_fixed}, but the current function uses regex-searching, which does not catch overlap \link[stringi]{stri_opts_regex}.
+Note that overlapping matching does not (yet) work with regular expressions. That means that for example "aa" is only found once in "aaa". In some special cases this might lead to problems that might have to be explicitly specified in the profile, e.g. a grapheme "aa" with a left context "a". See examples below. This problem arises because overlap is only available in literal searches \code{\link[stringi]{stri_opts_fixed}}, but the current function uses regex-searching, which does not catch overlap \code{\link[stringi]{stri_opts_regex}}.
 }
 \author{
 Michael Cysouw <cysouw@mac.com>

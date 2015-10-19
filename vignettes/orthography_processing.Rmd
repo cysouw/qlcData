@@ -19,7 +19,7 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
-library(qlcTokenize)
+library(qlcData)
 ```
 
 # Introduction
