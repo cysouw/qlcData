@@ -134,7 +134,7 @@ tokenize(test, profile = "test_profile.txt")
 # tokenize(test, profile = "test_profile.txt", file.out = "test_profile.txt")
 
 # note that you can abbreviate this in R:
-# tokenize_old(test, p = "test_profile.txt", file = "test_profile.txt")
+# tokenize_old(test, p = "test_profile.txt", f = "test_profile.txt")
 ```
 
 ```{r, echo = FALSE}
@@ -144,25 +144,45 @@ tokenize(test, profile = test_profile.txt)
 Now that we have an orthography profile, we can use this orthography profile on other data, using the profile to produce a tokenization, and at the same time checking the data for any strings that do not appear in the profile (which might be errors in the data). Note that the following will give a warning, but it will still go through and give some output. All symbols that were not found in the orthography profile are simply separated according to unicode grapheme definitions, a new orthogrphy profile explicitly for this dataset is made, and the problematic string are summarised in the warnings of the output, linked to the original strings in which they occured. In this way it is easy to find the problems in the data.
 
 ```{r, eval = FALSE}
-tokenize(c("think", "thin", "both"), profile = "test_profile.txt", missing = "?")
+tokenize(c("think", "thin", "both"), profile = "test_profile.txt")
 ```
 
 ```{r, echo = FALSE}
-tokenize(c("think", "thin", "both"), profile = test_profile.txt, missing = "?")
+tokenize(c("think", "thin", "both"), profile = test_profile.txt)
 ```
 
-# Contexts, Classes and Regular Expressions
-
-[todo]
-
-# Transliteration
+# Transliteration, Contexts, Classes and Regular Expressions
 
 After tokenization (possibly including the usage of rules), the resulting tokenized string can then be transliterated into a different orthographic representation by using the option `transliterate`. Then the grapheme as specified are used (by default this columns is called "Replacement", but other names can be used, and one orthography profile can include multiple transliteration columns).
 
-Note that to achieve contextually determined replacements (e.g. in Italian <c> becomes /k/ except before <i,e>, the it becomes /tʃ/), all combinations will have to specified in the orthogaphy profile, as there is currently no proviso for rules of transliteration. However, we expect that most contextually determined transliterations can be easily specified in a few written down tailored grapheme clusters, e.g. add 
+To achieve contextually determined replacements (e.g. in Italian <c> becomes /k/ except before <i,e>, then it becomes /tʃ/) you can use columns called "Left" and "Right" for left and right contexts, respectively. For example, consider the following toy-profile for Italian: 
 
 ```{r, echo = FALSE, results='asis'}
-Grapheme <- c("c", "ci", "ce")
-Replacement <- c("k", "tʃi", "tʃe")
-knitr::kable(cbind(Grapheme, Replacement))
+Grapheme <- c("c", "c", "n", "s", "a", "i")
+IPA <- c("k", "tʃ", "n", "s", "a", "i")
+Right <- c("", "[ie]", "", "", "", "")
+italian <- cbind(Grapheme, Right, IPA)
+knitr::kable(italian)
 ```
+
+To use this profile, you have to add the option `regex = TRUE` because contextual matching uses regular expressions. Note that you can now also use regular expressions in the specification of the context!
+
+```{r}
+tokenize(c("casa", "cina"), profile = italian, transliterate = "IPA", regex = TRUE)$strings
+```
+
+Another possibility is to use a column "Class" to specify a class of graphemes, and then use this class in the specification of context. You are free to use any class-name you like, as long as it doesn't clash with the rest of the profile.
+
+```{r, echo = FALSE, results='asis'}
+Grapheme <- c("c", "c", "n", "s", "a", "i", "e")
+IPA <- c("k", "tʃ", "n", "s", "a", "i", "e")
+Right <- c("", "frontV", "", "", "", "","")
+Class <- c("","","","","","frontV","frontV")
+italian <- cbind(Grapheme, Right, Class, IPA)
+knitr::kable(italian)
+```
+
+```{r}
+tokenize(c("casa", "cina"), profile = italian, transliterate = "IPA", regex = TRUE)$strings
+```
+
