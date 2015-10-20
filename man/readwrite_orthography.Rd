@@ -18,7 +18,7 @@ read.profile(profile)
 }
 \arguments{
   \item{strings}{
-  A vector of strings on which to base the orthography profile
+  A vector of strings on which to base the orthography profile. It is also possibly to pass a filename, which will then simply be read as \code{scan(strings, sep = "\n", what = "character")}.
 }
   \item{normalize}{
   Should any unicode normalization be applied before making a profile? By default, no normalization is applied, giving direct feedback on the actual encoding as observed in the strings. Other options are \code{NFC} and \code{NFD}. In combination with \code{sep} these options can lead to different insights into the structure of your strings (see examples below).

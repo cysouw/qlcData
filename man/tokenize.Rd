@@ -18,7 +18,7 @@ tokenize(strings,
 }
 \arguments{
   \item{strings}{
-  Vector of strings to the tokenized.
+  Vector of strings to the tokenized. It is also possibly to pass a filename, which will then simply be read as \code{scan(strings, sep = "\n", what = "character")}.
 }
   \item{profile}{
   Orthography profile specifying the graphemes for the tokenization, and possibly any replacements of the available graphemes. Can be a reference to a file or an R object. If NULL then the orthography profile will be created on the fly using the defaults of \code{write.profile}.

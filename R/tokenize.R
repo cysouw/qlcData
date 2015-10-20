@@ -20,6 +20,9 @@ tokenize <- function(strings
   # preprocess data
   # ---------------
 
+  if (file.exists(strings)) {
+    strings <- scan(strings, sep = "\n", what = "character")
+  }
   strings <- as.character(strings)
   
   # option gives errors, so removed for now
@@ -69,17 +72,14 @@ tokenize <- function(strings
                                 , info = FALSE
                                 ) 
     }
-  } else if (is.null(dim(profile))) {
+    
+   
+  } else if (file.exists(profile) {
     # use the provided profile
-    if (length(profile) > 1) {
-      # assume that the strings are graphemes
-      profile <- data.frame(Grapheme = profile
-                            , stringsAsFactors = FALSE
-                            )
-    } else {
-    # read profile from file
     profile <- read.profile(profile)
-    }
+  } else if (is.character(profile) {
+    # assume that the strings are graphemes
+    profile <- data.frame(Grapheme = profile, stringsAsFactors = FALSE)
   } else {
     # assume the profile is a suitable R object
     profile <- profile
