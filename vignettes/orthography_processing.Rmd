@@ -115,40 +115,40 @@ Now, you can work further with this profile inside R, but it is easier to write 
 ```{r, eval = FALSE}
 dir.create("~/Desktop/tokenize")
 setwd("~/Desktop/tokenize")
-tokenize(test, file.out = "test")
+tokenize(test, file.out = "test_profile.txt")
 ```
 
 We are going to add two new "tailored grapheme clusters" to this profile: open the file "test_profile.txt" (in the folder "tokenize" on your Desktop) with a text editor like Textmate, Textwrangler or Notepad++ (don't use Microsoft Word!!!). First, add a new line with only "th" on it and, second, add another line with only "ng" on it. The file will then roughly look like this:
 
 ```{r, echo = FALSE, results='asis'}
-tmp <- as.data.frame(rbind(as.matrix(tokenize(test)$profile),c(" ", "th"),c(" ","ng")))
-knitr::kable(tmp)
+test_profile.txt <- as.data.frame(rbind(as.matrix(tokenize(test)$profile),c(" ", "th"),c(" ","ng")))
+knitr::kable(test_profile.txt)
 ```
 
 Now try to use this this profile with the function `tokenize`. Note that you will get a different tokenization of the strings ("th" and "ng" are now treated as a complex grapheme) and you will also obtain an updated orthography profile, which you could also immediately use to overwrite the existing profile on your disk.
 
 ```{r, eval = FALSE}
-tokenize(test, profile = "test")
+tokenize(test, profile = "test_profile.txt")
 
 # with overwriting of the existing profile:
-# tokenize(test, profile = "test", file.out = "test")
+# tokenize(test, profile = "test_profile.txt", file.out = "test_profile.txt")
 
 # note that you can abbreviate this in R:
-# tokenize_old(test, profile = "test", file.out = "test")
+# tokenize_old(test, p = "test_profile.txt", file = "test_profile.txt")
 ```
 
 ```{r, echo = FALSE}
-tokenize(test, profile = tmp)
+tokenize(test, profile = test_profile.txt)
 ```
 
 Now that we have an orthography profile, we can use this orthography profile on other data, using the profile to produce a tokenization, and at the same time checking the data for any strings that do not appear in the profile (which might be errors in the data). Note that the following will give a warning, but it will still go through and give some output. All symbols that were not found in the orthography profile are simply separated according to unicode grapheme definitions, a new orthogrphy profile explicitly for this dataset is made, and the problematic string are summarised in the warnings of the output, linked to the original strings in which they occured. In this way it is easy to find the problems in the data.
 
 ```{r, eval = FALSE}
-tokenize(c("think", "thin", "both"), profile = "test", missing = "?")
+tokenize(c("think", "thin", "both"), profile = "test_profile.txt", missing = "?")
 ```
 
 ```{r, echo = FALSE}
-tokenize(c("think", "thin", "both"), profile = tmp, missing = "?")
+tokenize(c("think", "thin", "both"), profile = test_profile.txt, missing = "?")
 ```
 
 # Contexts, Classes and Regular Expressions
