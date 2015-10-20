@@ -1,6 +1,6 @@
 Package: qlcData
 Type: Package
-Title: Processing data for quantitative language comparison (QLC)
+Title: Processing Data For Quantitative Language Comparison (QLC)
 Version: 0.1
 Date: 2015-10-14
 Author: Michael Cyosuw
@@ -9,5 +9,5 @@ Description: This is a collection of functions to read, recode, and transcode da
 License: GPL-3
 Imports: stringi (>= 0.2-5), yaml (>= 2.1.11)
 Encoding: UTF-8
-Suggests: knitr, testthat
+Suggests: knitr
 VignetteBuilder: knitr

@@ -24,7 +24,7 @@ library(qlcData)
 
 # Introduction
 
-Given any collection of linguistic strings, there are various issues that often arise in using these linguistic strings in the computational processing of such data. This vignette will give a short practical introduction to the solutions offered in the `qlcTokenize` package. For a full theoretical discussion of all issues involved, see Moran & Cysouw (forthcoming).
+Given any collection of linguistic strings, there are various issues that often arise in using these linguistic strings in the computational processing of such data. This vignette will give a short practical introduction to the solutions offered in the `qlcData` package. For a full theoretical discussion of all issues involved, see Moran & Cysouw (forthcoming).
 
 All proposals made here (and in the paper by Moran & Cysouw) are crucially rooted in the structure and technologies developed over the last few decades by the Unicode Consortion. Specifically the implementation as provided by the UCI and their porting to R in the `stringi` package are crucial for the functions described here. One might even question, whether there is any need for the functions in this package, and whether the functionality of `stringi` is not already sufficient. We see our additions as high-level functionality that (hopefully) is easily enough to be applied to also allow non-technically-inclined linguists to use it.
 
@@ -41,22 +41,22 @@ In general, our solutions will not be practical for ideosyncratic orthographies 
 
 # Installing the package
 
-The current alpha-version of the package `qlcTokenize` is not yet available on CRAN (_Comprehensive R Archive Network_) for easy download and application. If you haven't done so already, please install the package `devtools` and then install the package `qlcTokenize` directly from github.
+The current alpha-version of the package `qlcData` is available on CRAN (_Comprehensive R Archive Network_) for easy download and application. You can also directly try to install the most recent development version. If you haven't done so already, please install the package `devtools` and then install the package `qlcData` directly from github.
 
 ```{r, eval = FALSE}
 # install devtools from CRAN
 install.packages("devtools")
-# install qlcTokenize from github using devtools
-devtools::install_github("cysouw/qlcTokenize")
+# install qlcData from github using devtools
+devtools::install_github("cysouw/qlcData")
 # load qlcTokenize package
-library(qlcTokenize)
+library(qlcData)
 # access help files of the package
-help(qlcTokenize)
+help(qlcData)
 ```
 
 # Orthography Profiles
 
-The basic object in `qlcTokenize` is the *Orthography Profile*. This is basically just a simple tab-separated file listing all (tailored) graphemes in some data. An orthography profile can be easily made by using `write.profile`. The result of this function is an R-dataframe, but it can also be directly written to a file by using the option `file = path/filename`.
+The basic object in `qlcData` is the *Orthography Profile*. This is basically just a simple tab-separated file listing all (tailored) graphemes in some data. An orthography profile can be easily made by using `write.profile`. The result of this function is an R-dataframe, but it can also be directly written to a file by using the option `file = path/filename`.
 
 ```{r}
 test <- "hállo hállо"
@@ -131,24 +131,24 @@ Now try to use this this profile with the function `tokenize`. Note that you wil
 tokenize(test, profile = "test")
 
 # with overwriting of the existing profile:
-# tokenize(test, profile = "test", file = "test")
+# tokenize(test, profile = "test", file.out = "test")
 
 # note that you can abbreviate this in R:
-# tokenize_old(test, p = "test", f = "test")
+# tokenize_old(test, profile = "test", file.out = "test")
 ```
 
 ```{r, echo = FALSE}
 tokenize(test, profile = tmp)
 ```
 
-Now that we have an orthography profile, we can use this orthography profile on other data, using the profile to produce a tokenization, and at the same time checking the data for any strings that do not appear in the profile (which might be errors in the data). Note that the following will give a warning, but it will still go through and give some output. The all symbols that were not in the orthography profile are simply separated according to unicode grapheme definitions, a new orthogrphy profile explicitly for this dataset is made, and the problematic string are summarised in the warnings of the output, linked to the original strings in which they occured. In this way it is easy to find the problems in the data.
+Now that we have an orthography profile, we can use this orthography profile on other data, using the profile to produce a tokenization, and at the same time checking the data for any strings that do not appear in the profile (which might be errors in the data). Note that the following will give a warning, but it will still go through and give some output. All symbols that were not found in the orthography profile are simply separated according to unicode grapheme definitions, a new orthogrphy profile explicitly for this dataset is made, and the problematic string are summarised in the warnings of the output, linked to the original strings in which they occured. In this way it is easy to find the problems in the data.
 
 ```{r, eval = FALSE}
-tokenize(c("think", "thin", "both"), o = "test")
+tokenize(c("think", "thin", "both"), profile = "test", missing = "?")
 ```
 
 ```{r, echo = FALSE}
-tokenize(c("think", "thin", "both"), profile = tmp)
+tokenize(c("think", "thin", "both"), profile = tmp, missing = "?")
 ```
 
 # Contexts, Classes and Regular Expressions
