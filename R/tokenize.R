@@ -161,7 +161,7 @@ tokenize <- function(strings
       classes <- classes[classes != ""]
       groups <- sapply(classes,function(x){
         graphs[profile[,"Class"] == x]
-      })
+      }, simplify = FALSE)
       classes.regex <- sapply(groups,function(x){
         paste( "((", paste( x, collapse = ")|(" ), "))", sep = "")
       })
