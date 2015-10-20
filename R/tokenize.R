@@ -74,10 +74,10 @@ tokenize <- function(strings
     }
     
    
-  } else if (file.exists(profile) {
+  } else if (file.exists(profile)) {
     # use the provided profile
     profile <- read.profile(profile)
-  } else if (is.character(profile) {
+  } else if (is.character(profile)) {
     # assume that the strings are graphemes
     profile <- data.frame(Grapheme = profile, stringsAsFactors = FALSE)
   } else {
