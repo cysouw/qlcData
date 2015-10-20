@@ -19,8 +19,10 @@ write.profile <- function(strings
   }
   
   # use characters
-  if (file.exists(strings)) {
+  if (length(strings) == 1) {
+    if (file.exists(strings)) {
     strings <- scan(strings, sep = "\n", what = "character")
+    }
   }
   strings <- as.character(strings)
   

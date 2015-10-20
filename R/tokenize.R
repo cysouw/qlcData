@@ -20,8 +20,10 @@ tokenize <- function(strings
   # preprocess data
   # ---------------
 
-  if (file.exists(strings)) {
+  if (length(strings) == 1) {
+    if (file.exists(strings)) {
     strings <- scan(strings, sep = "\n", what = "character")
+    }
   }
   strings <- as.character(strings)
   
@@ -58,6 +60,7 @@ tokenize <- function(strings
   
   # read orthography profile (or make new one)
   if (is.null(profile)) {
+    
     # make new orthography profile
     if (normalize == "NFC") {
       profile  <- write.profile(strings
@@ -73,13 +76,21 @@ tokenize <- function(strings
                                 ) 
     }
     
-   
-  } else if (file.exists(profile)) {
-    # use the provided profile
-    profile <- read.profile(profile)
-  } else if (is.character(profile)) {
-    # assume that the strings are graphemes
-    profile <- data.frame(Grapheme = profile, stringsAsFactors = FALSE)
+  } else if (is.null(dim(profile))) {
+    
+    if (length(profile) > 1) {
+      # assume that the profile are graphemes
+      profile <- data.frame(Grapheme = profile, stringsAsFactors = FALSE)
+    } else {      
+      if (file.exists(profile)) {
+        # read the linked profile
+        profile <- read.profile(profile)
+      } else {
+        # there is a one-string profile :-0
+        profile <- data.frame(Grapheme = profile, stringsAsFactors = FALSE)
+        warning("Profile provided consists of a single string. Are you sure?")
+      }
+    }
   } else {
     # assume the profile is a suitable R object
     profile <- profile
@@ -585,7 +596,3 @@ tokenize <- function(strings
     
   } 
 }
-  
-
-
-
