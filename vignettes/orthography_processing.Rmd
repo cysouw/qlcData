@@ -13,7 +13,7 @@ output:
     latex_engine: xelatex
 #   keep_tex: true
 vignette: >
-  %\VignetteIndexEntry{Specifying orthography}
+  %\VignetteIndexEntry{Orthography tokenization and transliteration}
   \usepackage[utf8]{inputenc}
   %\VignetteEngine{knitr::rmarkdown}
 ---

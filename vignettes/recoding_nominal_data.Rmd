@@ -9,7 +9,7 @@ output:
   md_document:
     variant: markdown_github
 vignette: >
-  %\VignetteIndexEntry{Specifying orthography tokenization}
+  %\VignetteIndexEntry{Recoding nominal data}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
