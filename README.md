@@ -1,3 +1,6 @@
+![version](http://www.r-pkg.org/badges/version/qlcData)
+![downloads](http://cranlogs.r-pkg.org/badges/qlcData)
+
 qlcData
 ==========
 
