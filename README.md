@@ -1,5 +1,6 @@
 ![version](http://www.r-pkg.org/badges/version/qlcData)
 ![downloads](http://cranlogs.r-pkg.org/badges/qlcData)
+[![DOI](https://zenodo.org/badge/19068/cysouw/qlcData.svg)](https://zenodo.org/badge/latestdoi/19068/cysouw/qlcData)
 
 qlcData
 ==========
