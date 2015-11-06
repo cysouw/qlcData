@@ -1,4 +1,4 @@
-[![version](http://www.r-pkg.org/badges/version/qlcData)](https://cran.fhcrc.org/web/packages/qlcData/index.html)
+[![version](http://www.r-pkg.org/badges/version/qlcData)](https://cran.r-project.org/web/packages/qlcData/index.html)
 ![downloads](http://cranlogs.r-pkg.org/badges/qlcData)
 [![DOI](https://zenodo.org/badge/19068/cysouw/qlcData.svg)](https://zenodo.org/badge/latestdoi/19068/cysouw/qlcData)
 
