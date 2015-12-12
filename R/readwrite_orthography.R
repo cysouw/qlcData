@@ -17,12 +17,12 @@ write.profile <- function(strings
     Sys.setlocale("LC_COLLATE", collation.locale)
     on.exit(Sys.setlocale("LC_COLLATE", current.locale))
   }
-  
+
   # use characters
-  if (length(strings) == 1) {
-    if (file.exists(strings)) {
+  if ( length(strings) == 1 && file.exists(strings) ) {
     strings <- scan(strings, sep = "\n", what = "character")
-    }
+  } else if (class(strings) == "data.frame") {
+    strings <- unlist(strings)
   }
   strings <- as.character(strings)
   
