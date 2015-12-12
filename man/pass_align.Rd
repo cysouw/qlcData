@@ -7,7 +7,7 @@ Transfer alignment from one string to another
 In the alignment of linguistic strings, it is often better to perform the alignment on a simplified string. This function allows to pass back the alignment from the simplified string to the original
 }
 \usage{
-pass_align(originals, alignment, gap = "-", sep = " ")
+pass_align(originals, alignment, sep = " ", in.gap = "-", out.gap = "-")
 }
 \arguments{
   \item{originals}{
@@ -16,11 +16,14 @@ Vector of strings in the original form, with separators
   \item{alignment}{
 Vector of simplified strings after alignment, with separators and gaps. The number of non-gap parts should match the number of parts of the originals
 }
-  \item{gap}{
-Symbol used as gap indicator
-}
   \item{sep}{
 Symbol used as separator between parts of the strings
+}
+  \item{in.gap}{
+Symbol used as gap indicator in the alignments
+}
+  \item{out.gap}{
+Symbol used as gap indicator in the output. This is useful when the gap symbol from the alignments occurs as character in the originals .
 }
 }
 \details{
@@ -52,13 +55,16 @@ cbind(transferred)
 # a slighly more interesting example
 # using the bare-bones pairwise alignment from adist()
 originals <- c("cute kitten class","utter tentacles")
+cbind(originals)
 
-# adist returns strings of operations, "I" signals insertion
+# adist returns strings of pairwise Levenshtein operations
+# "I" signals insertion
 (levenshtein <- attr(adist(originals, counts = TRUE), "trafos"))
 
-# get only the interesting, show the insertions as gaps
+# pass alignments to original strings, show the insertions as "-" gaps
 alignment <- c(levenshtein[1,2], levenshtein[2,1])
-transferred <- pass_align(originals, alignment, gap = "I", sep = "")
-cbind(gsub("I", "-", transferred))
+transferred <- pass_align(originals, alignment, 
+    sep = "", in.gap = "I", out.gap = "-")
+cbind(transferred)
 
 }

@@ -75,7 +75,7 @@ The ordering or the lines in the ortography profile is of crucial importance, an
 }
 }
 \value{
-Without specificatino of \code{file.out}, the function \code{tokenize} will return a list of three:
+Without specificatino of \code{file.out}, the function \code{tokenize} will return a list of four:
 \item{strings}{a dataframe with the original and the tokenized/transliterated strings}
 \item{profile}{a dataframe with the graphemes with added frequencies. The dataframe is ordered according to the order that resulted from the specifications in \code{ordering}.}
 \item{errors}{a dataframe with all original strings that contain unmatched parts.}
