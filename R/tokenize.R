@@ -93,7 +93,7 @@ tokenize <- function(strings
     }
   } else {
     # assume the profile is a suitable R object
-    profile <- profile
+    profile <- data.frame( as.matrix(profile), stringsAsFactors = FALSE)
   }
 
   # first-pass reordering, only getting larger graphemes on top

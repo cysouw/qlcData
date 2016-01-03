@@ -1,6 +1,7 @@
 # qlcData 0.2
 
-* adding function pass_align() to transfer alignment to a string
+* make sure orthography profiles are treated as character data, not as factors
+* adding function pass_align() to transfer alignment to a string, with helper join_align()
 * changed vignette naming
 
 # qlcData 0.1
