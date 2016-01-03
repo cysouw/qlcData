@@ -1,17 +1,18 @@
-\name{join.align}
+\name{join_align}
+\alias{join_align}
 \alias{join.align}
 \title{
 Join various multialignments into one combined dataframe
 }
 \description{
-Multialignments are mostly stored in separate files per cognateset. This function can be used to bind together a list of multialignments read by \link{read.align}.
+Multialignments are mostly stored in separate files per cognateset. This function can be used to bind together a list of multialignments read by \link{read_align}.
 }
 \usage{
-join.align(alignments)
+join_align(alignments)
 }
 \arguments{
   \item{alignments}{
-A list of objects as returned from \link{read.align}.
+A list of objects as returned from \link{read_align}.
 }
 }
 \details{

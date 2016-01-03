@@ -5,7 +5,7 @@
 # duplicated are simply discarded
 # names are aligned between different multialignments
 
-join.align <- function(alignments) {
+join_align <- function(alignments) {
   
   names(alignments) <- NULL
   
