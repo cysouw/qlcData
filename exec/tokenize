@@ -17,13 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # =================
 
-# ============
-# dependencies
-# ============
-
-require(docopt, quietly = TRUE)
-require(qlcData, quietly = TRUE)
-
 # =====
 # usage
 # =====
@@ -56,6 +49,7 @@ OPTIONS:
 # docopt parsing
 # ==============
 
+require(docopt, quietly = TRUE)
 attach(docopt::docopt(DOC))
 
 # for piping data
@@ -80,6 +74,8 @@ if (s == "S") {s <- " "}
 # ======
 # R code
 # ======
+
+require(qlcData, quietly = TRUE)
 
 result <- qlcData::tokenize(STRINGS, PROFILE
 						, method = method
