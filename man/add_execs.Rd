@@ -11,7 +11,7 @@ add_execs(execs, package = "qlcData", profile = "~/.bash_profile")
 }
 \arguments{
   \item{execs}{
-Character vector of names of executables. Currently \code{tokenize} and \{pass_align} are available
+Character vector of names of executables. Currently \code{tokenize} and \code{pass_align} are available
 }
   \item{package}{
 In which package to search. Currently only sensible for this package
