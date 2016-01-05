@@ -9,5 +9,5 @@ Description: This is a collection of functions to read, recode, and transcode da
 License: GPL-3
 Imports: stringi (>= 0.2-5), yaml (>= 2.1.11)
 Encoding: UTF-8
-Suggests: knitr
+Suggests: knitr, shiny, docopt
 VignetteBuilder: knitr
