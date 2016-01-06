@@ -1,5 +1,5 @@
-\name{launchShiny}
-\alias{launchShiny}
+\name{launch_shiny}
+\alias{launch_shiny}
 \title{
 Launch Shiny app
 }
@@ -7,7 +7,7 @@ Launch Shiny app
 Shiny apps allow for an easy web-based user interface for R functionality. This function is a simple helper to launch shiny apps included in this package.
 }
 \usage{
-launchShiny(shiny_app)
+launch_shiny(shiny_app)
 }
 \arguments{
   \item{shiny_app}{
@@ -22,6 +22,6 @@ Michael Cysouw <cysouw@mac.com>
 }
 \examples{
 \dontrun{
-launchShiny("tokenize")
+launch_shiny("tokenize")
 }
 }
