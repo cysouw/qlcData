@@ -1,7 +1,7 @@
 # helper function to add an alias for executables
 # dangerous for non-terminal people!
 
-add_execs <- function(execs, package = "qlcData", profile = "~/.bash_profile") {
+add_alias <- function(execs, package = "qlcData", profile = "~/.bash_profile") {
   
   for (e in execs) {
     path <- file.path(find.package(package), "exec", e)

@@ -1,13 +1,13 @@
-\name{add_execs}
-\alias{add_execs}
+\name{add_alias}
+\alias{add_alias}
 \title{
-Add Alias to Bash Profile
+Add Alias for Execs to Bash Profile
 }
 \description{
-Adding an alias for R functions to a bash profile (on UNIX-alikes only) to invoke functions from the bash command line.
+Adding an alias for specially prepared R functions to a bash profile (on UNIX-alikes only) to invoke functions from the bash command line.
 }
 \usage{
-add_execs(execs, package = "qlcData", profile = "~/.bash_profile")
+add_alias(execs, package = "qlcData", profile = "~/.bash_profile")
 }
 \arguments{
   \item{execs}{
@@ -35,10 +35,11 @@ Michael Cysouw <cysouw@mac.com
 This is experimental functionality! 
 }
 \examples{
+\dontrun{
 # try something like this
-add_execs("tokenize")
+add_alias("tokenize")
 
 # then open a bash terminal and try this to see the help
 # >>> tokenize -h
-
+}
 }
