@@ -7,7 +7,7 @@ Add Alias for Execs to Bash Profile
 Adding an alias for specially prepared R functions to a bash profile (on UNIX-alikes only) to invoke functions from the bash command line.
 }
 \usage{
-add_alias(execs, package = "qlcData", profile = "~/.bash_profile")
+add_alias(execs, package = "qlcData", shellprofile = "auto")
 }
 \arguments{
   \item{execs}{
@@ -16,8 +16,8 @@ Character vector of names of executables. Currently \code{tokenize} and \code{pa
   \item{package}{
 In which package to search. Currently only sensible for this package
 }
-  \item{profile}{
-To which profile should be alias be added?
+  \item{shellprofile}{
+To which profile should be alias be added? By default it looks for ~/.bash_profile, ~/.profile and ~/.bahsrc (in that order) to add an alias. Any other file might be specified here as well.
 }
 }
 \details{
