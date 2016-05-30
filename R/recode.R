@@ -5,11 +5,17 @@
 recode <- function(data,recoding) {
 
   # expand the possible shortcuts in the formulation of a recoding
-  recoding <- read.recoding(recoding)
+  recodings <- read.recoding(recoding)
 
+  # prepare data when single column
+  if (is.null(dim(data))) {
+    singleColumn <- TRUE
+    recodings <- recodings[[1]]
+  }
+  
   # recoding of a single new attribute
   makeAttribute <- function(recoding) {
-
+    
     # when doNotRecode is specified, do not recode attributes
     if (!is.null(recoding$doNotRecode)) {
       newAttribute <- data[,recoding$doNotRecode, drop = FALSE]
@@ -19,10 +25,18 @@ recode <- function(data,recoding) {
       
       # simple when it is based on a single old attribute
       if (length(recoding$recodingOf) == 1) {
-      newAttribute <- data[,recoding$recodingOf, drop = FALSE]
-      levels(newAttribute[,1]) <- recoding$values[recoding$link]
-      colnames(newAttribute) <- recoding$attribute
-      return(newAttribute)
+        
+        if (singleColumn) {
+          newAttribute <- as.factor(data)
+          levels(newAttribute) <- recoding$values[recoding$link]
+          return(newAttribute)
+        } else {
+          newAttribute <- data[,recoding$recodingOf, drop = FALSE]
+          levels(newAttribute[,1]) <- recoding$values[recoding$link]
+          colnames(newAttribute) <- recoding$attribute
+          return(newAttribute)
+        }
+        
       } else {
         
         # a bit more complex for combinations of attributes
@@ -40,12 +54,17 @@ recode <- function(data,recoding) {
         newAttribute <- as.data.frame(newAttribute)
         colnames(newAttribute) <- recoding$attribute
         return(newAttribute)
+        
       }
     }
   }
   
   # Make the recoding and return result
-  result <- as.data.frame(sapply(recoding, makeAttribute,simplify=F))
+  if (singleColumn) {
+    result <- makeAttribute(recodings)
+  } else {
+    result <- as.data.frame(sapply(recodings, makeAttribute, simplify = F))
+  }
   return(result)
 }
 

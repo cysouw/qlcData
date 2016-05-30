@@ -2,7 +2,7 @@
 # visual help function: expand values for combination of attributes
 # =================================================================
 
-expandValues <- function(attributes, data) {
+.expandValues <- function(attributes, data) {
   combination <- expand.grid(
     sapply( attributes, function(x){ c(levels(data[,x]),NA) }, simplify = FALSE )
   )
@@ -15,12 +15,19 @@ expandValues <- function(attributes, data) {
 # write YAML-template
 # ===================
 
-write.recoding <- function(attributes, data, file, yaml = TRUE) {
+write.recoding <- function(data, attributes = NULL, file, yaml = TRUE) {
+  
+  # prepare data when single column
+  if (is.null(dim(data))) {
+    data <- as.data.frame(data)
+    attributes <- 1
+    colnames(data) <- 1
+  }
   
   # prepare the template for one attribute
   makeTemplate <- function(attribute, data) {
     if (length(attribute) > 1) {
-      originalValues <- expandValues(attribute, data)
+      originalValues <- .expandValues(attribute, data)
     } else {
       originalValues <- levels(data[,attribute])
     }
@@ -35,7 +42,7 @@ write.recoding <- function(attributes, data, file, yaml = TRUE) {
   }
   
   # combine all templates
-  attributes <- as.list(sapply(attributes,function(x){colnames(data)[x]}))
+  attributes <- as.list(sapply(attributes, function(x){colnames(data)[x]}))
   result <- list(
     title = NULL,
     author = NULL,
@@ -127,7 +134,7 @@ read.recoding <- function(recoding, file = NULL, data = NULL) {
         recoding[[i]]$originalValues <- levels(data[,recoding[[i]]$recodingOf])
       }
       if (length(recoding[[i]]$recodingOf) > 1) {
-        recoding[[i]]$originalValues <- expandValues(recoding[[i]]$recodingOf, data)
+        recoding[[i]]$originalValues <- .expandValues(recoding[[i]]$recodingOf, data)
       }
       if (is.numeric(recoding[[i]]$doNotRecode)) {
         recoding[[i]]$doNotRecode <- colnames(data)[recoding[[i]]$doNotRecode]
