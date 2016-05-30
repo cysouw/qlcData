@@ -1,5 +1,6 @@
 # qlcData 0.2
 
+* add possibility for factors in recoding
 * including a shiny app for tokenization, with a helper launcher 'launch_shiny()'
 * adding docopt-executables to \exec with a helper function to make a bash alias 'add_alias()'
 * make sure orthography profiles are treated as character data, not as factors

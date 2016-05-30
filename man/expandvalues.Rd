@@ -1,4 +1,4 @@
-\name{expandValues}
+\name{.expandValues}
 \alias{expandValues}
 \title{
 Internal helper

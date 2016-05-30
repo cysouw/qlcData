@@ -8,12 +8,12 @@ Reading and writing of recoding files.
 Nominal data (`categorical data') are data that consist of attributes, and each attribute consists of various discrete values (`types'). The different values that are distinguished in comparative linguistics are mostly open to debate, and different scholars like to make different decisions as to the definition of values. The \code{\link{recode}} function allows for an easy and transparent way to specify a recoding of an existing dataset. The current functions help with the preparations and usage of recoding specifications.
 }
 \usage{
-write.recoding(attributes, data, file, yaml = TRUE)
+write.recoding(data, attributes = NULL, file, yaml = TRUE)
 read.recoding(recoding, file = NULL, data = NULL)
 }
 \arguments{
   \item{data}{
-  a data frame with nominal data, attributes as columns, observations as rows.
+  a data frame with nominal data, attributes as columns, observations as rows. Optionally a single column can be supplied. In that case the argument \code{attributes} can be left unspecified.
   }
   \item{recoding}{
   a \code{recoding} data structure, specifying the decisions of the recoding. It can also be a path to a file containing the specifications in YAML format. See Details.
