@@ -19,7 +19,7 @@ read.recoding(recoding, file = NULL, data = NULL)
   a \code{recoding} data structure, specifying the decisions of the recoding. It can also be a path to a file containing the specifications in YAML format. See Details.
   }
   \item{attributes}{
-  a list of attributes to be recoded. Vectors (as elements of the list) are possible to specify combinations of attributes to be recoded as a single complex attribute.
+  a list of attributes to be recoded. Vectors (as elements of the list) are possible to specify combinations of attributes to be recoded as a single complex attribute. When \code{NULL}, then all attributes are included individually.
   }
   \item{file}{
   file in which the recoding should be written.

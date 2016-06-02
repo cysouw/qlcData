@@ -8,6 +8,7 @@ recode <- function(data,recoding) {
   recodings <- read.recoding(recoding)
 
   # prepare data when single column
+  singleColumn <- FALSE
   if (is.null(dim(data))) {
     singleColumn <- TRUE
     recodings <- recodings[[1]]

@@ -22,6 +22,8 @@ write.recoding <- function(data, attributes = NULL, file, yaml = TRUE) {
     data <- as.data.frame(data)
     attributes <- 1
     colnames(data) <- 1
+  } else if (is.null(attributes)) {
+    attributes <- 1:ncol(data)
   }
   
   # prepare the template for one attribute
