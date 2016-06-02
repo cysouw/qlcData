@@ -7,7 +7,7 @@ Author: Michael Cyosuw
 Maintainer: Michael Cysouw <cysouw@mac.com>
 Description: This is a collection of functions to read, recode, and transcode data.
 License: GPL-3
-Imports: stringi (>= 0.2-5), yaml (>= 2.1.11)
+Imports: stringi (>= 0.2-5), yaml (>= 2.1.11), shiny
 Encoding: UTF-8
 Suggests: knitr, shiny, docopt
 VignetteBuilder: knitr
