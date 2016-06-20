@@ -1,7 +1,8 @@
 # helper function to add an alias for executables
 # dangerous for non-terminal people!
+# hidden: other option is to let people make softlinks themselves
 
-add_alias <- function(execs, package = "qlcData", shellprofile = "auto") {
+.add_alias <- function(execs, package = "qlcData", shellprofile = "auto") {
   
   # which profile to choose
   if (shellprofile == "auto") {

@@ -28,7 +28,7 @@ USAGE:
 DESCRIPTION:
   Using the function tokenize() from the R-package qlcData for tokenization and
   transliteration of character strings based on an orthography profile. Details
-  http://www.rdocumentation.org/packages/qlcMatrix/functions/sim.strings.html
+  http://www.rdocumentation.org/packages/qlcData/functions/tokenize.html
 
   STRINGS can be piped through. When no PROFILE is specified, default Unicode
   tokenization is performed. Note that the R-code allows for even more options,

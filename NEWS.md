@@ -2,7 +2,7 @@
 
 * add possibility for factors in recoding
 * including a shiny app for tokenization, with a helper launcher 'launch_shiny()'
-* adding docopt-executables to \exec with a helper function to make a bash alias 'add_alias()'
+* adding docopt-executables to \exec with some help how to softlink these to PATH
 * make sure orthography profiles are treated as character data, not as factors
 * adding function 'pass_align()' to transfer alignment to a string, with helper 'join_align()'
 * changed vignette naming

@@ -30,5 +30,9 @@ There are vignettes trying to explain the intended usage of this package. Unfort
     vignette("orthography_processing")
     vignette("recoding_nominal_data")
 
+A few functions are available through a bash terminal. You will have to manually softlink these interfaces to you PATH, for example to link the function `tokenize` to `/usr/local/bin/` use something like:
+
+    ln -is `Rscript -e 'cat(file.path(find.package("qlcData"), "exec", "tokenize"))'` /usr/local/bin
+
 Michael Cysouw
 cysouw@mac.com
