@@ -97,7 +97,7 @@ write.table(result
 	, file = ""
 	, sep = "\t"
 	, row.names = FALSE
-	, col.names = FALSE
+	, col.names = TRUE
 	, quote = FALSE
 	)
 	
