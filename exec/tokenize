@@ -23,7 +23,7 @@
 
 DOC <- "
 USAGE: 
-  tokenize [-hlrd -s SEP -t TRANS <STRINGS> <PROFILE>]
+  tokenize [-hlrd] [-s SEP -p REPL] [-t TRANS -m MISSING] [<STRINGS> <PROFILE>]
 
 DESCRIPTION:
   Using the function tokenize() from the R-package qlcData for tokenization and
@@ -41,8 +41,12 @@ OPTIONS:
   -r, --regex     Use regex matching, including contexts in matching graphemes
   -d, --NFD       Use NFD normalization instead of default NFC
   -s SEP          Separator to be inserted after tokenization
-                    defaults to space [default: S]
+                    defaults to space [default: SPACE]
+  -p REPL         Replacement symbol in case separator occurs in the STRINGS
+                    defaults to nothing [default: NULL]
   -t TRANS        Column in profile to use for transliteration [default: NULL]
+  -m MISSING      Character to be inserted for characters not in the PROFILE
+                    default to DOUBLE QUESTION MARK at U+2047 [default: ⁇]
 "
 
 # ==============
@@ -65,11 +69,12 @@ if (length(PROFILE) == 0) {
 # catch options
 if (linear) { method <- "linear" } else { method <- "global" }
 if (regex) { regex <- TRUE } else { regex <- FALSE }
-if (NFD) { normalize <- "NFD" } else { normalize <- "NFC"}
-if (t == "NULL") { t <- NULL}
+if (NFD) { normalize <- "NFD" } else { normalize <- "NFC" }
+if (t == "NULL") { t <- NULL }
+if (p == "NULL") { p <- NULL }
 
-# space cannot be passed as argument in bash
-if (s == "S") {s <- " "}
+# space cannot be passed as a default option in docopt currently
+if (s == "SPACE") {s <- " "}
 
 # ======
 # R code
@@ -82,7 +87,9 @@ result <- qlcData::tokenize(STRINGS, PROFILE
 						, regex = regex
 						, normalize = normalize
 						, sep = s
+						, sep.replace = p
 						, transliterate = t
+						, missing = m
 						)
 
 if (is.null(t)) {

@@ -17,20 +17,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # =================
 
-# ============
-# dependencies
-# ============
-
-require(docopt, quietly = TRUE)
-require(qlcData, quietly = TRUE) # currently needs github version, not the one from CRAN
-
 # =====
 # usage
 # =====
 
 DOC <- "
 USAGE:
-  pass_align [-h -s SEPARATOR -i IN_GAP -o OUT_GAP] <ORIGINALS> [<ALIGNMENTS>]
+  pass_align [-s SEPARATOR] [-i IN_GAP -o OUT_GAP] <ORIGINALS> [<ALIGNMENTS>]
 
 DESCRIPTION:
   Using the function pass_align() from the R-package qlcData
@@ -43,14 +36,14 @@ DESCRIPTION:
 OPTIONS:
   -h, --help      Showing this help text
   -s SEPARATOR    Separator, defaults to nothing, 
-                    use 'S' to get space [default: ]
+                    use 'SPACE' to get space [default: ]
   -i IN_GAP       Gap symbol in the alignments [default: -]
   -o OUT_GAP      Gap symbol in the output, useful when the gap symbol
                     from the alignments actually occurs as a character
                     in the originals [default: -]
 
 EXAMPLES:
-  $$$ pass_align.R test X---XXX
+  $$$ pass_align test X---XXX
   
   Results in: 't---est'
 "
@@ -59,6 +52,7 @@ EXAMPLES:
 # docopt parsing
 # ==============
 
+require(docopt, quietly = TRUE)
 attach(docopt::docopt(DOC))
 
 # for piping data
@@ -67,12 +61,15 @@ if (length(ALIGNMENTS) == 0) {
 	closeAllConnections() 
 }
 
-# space cannot be passed as argument in bash
-if (s == "S") {s <- " "}
+# space gives an error as option, so use this workaround
+if (s == "SPACE") {s <- " "}
 
 # ======
 # R code
 # ======
+
+# currently needs github version, not the one from CRAN
+require(qlcData, quietly = TRUE) 
 
 result <- qlcData::pass_align(ORIGINALS, ALIGNMENTS, sep = s, in.gap = i, out.gap = o)
 
