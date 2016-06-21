@@ -32,13 +32,13 @@ Given some strings, a sound (or graphemic) alignment inserts gaps into the strin
 \value{
 Vector of original strings with the gaps inserted from the aligned strings.
 }
-\author{
-Michael Cysouw <cysouw@mac.com>
-}
 \note{
 There is a bash-executable distributed with this package (based on the \code{docopt} package) that let you use this function directly in a bash-terminal. The easiest way to use this executable is to softlink the executable to some directory in your bash PATH, for example \code{/usr/local/bin}. To softlink the function \code{pass_align} to this directory, use something like the following in your bash terminal:
 
 \code{ln -is `Rscript -e 'cat(file.path(find.package("qlcData"), "exec", "pass_align"))'` /usr/local/bin}
+}
+\author{
+Michael Cysouw <cysouw@mac.com>
 }
 \examples{
 # make some strings with separators

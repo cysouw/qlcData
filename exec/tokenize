@@ -46,7 +46,18 @@ OPTIONS:
                     defaults to nothing [default: NULL]
   -t TRANS        Column in profile to use for transliteration [default: NULL]
   -m MISSING      Character to be inserted for characters not in the PROFILE
-                    default to DOUBLE QUESTION MARK at U+2047 [default: ⁇]
+                    defaults to DOUBLE QUESTION MARK at U+2047 [default: ⁇]
+
+EXAMPLES:
+  Try the difference between the following:
+
+    tokenize áüî
+    tokenize --NFD -s '__' áüî
+  
+  Piping strings should work:
+  
+    ls | tokenize
+    
 "
 
 # ==============

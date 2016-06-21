@@ -34,5 +34,7 @@ A few functions are available through a bash terminal. You will have to manually
 
     ln -is `Rscript -e 'cat(file.path(find.package("qlcData"), "exec", "tokenize"))'` /usr/local/bin
 
+All available executables are `tokenize`, `writeprofile` and `pass_align`
+
 Michael Cysouw
 cysouw@mac.com

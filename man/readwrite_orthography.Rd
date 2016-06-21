@@ -48,6 +48,11 @@ String are devided into default grapheme clusters as defined by the Unicode spec
 \value{
 A dataframe with strings representing a skeleton of an orthography profile.
 }
+\note{
+There is a bash-executable distributed with this package (based on the \code{docopt} package) that let you use this function directly in a bash-terminal. The easiest way to use this executable is to softlink the executable to some directory in your bash PATH, for example \code{/usr/local/bin}. To softlink the function \code{writeprofile} to this directory, use something like the following in your bash terminal:
+
+\code{ln -is `Rscript -e 'cat(file.path(find.package("qlcData"), "exec", "writeprofile"))'` /usr/local/bin}
+}
 \references{
 Moran & Cysouw (forthcoming)
 }

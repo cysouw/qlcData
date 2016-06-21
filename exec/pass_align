@@ -43,9 +43,10 @@ OPTIONS:
                     in the originals [default: -]
 
 EXAMPLES:
-  $$$ pass_align test X---XXX
-  
-  Results in: 't---est'
+  The following command:
+      pass_align test X---XXX
+  Results in: 
+      't---est'
 "
 
 # ==============
