@@ -30,7 +30,7 @@ All proposals made here (and in the paper by Moran & Cysouw) are crucially roote
 
 Specifically, we offer an approach to document *tailorder grapheme clusters* (as they are called by the Unicode consortium). To deal consistenly with such clusters, the official Unicode route would be to produce *Unicode Local Descriptions*, which are overly complex for the use-cases that we have in mind. In general, our goal is to allow for quick and easy processing, which can be used for dozens (or even hundreds) of different languages/orthographies without becoming a life-long project.
 
-We see various use-cases for the `qlcTokenize` package, e.g.:
+We see various use-cases for the orthographic processing approach as made available in the `qlcData` package, e.g.:
 
 - checking consistency of the orthographic represenation in some data;
 - tokenization of the orthography into functional units ("graphemes"), which is highly useful in language comparison (e.g. character alignment);
@@ -47,16 +47,18 @@ The current alpha-version of the package `qlcData` is available on CRAN (_Compre
 # install devtools from CRAN
 install.packages("devtools")
 # install qlcData from github using devtools
-devtools::install_github("cysouw/qlcData")
+devtools::install_github("cysouw/qlcData", build_vignettes = TRUE)
 # load qlcTokenize package
 library(qlcData)
 # access help files of the package
 help(qlcData)
+# access this vignette
+vignette("orthography_processing")
 ```
 
 # Orthography Profiles
 
-The basic object in `qlcData` is the *Orthography Profile*. This is basically just a simple tab-separated file listing all (tailored) graphemes in some data. An orthography profile can be easily made by using `write.profile`. The result of this function is an R-dataframe, but it can also be directly written to a file by using the option `file = path/filename`.
+The basic object in `qlcData` is the *Orthography Profile*. This is basically just a simple tab-separated file listing all (tailored) graphemes in some data. We have decided to go for a tab-separated file (instead of a JSON or CSV file) because a tab separated file is easier to edit by hand, something which we explicitly expect to happen a lot. An orthography profile can be easily made by using `write.profile`. The result of this function is an R-dataframe, but it can also be directly written to a file by using the option `file = path/filename`.
 
 ```{r}
 test <- "hállo hállо"
@@ -102,7 +104,7 @@ Normally, you won't type your data directly into R, but load the data from some 
 
 In most cases you will probably want to use the function `tokenize`. Besides creating orthography profiles, it will also check orthography profiles against new data (and give warnings if there is something), it will separate the input strings into graphemes, and even perform transliteration. Let's run through a typical workflow using `tokenize`.
 
-Given some data in a specific orthography, you can call `tokenize` on the data to create an initial orthography profile (just like with `write.profile` discussed above, though there are a few small differences. For example: spaces are not included by default in the profile, and spaces in the original are replaced by hashes).
+Given some data in a specific orthography, you can call `tokenize` on the data to create an initial orthography profile (just like with `write.profile` discussed above, though there are less options for the splitting of graphemes, the addition of info, etc.).
 
 The output of `tokenize` always is a list of four elements: `$strings`, `$profile`, `$errors`, and `$missing`. The second element in the list `$profile` is the table we already encountered above. The first element `$strings` is a table with the original strings, and the tokenization into graphemes as specified by the orthography profile (which in the case below was automatically produced, so there is nothing strange happening here, just a splitting into letters). The `$errors` and `$missing` are just empty at this stage, but it will contain information about strings that cannot be tokenized with a pre-established profile.
 
@@ -153,7 +155,7 @@ tokenize(c("think", "thin", "both"), profile = test_profile.txt)
 
 # Transliteration, Contexts, Classes and Regular Expressions
 
-After tokenization (possibly including the usage of rules), the resulting tokenized string can then be transliterated into a different orthographic representation by using the option `transliterate`. Then the grapheme as specified are used (by default this columns is called "Replacement", but other names can be used, and one orthography profile can include multiple transliteration columns).
+After tokenization the resulting tokenized string can then be transliterated into a different orthographic representation by using the option `transliterate`. Then the grapheme as specified are used (by default this columns is called "Replacement", but other names can be used, and one orthography profile can include multiple transliteration columns).
 
 To achieve contextually determined replacements (e.g. in Italian <c> becomes /k/ except before <i,e>, then it becomes /tʃ/) you can use columns called "Left" and "Right" for left and right contexts, respectively. For example, consider the following toy-profile for Italian: 
 
