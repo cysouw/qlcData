@@ -3,11 +3,11 @@ Type: Package
 Title: Processing Data for Quantitative Language Comparison (QLC)
 Version: 0.1.0
 Date: 2015-10-20
-Author: Michael Cyosuw
+Author: Michael Cysouw
 Maintainer: Michael Cysouw <cysouw@mac.com>
 Description: This is a collection of functions to read, recode, and transcode data.
 License: GPL-3
 Imports: stringi (>= 0.2-5), yaml (>= 2.1.11), shiny, docopt
 Encoding: UTF-8
-Suggests: knitr
+Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
