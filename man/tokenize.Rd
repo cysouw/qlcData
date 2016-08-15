@@ -33,7 +33,7 @@ tokenize(strings,
   Method for ordering. Currently three different methods are implemented, which can be combined (see Details below): \code{size}, \code{context}, \code{reverse} and \code{frequency}. Use \code{NULL} to prevent ordering and use the top to bottom order as specified in the orthography profile.
 }
   \item{sep}{
-  Separator to be inserted between graphemes. Defaults to space. This function assumes that the separator specified here does not occur in the data. If it does, unexpected things might happen. Consider removing the chosen seperator from your strings first, e.g. by using \code{\link[base]{gsub}}.
+  Separator to be inserted between graphemes. Defaults to space. This function assumes that the separator specified here does not occur in the data. If it does, unexpected things might happen. Consider removing the chosen seperator from your strings first, e.g. by using \code{\link[base]{gsub}} or use the option \code{sep.replace}.
 }
   \item{sep.replace}{
   Sometimes, the chosen separator (see above) occurs in the strings to be parsed. This is technically not a problem, but the result might show unexpected sequences. When \code{sep.replace} is specified, this marking is inserted in the string at those places where the \code{sep} marker occurs. Typical usage in linguistics would be \code{sep = " ", sep.replace = "#"} adding spaces between graphemes and replacing spaces in the input string by hashes in the output string.
@@ -99,11 +99,11 @@ When \code{regex = TRUE}, regular expressions are acceptable in the columns `Gra
 \item \[ (U+005B, LEFT SQUARE BRACKET)
 \item \] (U+005D, RIGHT SQUARE BRACKET)
 \item \{ (U+007B, LEFT CURLY BRACKET)
-\item | (007C, VERTICAL LINE)
 \item \} (U+007D, RIGHT CURLY BRACKET)
+\item | (007C, VERTICAL LINE)
 \item * (U+002A, ASTERISK)
 \item \ (U+005C, REVERSE SOLIDUS)
-\item ˆ (U+02C6, MODIFIER LETTER CIRCUMFLEX ACCENT)
+\item ˆ (U+005E, CIRCUMFLEX ACCENT)
 \item + (U+002B, PLUS SIGN)
 \item $ (U+0024, DOLLAR SIGN)
 }
