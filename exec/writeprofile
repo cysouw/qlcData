@@ -23,7 +23,7 @@
 
 DOC <- "
 USAGE: 
-  writeprofile [-hie] [-s SEP] [-n NORMALIZE] [<STRINGS>]
+  writeprofile [-hiec] [-s SEP] [-n NORMALIZE] [<STRINGS>]
 
 DESCRIPTION:
   Using the function write.profile() from the R-package qlcData to prepare 
@@ -35,14 +35,14 @@ DESCRIPTION:
   are made available here for ease of use.
 
 OPTIONS:
-  -h, --help      Showing this help text
-  -i, --info      Add columns with Unicode information to profile
-  -e, --editing   Add empty columns for easy editing of profile
-  -s SEP          Separator used to separate the strings
-                    Often useful is option UNI to split by unicode codepoints
-                    defaults to unicode character definition [default: NULL]
-  -n NORMALIZE    Normalization used to make profile. Possible options: NFD, NFC
-                    defaults to no normalization [default: NULL]
+  -h, --help        Showing this help text
+  -i, --info        Add columns with Unicode information to profile
+  -e, --editing     Add empty columns for easy editing of profile
+  -c, --codepoints  Separate by Unicode codepoints (overrides any -s setting)
+  -s SEP            Separator used to separate the strings
+                      defaults to unicode character definition [default: NULL]
+  -n NORMALIZE      Normalization used to make profile. Possible options: NFD, NFC
+                      defaults to no normalization [default: NULL]
                     
 EXAMPLES:
   Note the differences between the following variants:
@@ -50,9 +50,9 @@ EXAMPLES:
     example='\xc3\x99\xc3\x9a\xc3\x9b\x55\xcc\x80\x55\xcc\x81\x55\xcc\x82'
     echo -e $example
     echo -e $example | writeprofile -i
-    echo -e $example | writeprofile -i -s UNI
-    echo -e $example | writeprofile -i -s UNI -n NFC
-    echo -e $example | writeprofile -i -s UNI -n NFD
+    echo -e $example | writeprofile -ic
+    echo -e $example | writeprofile -ic -n NFC
+    echo -e $example | writeprofile -ic -n NFD
  
 "
 
@@ -73,8 +73,8 @@ if (length(STRINGS) == 0) {
 if (info) { info <- TRUE } else { info <- FALSE }
 if (editing) { editing <- TRUE } else { editing <- FALSE }
 if (n == "NULL") { n <- NULL }
-if (s == "UNI") { s <- "" }
 if (s == "NULL") { s <- NULL }
+if (codepoints) { s <- "" }
 
 # ======
 # R code
@@ -83,11 +83,11 @@ if (s == "NULL") { s <- NULL }
 require(qlcData, quietly = TRUE)
 
 result <- qlcData::write.profile(STRINGS
-						, normalize = n
-						, info = info
-						, editing = editing
-						, sep = s
-						)
+	, normalize = n
+	, info = info
+	, editing = editing
+	, sep = s
+	)
 
 # =======================
 # Return output to stdout
