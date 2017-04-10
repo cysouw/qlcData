@@ -34,9 +34,10 @@ getTree <- function(up = NULL, kind = "iso", down = NULL, reduce = FALSE) {
 			stop(paste(down[!avail], collapse = ", "), " not available as a father in Glottolog data")
 		}
 		if (anyDuplicated(children) > 0) {
-
 		  children <- unique(children)
 		  overlap <- TRUE
+		} else {
+		  overlap <- FALSE
 		}
 	} else {
 		children <- c()
@@ -76,7 +77,7 @@ getTree <- function(up = NULL, kind = "iso", down = NULL, reduce = FALSE) {
 		if (!is.null(down)) {f <- f[-which(names(f) == down)]}
 		# always keep names given in input
 		if (!is.null(up)) {
-			ignoreNames <- result[which(result[,kind] %in% up), kind]
+			ignoreNames <- result[which(result[,kind] %in% up), "name"]
 			ignore <- which(names(f) %in% ignoreNames)
 			if (length(ignore) != 0) {
   			f <- f[-ignore]
