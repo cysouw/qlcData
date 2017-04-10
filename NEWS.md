@@ -1,5 +1,6 @@
 # qlcData 0.2
 
+* add glottolog data with access function getTree()
 * add possibility for factors in recoding
 * including a shiny app for tokenization, with a helper launcher 'launch_shiny()'
 * adding docopt-executables to \exec with some help how to softlink these to PATH
