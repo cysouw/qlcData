@@ -5,7 +5,7 @@
 Glottolog data from \url{http://www.glottolog.org}
 }
 \description{
-Data from Glottolog 2016 with added WALS codes and speaker-community size. Various minor corrections and additions were performed in the preparation of the data (see Details). All stocks (i.e. largest reconstructable units) are linked to a single root node calles 'World'.
+Data from Glottolog 2016 with added WALS codes and speaker-community size. Various minor corrections and additions were performed in the preparation of the data (see Details). All stocks (i.e. largest reconstructable units) are linked to macroareas, and they are linked to a single root node calles 'World'.
 }
 \usage{data("glottolog")}
 \format{
@@ -24,7 +24,9 @@ Data from Glottolog 2016 with added WALS codes and speaker-community size. Vario
   }
 }
 \details{
-For Glottolog data: the names were uniquified by adding a glottocode when a name occurs more than once (typically in some cases of a language and a family having the same name). Entries classified as 'bookkeeping', 'unattested' 'artificial language', 'sign language' and 'unclassifiable' were removed. Links to WALS codes were added: note that about 20 links are missing, and for the non-unique links one link was chosen by data availability. Some macro codes from ISO 639-3 were added.
+For Glottolog data: the names were uniquified by adding a glottocode when a name occurs more than once (typically in some cases of a language and a family having the same name). Entries classified as 'bookkeeping', 'unattested' 'artificial language', 'sign language', 'speech register' and 'unclassifiable' were removed. Links to WALS codes were added: note that about 20 links are missing, and for the non-unique links one link was chosen by data availability. Some macro codes from ISO 639-3 were added.
+
+A level 'area' was added to the tree, separating all languages in six areas: Eurasia, Africa, Southeast Asia, Sahul, North America and South America. This is reminiscent of the proposal from Dryer (1992), though Austronesian is grouped with Southeast Asia here, because that makes more sense genealogically. Still, these nodes are surely not monophyletic! Mixed languages are not assigned to an area.
 
 Please note that the data provided here is not identical to the online version of Glottolog, as the online version is constantly being updated! This is Glottolog 2016. Updates might be made available when they are provided for download from the website.
 
@@ -41,6 +43,11 @@ data(glottolog)
 ( kandas <- getTree(down = "Kandas-Duke of York") )
 ( treeFull <- getTree(up = c("deu", "eng", "ind", "cha"), kind = "iso") )
 ( treeReduced <- getTree(up = c("deu", "eng", "ind", "cha"), kind = "iso", reduce = TRUE) )
+
+# check out areas
+( areas <- glottolog[glottolog$level == "area", "name"] )
+# stocks in Southeast Asia
+glottolog[glottolog$father == areas[1], "name"]
 
 \dontrun{
 # use FromDataFrameNetwork() to visualize the tree and export it into various other tree formats in R
