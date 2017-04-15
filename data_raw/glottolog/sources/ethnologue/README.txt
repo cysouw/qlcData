@@ -1,0 +1,1 @@
+Data extracted from the 13th Edition of the Ethnologue, licensed by MPI-EVA
