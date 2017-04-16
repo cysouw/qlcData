@@ -40,7 +40,7 @@ An object of class \code{phylo}.
 Michael Cysouw <cysouw@mac.com
 }
 \note{
-Depends internally on \code{\link{data.tree::ToNewick}} which is currently very slow for large trees.
+Depends internally on \code{\link[data.tree]{ToNewick}} which is currently very slow for large trees.
 }
 \examples{
 # many different effects can be achieved by combining options
@@ -59,11 +59,11 @@ library(ape)
 par(mfcol = c(2,3))
 
 phylo <- asPhylo(treeWithInternal, height = 20)
-plot(phylo, main = "reduce = F", cex = 1)
+plot(phylo, main = "reduce = F\nheight = 20", cex = 1)
 edgelabels(round(phylo$edge.length), cex = 1.5)
 
 phylo <- asPhylo(treeNoInternal, height = 20)
-plot(phylo, main = "reduce = T", cex = 1)
+plot(phylo, main = "reduce = T\nheight = 20", cex = 1)
 edgelabels(round(phylo$edge.length), cex = 1.5)
 
 phylo <- asPhylo(treeWithInternal, fixed.branches = 1)
