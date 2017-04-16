@@ -29,7 +29,9 @@ The \code{\link[ape]{phylo}} format is a widely used format for phylogenetic inf
 
 Note that phylo trees do not allow singleton nodes, so they are removed internally (by \code{\link[ape]{collapse.singles}}). The tree is also forced to be binary (by \code{\link[ape]{multi2di}}), which is also expected in many phylogenetic analysis.
 
-The order of length assignment is height > fixed length > long root > collapse singles, which can be used to lead to different results. Also the option \code{reduce} in \code{\link{getTree}} can be used to influence the branch lenghts (see Examples below).
+The order of length assignment is: reduce (in getTree) >> height >> fixed length >> long root >> collapse singles, which can be used to lead to different results. Also the option \code{reduce} in \code{\link{getTree}} can be used to influence the branch lenghts (see Examples below).
+
+The collapsing of singleton internal nodes after branch length leads to an interesting effect that branch lengths are somehow proportional to the number of internal diversity of the tree, which might make sense as a proxy to branch lengths. Something like \code{reduce = F, fixed.branches = 1, long.root = 10} seem promising.
 }
 \value{
 An object of class \code{phylo}.
@@ -43,42 +45,42 @@ Depends internally on \code{\link{data.tree::ToNewick}} which is currently very 
 \examples{
 # many different effects can be achieved by combining options
 
-isoCodes <- c("deu", "eng", "swe", "swh", "xho")
+isoCodes <- c("deu", "eng", "swe", "swh", "xho", "fin")
 treeWithInternal <- getTree(isoCodes, reduce = F)
 treeNoInternal <- getTree(isoCodes, reduce = T)
 
 \dontrun{
 # to understand the influence of the option 'reduce' also check
+library(data.tree)
 plot(FromDataFrameNetwork(treeWithInternal))
-plot(FromDataFrameNetwork(treeNoInternal))
-}
+plot(FromDataFrameNetwork(treeNoInternal))}
 
 library(ape)
 par(mfcol = c(2,3))
 
-phylo <- asPhylo(treeWithInternal)
-plot(phylo, main = "reduce = F")
-edgelabels(round(phylo$edge.length))
+phylo <- asPhylo(treeWithInternal, height = 20)
+plot(phylo, main = "reduce = F", cex = 1)
+edgelabels(round(phylo$edge.length), cex = 1.5)
 
-phylo <- asPhylo(treeNoInternal)
-plot(phylo, main = "reduce = T")
-edgelabels(round(phylo$edge.length))
+phylo <- asPhylo(treeNoInternal, height = 20)
+plot(phylo, main = "reduce = T", cex = 1)
+edgelabels(round(phylo$edge.length), cex = 1.5)
 
 phylo <- asPhylo(treeWithInternal, fixed.branches = 1)
-plot(phylo, main = "reduce = F\nfixed.branches = 1")
-edgelabels(round(phylo$edge.length))
+plot(phylo, main = "reduce = F\nfixed.branches = 1", cex = 1)
+edgelabels(round(phylo$edge.length), cex = 1.5)
 
 phylo <- asPhylo(treeNoInternal, fixed.branches = 1)
-plot(phylo, main = "reduce = T\nfixed.branches = 1")
-edgelabels(round(phylo$edge.length))
+plot(phylo, main = "reduce = T\nfixed.branches = 1", cex = 1)
+edgelabels(round(phylo$edge.length), cex = 1.5)
 
 phylo <- asPhylo(treeWithInternal, fixed.branches = 1, long.root = 10)
-plot(phylo, main = "reduce = F\nfixed.branches = 1\nlong.root = 10")
-edgelabels(round(phylo$edge.length))
+plot(phylo, main = "reduce = F\nfixed.branches = 1\nlong.root = 10", cex = 1)
+edgelabels(round(phylo$edge.length), cex = 1.5)
 
 phylo <- asPhylo(treeNoInternal, fixed.branches = 1, long.root = 10)
-plot(phylo, main = "reduce = T\nfixed.branches = 1\nlong.root = 10")
-edgelabels(round(phylo$edge.length))
+plot(phylo, main = "reduce = T\nfixed.branches = 1\nlong.root = 10", cex = 1)
+edgelabels(round(phylo$edge.length), cex = 1.5)
 
 par(mfcol=c(1,1))
 
