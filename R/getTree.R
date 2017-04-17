@@ -35,10 +35,10 @@ getTree <- function(up = NULL, kind = "iso", down = NULL, reduce = FALSE) {
 		}
 		if (anyDuplicated(children) > 0) {
 		  children <- unique(children)
-		  overlap <- TRUE
-		} else {
-		  overlap <- FALSE
+		  warning("some families are part of other families as specified in `down`. Duplicates are removed")
 		}
+		# add root
+		children <- c(children, .selectUp(down))
 	} else {
 		children <- c()
 	}
@@ -51,22 +51,6 @@ getTree <- function(up = NULL, kind = "iso", down = NULL, reduce = FALSE) {
 	}
 
   result <- g[all,]
-  	
-  # force root
-  if (!is.null(down)) {
-    if (overlap) {
-      remove <- result[result$name %in% down, "name"]
-      down <- down[-which(down %in% remove)]
-      warning(paste(remove, collapse = ", "), " is/are part of other families as specified in `down`. Duplicates are removed")
-    }
-    fams <- sapply(down, function(x) {
-      as.character(result[result$father == x, "stock"][1])
-    })
-    root <- cbind(down, "World", fams, NA, NA, NA, "family", NA, NA, NA)
-    rownames(root) <- paste0("zzzz", 1:length(down))
-    colnames(root) <- colnames(result)
-    result <- rbind(result, root)
-  }
   
   # remove nodes without branching
 	if (reduce) {
