@@ -36,6 +36,9 @@ Michael Cysouw <cysouw@mac.com
 \note{
 This function is hard-coded to only use the data as available in \code{\link{glottolog}}.
 }
+\seealso{
+\code{\link{asPhylo}} for tweaking branch lengths in phylo conversion.
+}
 \examples{
 # use getTree() to select genealogical parts of the data
 data(glottolog)
