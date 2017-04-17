@@ -1,10 +1,13 @@
 asPhylo <- function(tree, height = 100, fixed.branches = NULL, long.root = NULL) {
 	
-  tree <- data.tree::FromDataFrameNetwork(tree)
   # this export to newick takes time with large trees
+  tree <- data.tree::FromDataFrameNetwork(tree)
 	newick <- data.tree::ToNewick(tree, rootHeight = height)
 	phylo <- phytools::read.newick(text = newick)
 	
+  # this simple function cannot take 'height' and always takes 'fixed = 1'
+  # phylo <- convertTreePhylo(tree)
+  
 	if (!is.null(fixed.branches)) {
 		phylo$edge.length <- rep(fixed.branches, length(phylo$edge.length))
 	}
