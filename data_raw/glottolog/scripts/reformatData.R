@@ -51,6 +51,8 @@ g$name <- gsub("\\(","[",g$name)
 g$name <- gsub("\\)","]",g$name)
 g$father <- gsub("\\(","[",g$father)
 g$father <- gsub("\\)","]",g$father)
+g$stock <- gsub("\\(","[",g$stock)
+g$stock <- gsub("\\)","]",g$stock)
 
 # remove Artificial and Sign languages, Speech Register
 

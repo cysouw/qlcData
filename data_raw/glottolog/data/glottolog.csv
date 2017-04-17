@@ -8900,7 +8900,7 @@
 "koli1252","Koli [Konkani]","Konkani","Indo-European","koli1252",NA,NA,"dialect",NA,NA,NA
 "koli1253","Kolibugan Subanon","Western Subanen","Austronesian","koli1253","skn",NA,"language",122.567,7.77212,20000
 "koll1253","Kol [Vietnam]","Cua","Austroasiatic","koll1253",NA,NA,"dialect",NA,NA,NA
-"koll1254","Kol","Kol [Papua New Guinea]","Kol (Papua New Guinea)","koll1254",NA,NA,"dialect",NA,NA,NA
+"koll1254","Kol","Kol [Papua New Guinea]","Kol [Papua New Guinea]","koll1254",NA,NA,"dialect",NA,NA,NA
 "koln1238","Kol North","Kol [Cameroon]","Atlantic-Congo","koln1238",NA,NA,"dialect",NA,NA,NA
 "kolo1262","Kolokuma-Opokuma","Izon","Ijoid","kolo1262",NA,NA,"dialect",NA,NA,NA
 "kolo1263","Kolop","Kim","Atlantic-Congo","kolo1263",NA,NA,"dialect",NA,NA,NA
@@ -8909,7 +8909,7 @@
 "kolo1266","Kolo [Indonesia]","Bima","Austronesian","kolo1266",NA,NA,"dialect",NA,NA,NA
 "kolo1267","Kolom","Kabenau","Nuclear Trans New Guinea","kolo1267","klm",NA,"language",146.212,-5.57832,472
 "kolo1268","Kolopom","Sahul","Kolopom","kolo1268",NA,NA,"family",NA,NA,NA
-"kolp1236","Kol [Papua New Guinea]","World","Kol (Papua New Guinea)","kolp1236","kol",NA,"language",151.583,-5.21042,4000
+"kolp1236","Kol [Papua New Guinea]","Sahul","Kol [Papua New Guinea]","kolp1236","kol",NA,"language",151.583,-5.21042,4000
 "kols1241","Kölsch","High Franconian","Indo-European","kols1241","ksh","grp","language",6.927,50.947,250000
 "kols1242","Kol South","Kol [Cameroon]","Atlantic-Congo","kols1242",NA,NA,"dialect",NA,NA,NA
 "kolu1244","Koluama","Izon","Ijoid","kolu1244",NA,NA,"dialect",NA,NA,NA
@@ -12201,7 +12201,7 @@
 "mora1272","Morangia","Kochila Tharu","Indo-European","mora1272",NA,NA,"dialect",NA,NA,NA
 "mora1273","Morawa","Mailuan","Mailuan","mora1273","mze",NA,"language",148.671,-10.1321,1100
 "morb1238","Morbo","Morom","Central Sudanic","morb1238",NA,NA,"dialect",NA,NA,NA
-"morb1239","Mor [Bomberai Peninsula]","World","Mor (Bomberai Peninsula)","morb1239","moq",NA,"language",132.845,-2.85747,25
+"morb1239","Mor [Bomberai Peninsula]","Sahul","Mor [Bomberai Peninsula]","morb1239","moq",NA,"language",132.845,-2.85747,25
 "mord1256","Mordvin","Uralic","Uralic","mord1256",NA,NA,"family",NA,NA,NA
 "more1254","Moreb","Tagoi","Rashad [rash1249]","more1254",NA,NA,"dialect",NA,NA,NA
 "more1255","Morehead-Wasur","Sahul","Morehead-Wasur","more1255",NA,NA,"family",NA,NA,NA
@@ -18276,7 +18276,7 @@
 "suie1241","Suiei [Okiek]","Okiek","Nilotic","suie1241",NA,NA,"dialect",NA,NA,NA
 "suie1242","Suiei","Omotik","Nilotic","suie1242",NA,NA,"dialect",NA,NA,NA
 "suii1243","Sui","Maonan-Mak-Sui","Tai-Kadai","suii1243","swi","sui","language",106.563,24.0488,200120
-"suii1244","Sui [Papua New Guinea]","Kol [Papua New Guinea]","Kol (Papua New Guinea)","suii1244",NA,NA,"dialect",NA,NA,NA
+"suii1244","Sui [Papua New Guinea]","Kol [Papua New Guinea]","Kol [Papua New Guinea]","suii1244",NA,NA,"dialect",NA,NA,NA
 "suit1237","Suit","Awad Bing","Austronesian","suit1237",NA,NA,"dialect",NA,NA,NA
 "suka1243","Sukamara","Malayic Dayak","Austronesian","suka1243",NA,NA,"dialect",NA,NA,NA
 "suka1244","Sukaraja","Lisabata-Nuniali","Austronesian","suka1244",NA,NA,"dialect",NA,NA,NA
