@@ -38,7 +38,7 @@ getTree <- function(up = NULL, kind = "iso", down = NULL, reduce = FALSE) {
 		  warning("some families are part of other families as specified in `down`. Duplicates are removed")
 		}
 		# add root
-		children <- c(children, .selectUp(down))
+		children <- unique(c(children, .selectUp(down)))
 	} else {
 		children <- c()
 	}
