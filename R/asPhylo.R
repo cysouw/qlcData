@@ -6,7 +6,7 @@ asPhylo <- function(tree, height = 100, fixed.branches = NULL, long.root = NULL)
 	# phylo <- phytools::read.newick(text = newick)
 	
   # this simple function cannot take 'height' and always takes 'fixed = 1'
-  phylo <- convertTreePhylo(tree, height =  height/2)
+  phylo <- convertTreePhylo(tree)
   
 	if (!is.null(fixed.branches)) {
 		phylo$edge.length <- rep(fixed.branches, length = nrow(phylo$edge))
@@ -29,6 +29,11 @@ asPhylo <- function(tree, height = 100, fixed.branches = NULL, long.root = NULL)
 	
 	phylo <- ape::multi2di(ape::collapse.singles(phylo))
 
+	if (is.null(fixed.branches)) {
+	  phylo <- compute.brlen(phylo)
+	  phylo$edge.length <- phylo$edge.length * height
+	}
+	
 	# Spaces were removed by newick conversion. Reintroduced here.
 	# phylo$node.label <- gsub("_", " ", phylo$node.label)
 	# phylo$tip.label <- gsub("_", " ", phylo$tip.label)

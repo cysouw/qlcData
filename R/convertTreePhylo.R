@@ -14,7 +14,7 @@ convertTreePhylo <- function(tree, height = 1) {
                  , node.label = nodes
                  )
   class(result) <- "phylo"
-  result <- compute.brlen(result)
-  result$edge.length <- result$edge.length * height
+#  result <- compute.brlen(result)
+#  result$edge.length <- result$edge.length * height
   return(result)
 }
