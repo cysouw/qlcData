@@ -1,4 +1,4 @@
-asPhylo <- function(tree, height = 100, fixed.branches = NULL, long.root = NULL) {
+asPhylo <- function(tree, height = 100, fixed.branches = NULL, long.root = NULL, multi.allow = FALSE) {
 	
   # this export to newick takes time with large trees
   # tree <- data.tree::FromDataFrameNetwork(tree)
@@ -26,11 +26,18 @@ asPhylo <- function(tree, height = 100, fixed.branches = NULL, long.root = NULL)
 			phylo$edge.length[long.edges] <- long.root
 		}
 	}
-	
-	phylo <- ape::multi2di(ape::collapse.singles(phylo))
+  
+  # reorder.phylo apparently has a memory leak, so it won't allow trees 
+  # with more internal nodes than tips :(
+  # phylo <- ape::reorder.phylo(phylo)
+  phylo <- ape::collapse.singles(phylo)
+
+  if (!multi.allow) {
+    phylo <- ape::multi2di(phylo)
+  }
 
 	if (is.null(fixed.branches)) {
-	  phylo <- compute.brlen(phylo)
+	  phylo <- ape::compute.brlen(phylo)
 	  phylo$edge.length <- phylo$edge.length * height
 	}
 	
