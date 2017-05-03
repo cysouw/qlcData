@@ -38,7 +38,7 @@ asPhylo <- function(tree, height = 100, fixed.branches = NULL, long.root = NULL,
     phylo <- ape::multi2di(phylo)
   }
 
-	if (is.null(fixed.branches)) {
+	if (is.null(fixed.branches) & !quick) {
 	  phylo <- ape::compute.brlen(phylo)
 	  phylo$edge.length <- phylo$edge.length * height
 	}
