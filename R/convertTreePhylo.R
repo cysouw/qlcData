@@ -1,11 +1,12 @@
-convertTreePhylo <- function(tree, height = 1) {
+convertTreePhylo <- function(tree) {
   
-  tips <- setdiff(tree[,1],tree[,2])
-  nodes <- unique(c("World",tree[,2]))
+  tips <- setdiff(tree[,1], tree[,2])
+  nodes <- unique(c("World", tree[,2]))
   all <- c(tips, nodes)
-  to <- as.integer(factor(tree[,2],levels = all))
-  from <- as.integer(factor(tree[,1],levels = all))
-  edges <- as.matrix(cbind(to, from))
+  father <- as.integer(factor(tree[,2],levels = all))
+  child <- as.integer(factor(tree[,1],levels = all))
+  edges <- as.matrix(cbind(father, child))
+  edges <- edges[order(edges[,1], edges[,2]), ]
   dimnames(edges) <- NULL
   result <- list(  edge = edges
                  , Nnode = as.integer(length(nodes))
@@ -14,7 +15,5 @@ convertTreePhylo <- function(tree, height = 1) {
                  , node.label = nodes
                  )
   class(result) <- "phylo"
-#  result <- compute.brlen(result)
-#  result$edge.length <- result$edge.length * height
   return(result)
 }
