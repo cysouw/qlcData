@@ -4,12 +4,13 @@ library(rmapshaper)
 
 
 hex_number <- length(cart)
-size = 5.25
+size = 6.3
 guessed_hex_centre <- spsample(cart, type = "hexagonal", cellsize = size)
 guessed_hex <- HexPoints2SpatialPolygons(guessed_hex_centre, dx = size)
+print(length(guessed_hex));print(size)
 
-while(hex_number != length(guessed_hex)){
-  ifelse(hex_number > length(guessed_hex), size <- size * 0.99999, size <- size * 1.00001)
+while( hex_number - length(guessed_hex) > 0 | hex_number - length(guessed_hex) < -20) {
+  ifelse(hex_number > length(guessed_hex), size <- size * 0.999, size <- size * 1.001)
   guessed_hex_centre <- spsample(cart, type = "hexagonal", cellsize = size)
   guessed_hex <- HexPoints2SpatialPolygons(guessed_hex_centre, dx = size)
   print(length(guessed_hex));print(size)
@@ -20,15 +21,14 @@ plot(whole_shape)
 
 
 proj4string(guessed_hex) <- CRS(mollweide)
+proj4string(cart) <- CRS(mollweide)
 hex <- spTransform(guessed_hex, CRS(mollweide))
 ids <- data.frame("ID" = 1:length(hex@polygons))
 hex <- SpatialPolygonsDataFrame(hex, ids, match.ID = FALSE)
 
-cart@data$name <- langs$glottocode
-
 library(rgeos)
-data <- over(hex, cart, returnList = T)
-
-
+link <- Matrix(gIntersects(hex,cart, byid = T), sparse = T)
+table(rowSums(link))
+table(colSums(link))
 
 

@@ -58,10 +58,10 @@ makePoly <- function(point, size = .1) {
 # ========== Edited map
 
 w <- readOGR("gis2/world.shp")
-w <- spTransform(w,CRS(atlantic))
+# w <- spTransform(w,CRS(atlantic))
 
 # shifted coordinates!
-coords$longitude[coords$longitude < -172] <- coords$longitude[coords$longitude < -172] + 360
+# coords$longitude[coords$longitude < -172] <- coords$longitude[coords$longitude < -172] + 360
 
 coords$longitude[coords$longitude < -35] <- coords$longitude[coords$longitude < -35] + 360
 
@@ -89,8 +89,8 @@ poly <- spTransform(poly, CRS(mollweide))
 poly <- SpatialPolygonsDataFrame(poly, data.frame(weight = rep(1, length(poly))))
 
 # this works very slowly and the result has overlapping polygons. not nice
-library(cartogram)
-cart <- cartogram(poly,"weight", threshold = .05, itermax = 60)
+# library(cartogram)
+# cart <- cartogram(poly,"weight", threshold = .05, itermax = 60)
 
 # alternative. Parameter "res" influences the strength of the deformation
 library(getcartr)
