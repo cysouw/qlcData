@@ -8,7 +8,7 @@ Reading and writing of recoding files.
 Nominal data (`categorical data') are data that consist of attributes, and each attribute consists of various discrete values (`types'). The different values that are distinguished in comparative linguistics are mostly open to debate, and different scholars like to make different decisions as to the definition of values. The \code{\link{recode}} function allows for an easy and transparent way to specify a recoding of an existing dataset. The current functions help with the preparations and usage of recoding specifications.
 }
 \usage{
-write.recoding(data, attributes = NULL, file, yaml = TRUE)
+write.recoding(data, attributes = NULL, all.options = FALSE, file = NULL, yaml = TRUE)
 read.recoding(recoding, file = NULL, data = NULL)
 }
 \arguments{
@@ -20,6 +20,9 @@ read.recoding(recoding, file = NULL, data = NULL)
   }
   \item{attributes}{
   a list of attributes to be recoded. Vectors (as elements of the list) are possible to specify combinations of attributes to be recoded as a single complex attribute. When \code{NULL}, then all attributes are included individually.
+  }
+  \item{all.options}{
+  For combinations of attributes: should all theoretical interactions of the attributes be considered (TRUE) or should only the actually existing combinations in the data be presented (FALSE, by default) in the recoding?
   }
   \item{file}{
   file in which the recoding should be written.

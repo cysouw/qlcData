@@ -2,7 +2,7 @@
 # recode data according to specifications in recoding
 #=======================
 
-recode <- function(data,recoding) {
+recode <- function(data, recoding) {
 
   # expand the possible shortcuts in the formulation of a recoding
   recodings <- read.recoding(recoding)
@@ -14,58 +14,66 @@ recode <- function(data,recoding) {
     recodings <- recodings[[1]]
   }
   
-  # recoding of a single new attribute
-  makeAttribute <- function(recoding) {
+  # Make the recoding and return result
+  if (singleColumn) {
+    result <- .makeAttribute(recodings, data, singleColumn = TRUE)
+  } else {
+    result <- as.data.frame(sapply(recodings, .makeAttribute, data = data, simplify = F))
+  }
+  return(result)
+}
+
+# ======================
+# recoding of a single new attribute
+#=======================
+
+.makeAttribute <- function(recoding, data, singleColumn = FALSE) {
+  
+  # when doNotRecode is specified, do not recode attributes
+  if (!is.null(recoding$doNotRecode)) {
+    newAttribute <- data[,recoding$doNotRecode, drop = FALSE]
+  } else {
     
-    # when doNotRecode is specified, do not recode attributes
-    if (!is.null(recoding$doNotRecode)) {
-      newAttribute <- data[,recoding$doNotRecode, drop = FALSE]
+    recoding$link[recoding$link == 0]  <- NA
+    
+    # simple when it is based on a single old attribute
+    if (length(recoding$recodingOf) == 1) {
+      
+      if (singleColumn) {
+        newAttribute <- as.factor(data)
+        levels(newAttribute) <- recoding$values[recoding$link]
+      } else {
+        newAttribute <- data[,recoding$recodingOf, drop = FALSE]
+        levels(newAttribute[,1]) <- recoding$values[recoding$link]
+        colnames(newAttribute) <- recoding$attribute
+      }
+      
     } else {
       
-      recoding$link[recoding$link == 0]  <- NA
+      # a bit more complex for combinations of attributes
+      newAttribute <- data[,recoding$recodingOf, drop = FALSE]
+      newAttribute <- apply(newAttribute,1,function(x){paste(x, collapse = " + ")})
       
-      # simple when it is based on a single old attribute
-      if (length(recoding$recodingOf) == 1) {
-        
-        if (singleColumn) {
-          newAttribute <- as.factor(data)
-          levels(newAttribute) <- recoding$values[recoding$link]
-          return(newAttribute)
-        } else {
-          newAttribute <- data[,recoding$recodingOf, drop = FALSE]
-          levels(newAttribute[,1]) <- recoding$values[recoding$link]
-          colnames(newAttribute) <- recoding$attribute
-          return(newAttribute)
-        }
-        
+      if(!is.null(recoding$originalValues)){
+        # when 'originalValues' are in profile, use these
+        match <- recoding$originalValues
       } else {
-        
-        # a bit more complex for combinations of attributes
-        # this can probably be made more efficient!
-        newAttribute <- data[,recoding$recodingOf, drop = FALSE]
-        newAttribute <- apply(newAttribute,1,function(x){paste(x, collapse = " + ")})
+        # recreate all possible interactions and use those
         match <- expand.grid(
           sapply(recoding$recodingOf, function(x){ 
             c(levels(data[,x]),NA) 
-            }, simplify = FALSE )
-          )
+          }, simplify = FALSE )
+        )
         match <- apply(match,1,function(x){paste(x, collapse = " + ")})
-        newAttribute <- factor(newAttribute, levels = match)
-        levels(newAttribute) <- recoding$values[recoding$link]
-        newAttribute <- as.data.frame(newAttribute)
-        colnames(newAttribute) <- recoding$attribute
-        return(newAttribute)
-        
       }
+      
+      newAttribute <- factor(newAttribute, levels = match)
+      levels(newAttribute) <- recoding$values[recoding$link]
+      newAttribute <- as.data.frame(newAttribute)
+      colnames(newAttribute) <- recoding$attribute
+        
     }
   }
-  
-  # Make the recoding and return result
-  if (singleColumn) {
-    result <- makeAttribute(recodings)
-  } else {
-    result <- as.data.frame(sapply(recodings, makeAttribute, simplify = F))
-  }
-  return(result)
+  return(newAttribute)
 }
 

@@ -1,12 +1,20 @@
-# ================================================================
-# visual help function: expand values for combination of attributes
-# =================================================================
+# ==========================================================
+# help function: expand values for combination of attributes
+# ==========================================================
 
-.expandValues <- function(attributes, data) {
-  combination <- expand.grid(
-    sapply( attributes, function(x){ c(levels(data[,x]),NA) }, simplify = FALSE )
-  )
-  combination <- apply(combination,1,function(x){paste(x, collapse = " + ")})
+.expandValues <- function(attributes, data, all) {
+  if (all) {
+    combination <- expand.grid(
+      sapply( attributes, function(x){ 
+        c(levels(data[,x]),NA) 
+        }, simplify = FALSE )
+    )
+  } else {
+    combination <- unique(data[, attributes, drop = FALSE])
+  }
+  combination <- apply(combination, 1, function(x){
+    paste(x, collapse = " + ")
+  })
   names(combination) <- 1:length(combination)
   return(as.list(combination))
 }
@@ -15,7 +23,7 @@
 # write YAML-template
 # ===================
 
-write.recoding <- function(data, attributes = NULL, file, yaml = TRUE) {
+write.recoding <- function(data, attributes = NULL, all.options = FALSE, file = NULL, yaml = TRUE) {
   
   # prepare data when single column
   if (is.null(dim(data))) {
@@ -29,7 +37,7 @@ write.recoding <- function(data, attributes = NULL, file, yaml = TRUE) {
   # prepare the template for one attribute
   makeTemplate <- function(attribute, data) {
     if (length(attribute) > 1) {
-      originalValues <- .expandValues(attribute, data)
+      originalValues <- .expandValues(attribute, data, all = all.options)
     } else {
       originalValues <- levels(data[,attribute])
     }
@@ -105,7 +113,7 @@ read.recoding <- function(recoding, file = NULL, data = NULL) {
     if (is.null(recoding[[i]]$doNotRecode)) {
       # recodingOf is necessary, otherwise break
       if (is.null(recoding[[i]]$recodingOf)) {
-        stop(paste("Specify **recodingOf** for recoding number", i, sep = " "))
+        stop(paste("Specify **recodingOf** for recoding number", i))
       }
       # with no link, add doNotRecode
       if (is.null(recoding[[i]]$link)) { 
@@ -114,15 +122,16 @@ read.recoding <- function(recoding, file = NULL, data = NULL) {
         recoding[[i]]$link <- as.integer(recoding[[i]]$link)
         # make attribute and value names if necessary
         if (is.null(recoding[[i]]$attribute)) {
-          recoding[[i]]$attribute <- paste("Att", i, sep = "")
+          recoding[[i]]$attribute <- paste0("Att", i)
         }
         if (is.null(unlist(recoding[[i]]$values))) {
-          recoding[[i]]$values <- paste("val", 1:length(recoding[[i]]$link), sep = "")
+          recoding[[i]]$values <- paste0("val", 1:length(recoding[[i]]$link))
         }
       }
     } else {
+      # break on possible error
       if (!is.null(recoding[[i]]$link)) {
-        stop(paste("Both doNotRecode and link specified in recoding number", i, sep = " "))
+        stop(paste("Both doNotRecode and link specified in recoding number", i))
       }
     }
     
@@ -136,7 +145,7 @@ read.recoding <- function(recoding, file = NULL, data = NULL) {
         recoding[[i]]$originalValues <- levels(data[,recoding[[i]]$recodingOf])
       }
       if (length(recoding[[i]]$recodingOf) > 1) {
-        recoding[[i]]$originalValues <- .expandValues(recoding[[i]]$recodingOf, data)
+        recoding[[i]]$originalValues <- .expandValues(recoding[[i]]$recodingOf, data, all.values)
       }
       if (is.numeric(recoding[[i]]$doNotRecode)) {
         recoding[[i]]$doNotRecode <- colnames(data)[recoding[[i]]$doNotRecode]

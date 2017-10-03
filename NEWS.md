@@ -1,5 +1,6 @@
 # qlcData 0.2
 
+* changing default recoding profile to empirically attested combinations of features
 * add glottolog data with access function getTree() and asPhylo()
 * add possibility for factors in recoding
 * including a shiny app for tokenization, with a helper launcher 'launch_shiny()'
