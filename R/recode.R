@@ -44,7 +44,16 @@ recode <- function(data, recoding) {
         levels(newAttribute) <- recoding$values[recoding$link]
       } else {
         newAttribute <- data[,recoding$recodingOf, drop = FALSE]
-        levels(newAttribute[,1]) <- recoding$values[recoding$link]
+        
+        linkNames <- names(recoding$link)
+        if (!is.null(linkNames)) {
+          # connect linkNames to levels newAttribite
+          linkage <- match(levels(newAttribute[,1]),linkNames)
+          levels(newAttribute[,1]) <- recoding$values[linkage][recoding$link]
+        } else {
+          # assume order of link matches order of levels newAttribute
+          levels(newAttribute[,1]) <- recoding$values[recoding$link]
+        }
         colnames(newAttribute) <- recoding$attribute
       }
       
@@ -54,9 +63,9 @@ recode <- function(data, recoding) {
       newAttribute <- data[,recoding$recodingOf, drop = FALSE]
       newAttribute <- apply(newAttribute,1,function(x){paste(x, collapse = " + ")})
       
-      if(!is.null(recoding$originalValues)){
-        # when 'originalValues' are in profile, use these
-        match <- recoding$originalValues
+      if(!is.null(names(recoding$link))){
+        # when link has names are in profile, use these
+        match <- names(recoding$link)
       } else {
         # recreate all possible interactions and use those
         match <- expand.grid(

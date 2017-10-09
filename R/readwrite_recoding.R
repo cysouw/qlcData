@@ -3,20 +3,27 @@
 # ==========================================================
 
 .expandValues <- function(attributes, data, all) {
+  
+  alldata <- data[, attributes, drop = FALSE]
+  alldata <- apply(alldata, 1, function(x){
+    paste(x, collapse = " + ")
+  })
+  freq <- table(alldata)
+  
   if (all) {
     combination <- expand.grid(
       sapply( attributes, function(x){ 
         c(levels(data[,x]),NA) 
         }, simplify = FALSE )
     )
-  } else {
-    combination <- unique(data[, attributes, drop = FALSE])
+    combination <- apply(combination, 1, function(x){
+      paste(x, collapse = " + ")
+    })
+    freq <- freq[combination]
+    names(freq) <- combination
+    
   }
-  combination <- apply(combination, 1, function(x){
-    paste(x, collapse = " + ")
-  })
-  names(combination) <- 1:length(combination)
-  return(as.list(combination))
+  return(as.list(freq))
 }
 
 # ===================
@@ -39,14 +46,15 @@ write.recoding <- function(data, attributes = NULL, all.options = FALSE, file = 
     if (length(attribute) > 1) {
       originalValues <- .expandValues(attribute, data, all = all.options)
     } else {
-      originalValues <- levels(data[,attribute])
+      originalValues <- as.list(table(data[,attribute]))
     }
+    link <- sapply(originalValues, function(x){NULL})
     return(list(
       recodingOf = attribute,
       attribute = NULL,
-      values = list(NULL,NULL),
-      link = NULL,
-      originalValues = originalValues,
+      values = list("1" = NULL,"2" = NULL),
+      link = link,
+      originalFrequency = originalValues,
       comments = NULL
     ))
   }
@@ -100,26 +108,48 @@ read.recoding <- function(recoding, file = NULL, data = NULL) {
   
   reallabels <- c(
     "recodingOf", "attribute", "values", "link",
-    "originalValues", "doNotRecode", "comments")
+    "originalFrequency", "doNotRecode", "comments")
   remove <- c()
   
+  # This loop has become a mess, should be cleaned up!
   for (i in 1:length(recoding)) {
     
     # write labels in full
     names(recoding[[i]]) <- reallabels[pmatch(names(recoding[[i]]),reallabels)]    
     
     # when doNotRecode is specified, you're ready to go
-    # if not: then 
     if (is.null(recoding[[i]]$doNotRecode)) {
-      # recodingOf is necessary, otherwise break
+      # if not: then recodingOf is necessary, otherwise break
       if (is.null(recoding[[i]]$recodingOf)) {
         stop(paste("Specify **recodingOf** for recoding number", i))
       }
       # with no link, add doNotRecode
-      if (is.null(recoding[[i]]$link)) { 
+      if (length(unlist(recoding[[i]]$link)) == 0) { 
         recoding[[i]] <- list(doNotRecode = recoding[[i]]$recodingOf)
       } else {
-        recoding[[i]]$link <- as.integer(recoding[[i]]$link)
+ 
+        # prepare values
+        if (is.null(recoding[[i]]$values)) {
+          # make values from link
+          newValues <- levels(factor(unlist(recoding[[i]]$link)))
+          recoding[[i]]$values <- newValues
+          names(recoding[[i]]$values) <- newValues
+        } else {
+          recoding[[i]]$values <- unlist(recoding[[i]]$values)
+        }
+        
+        # prepare link
+        if (is.null(names(recoding[[i]]$values))) {
+          # when values have no labels, interpret link as numeric
+          recoding[[i]]$link <- unlist(recoding[[i]]$link)
+        } else {
+          # when values have labels, interpret link as character
+          recoding[[i]]$link <- sapply(recoding[[i]]$link, as.character)
+        }
+        
+        # just for visual inspection
+        recoding[[i]]$originalFrequency <- unlist(recoding[[i]]$originalFrequency)
+        
         # make attribute and value names if necessary
         if (is.null(recoding[[i]]$attribute)) {
           recoding[[i]]$attribute <- paste0("Att", i)
@@ -135,17 +165,11 @@ read.recoding <- function(recoding, file = NULL, data = NULL) {
       }
     }
     
-    # when data is specified, add names of original attributes and original values
+    # when data is specified, add names of original attributes
     # this leads to nicer documentation of the recoding
     if (!is.null(data)) {
       if (is.numeric(recoding[[i]]$recodingOf)) {
         recoding[[i]]$recodingOf <- colnames(data)[recoding[[i]]$recodingOf]
-      }
-      if (length(recoding[[i]]$recodingOf) == 1) {  
-        recoding[[i]]$originalValues <- levels(data[,recoding[[i]]$recodingOf])
-      }
-      if (length(recoding[[i]]$recodingOf) > 1) {
-        recoding[[i]]$originalValues <- .expandValues(recoding[[i]]$recodingOf, data, all.values)
       }
       if (is.numeric(recoding[[i]]$doNotRecode)) {
         recoding[[i]]$doNotRecode <- colnames(data)[recoding[[i]]$doNotRecode]
@@ -157,8 +181,10 @@ read.recoding <- function(recoding, file = NULL, data = NULL) {
     
     # merge sequences of doNotRecode
     if (i > 1) {
-      if (!is.null(recoding[[i]]$doNotRecode) & !is.null(recoding[[i-1]]$doNotRecode)) {
-        recoding[[i]]$doNotRecode <- c(recoding[[i-1]]$doNotRecode, recoding[[i]]$doNotRecode)
+      if (!is.null(recoding[[i]]$doNotRecode) & 
+          !is.null(recoding[[i-1]]$doNotRecode)) {
+        recoding[[i]]$doNotRecode <- c( recoding[[i-1]]$doNotRecode
+                                       , recoding[[i]]$doNotRecode)
         remove <- c(remove,(i-1))
       }
     }
