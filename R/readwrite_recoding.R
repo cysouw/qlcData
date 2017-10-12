@@ -52,7 +52,7 @@ write.recoding <- function(data, attributes = NULL, all.options = FALSE, file = 
     return(list(
       recodingOf = attribute,
       attribute = NULL,
-      values = list("1" = NULL,"2" = NULL),
+      values = list(NULL, NULL),
       link = link,
       originalFrequency = originalValues,
       comments = NULL
