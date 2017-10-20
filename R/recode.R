@@ -66,6 +66,9 @@ recode <- function(data, recoding) {
       if(!is.null(names(recoding$link))){
         # when link has names are in profile, use these
         match <- names(recoding$link)
+      } else if (!is.null(names(recoding$originalFrequency))) {
+        # when originalFrequency has nems, use these
+        match <- names(recoding$originalFrequency)
       } else {
         # recreate all possible interactions and use those
         match <- expand.grid(
