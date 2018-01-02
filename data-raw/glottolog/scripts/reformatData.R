@@ -1,7 +1,7 @@
 # ===== Glottolog data
 
 # read downloaded data
-g <- read.csv("../sources/glottolog/languoid.csv", as.is = T)
+g <- read.csv("sources/glottolog/languoid.csv", as.is = T)
 g <- g[,c("pk","father_pk","family_pk","name","id","hid","level","longitude","latitude")]
 
 # remove bookkeeping
@@ -86,7 +86,7 @@ rownames(g)[(nrow(g)-5):nrow(g)] <- paste0("area000",1:6)
 
 # ===== add WALS codes
 
-w <- read.csv("../sources/wals/language.csv", as.is = T)
+w <- read.csv("sources/wals/language.csv", as.is = T)
 
 # note that 20 WALS codes are missing links to iso
 # only a few are manually added here
@@ -116,7 +116,7 @@ g <- g[,c(1:5,9,6:8)]
 
 # adding population statistics from the 13th Edition Ethnologue
 # note that iso codes have changed, so linking is not perfect
-e <- read.delim("../sources/ethnologue/ethnologue.txt")
+e <- read.delim("sources/ethnologue/ethnologue.txt")
 
 # remove duplicates
 e <- e[!duplicated(e[,c(2,5)]),]
@@ -128,7 +128,7 @@ g <- cbind(g, population = match[g$iso])
 # ===== Macrolanguages
 
 # adding macrolanguages from iso 639-3
-macro <- read.delim("../sources/sil/macrolanguages.txt", as.is = T)
+macro <- read.delim("sources/sil/macrolanguages.txt", as.is = T)
 avail <- macro$ID %in% g$iso
 name_avail <- macro[!avail,"NAME"] %in% g$name
 names <- macro[!avail,"NAME"][name_avail]
@@ -187,8 +187,15 @@ while (length(dupl > 0)) {
 	dupl <- which(duplicated(g[,8:9]) & !is.na(g[,8:9][,1]))
 }
 
+# ======= Encoding
+
+Encoding(g$name) <- "UTF-8"
+Encoding(g$father) <- "UTF-8"
+Encoding(levels(g$stock)) <- "UTF-8"
+
+
 # ======= save result
 
 glottolog <- g
-write.csv(glottolog, file = "../data/glottolog.csv")
-save(glottolog, file = "../data/glottolog.Rdata")
+write.csv(glottolog, file = "data/glottolog.csv")
+save(glottolog, file = "data/glottolog.Rdata", compress = "xz")

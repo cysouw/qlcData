@@ -49,7 +49,8 @@ data(glottolog)
 ( treeReduced <- getTree(up = c("deu", "eng", "ind", "cha"), kind = "iso", reduce = TRUE) )
 
 \dontrun{
-# use FromDataFrameNetwork() to visualize the tree and export it into various other tree formats in R
+# use FromDataFrameNetwork() to visualize the tree
+# and export it into various other tree formats in R
 
 library(data.tree)
 treeF <- FromDataFrameNetwork(treeFull)
