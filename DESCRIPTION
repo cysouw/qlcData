@@ -2,7 +2,7 @@ Package: qlcData
 Type: Package
 Title: Processing Data for Quantitative Language Comparison (QLC)
 Version: 0.2.0
-Date: 2017-01-02
+Date: 2018-01-02
 Author: Michael Cysouw
 Maintainer: Michael Cysouw <cysouw@mac.com>
 Description: This is a collection of functions to read, recode, and transcode data for QLC.
@@ -13,3 +13,4 @@ Encoding: UTF-8
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
 LazyData: true
+RoxygenNote: 6.0.1
