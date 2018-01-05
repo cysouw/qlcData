@@ -106,7 +106,7 @@ In most cases you will probably want to use the function `tokenize`. Besides cre
 
 Given some data in a specific orthography, you can call `tokenize` on the data to create an initial orthography profile (just like with `write.profile` discussed above, though there are less options for the splitting of graphemes, the addition of info, etc.).
 
-The output of `tokenize` always is a list of four elements: `$strings`, `$profile`, `$errors`, and `$missing`. The second element in the list `$profile` is the table we already encountered above. The first element `$strings` is a table with the original strings, and the tokenization into graphemes as specified by the orthography profile (which in the case below was automatically produced, so there is nothing strange happening here, just a splitting into letters). The `$errors` and `$missing` are just empty at this stage, but it will contain information about strings that cannot be tokenized with a pre-established profile.
+The output of `tokenize` always is a list of four elements: `$strings`, `$profile`, `$errors`, and `$missing`. The second element in the list `$profile` is the table we already encountered above (though in a different order because of different default settings). The first element `$strings` is a table with the original strings, and the tokenization into graphemes as specified by the orthography profile (which in the case below was automatically produced, so there is nothing strange happening here, just a splitting into letters). The `$errors` and `$missing` are just empty at this stage, but it will contain information about strings that cannot be tokenized with a pre-established profile.
 
 ```{r}
 tokenize(test)
@@ -120,10 +120,10 @@ setwd("~/Desktop/tokenize")
 tokenize(test, file.out = "test_profile.txt")
 ```
 
-We are going to add two new "tailored grapheme clusters" to this profile: open the file "test_profile.txt" (in the folder "tokenize" on your Desktop) with a text editor like Textmate, Textwrangler or Notepad++ (don't use Microsoft Word!!!). First, add a new line with only "th" on it and, second, add another line with only "ng" on it. The file will then roughly look like this:
+We are going to add two new "tailored grapheme clusters" to this profile: open the file "test_profile.txt" (in the folder "tokenize" on your Desktop) with a text editor like SublimeText, Atom, Textmate, Textwrangler/BBedit or Notepad++ (don't use Microsoft Word!!!). First, add a new line with only "th" on it and, second, add another line with only "ng" on it. The file will then roughly look like this:
 
 ```{r, echo = FALSE, results='asis'}
-test_profile.txt <- as.data.frame(rbind(as.matrix(tokenize(test)$profile),c(" ", "th"),c(" ","ng")))
+test_profile.txt <- as.data.frame(rbind(as.matrix(tokenize(test)$profile),c("th", ""),c("ng", "")))
 knitr::kable(test_profile.txt)
 ```
 
