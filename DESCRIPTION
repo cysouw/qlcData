@@ -1,8 +1,8 @@
 Package: qlcData
 Type: Package
 Title: Processing Data for Quantitative Language Comparison (QLC)
-Version: 0.2.0
-Date: 2018-01-02
+Version: 0.2.1
+Date: 2018-01-05
 Author: Michael Cysouw
 Maintainer: Michael Cysouw <cysouw@mac.com>
 Description: This is a collection of functions to read, recode, and transcode data for QLC.
