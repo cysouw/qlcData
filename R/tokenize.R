@@ -544,13 +544,18 @@ tokenize <- function(strings
   }
   
   # Reorder profile according to order and add frequency of rule-use
-  # frequency <- head(frequency, -1)
   
   profile.out <- data.frame(profile[graph_order,]
                         , stringsAsFactors = FALSE
                         )
   if (ncol(profile.out) == 1) {colnames(profile.out) <- "Grapheme"}
-  profile.out <- cbind(matched_rules, profile.out)
+  
+  cols <- colnames(profile.out) == "Frequency"
+  if (sum(cols) > 0) {
+    profile.out[,which(cols)[1]] <- matched_rules
+  } else {
+    profile.out <- cbind(profile.out, Frequency = matched_rules)
+  }
   
   # --------------
   # output as list

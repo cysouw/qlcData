@@ -1,5 +1,5 @@
-\name{read.align}
-\alias{read.align}
+\name{read_align}
+\alias{read_align}
 \title{
 Reading different versions of linguistic multialignments.
 }
@@ -7,7 +7,7 @@ Reading different versions of linguistic multialignments.
 Multialignments of strings are a central step for historical linguistics (quite similar to multialignments in bioinformatics). There is no consensus (yet) about the file-structure for multialignments in linguistics. Currently, this functions offers to read various flavours of multialignment, trying to harmonize the internal R-structure.
 }
 \usage{
-read.align(file, flavor)
+read_align(file, flavor)
 }
 \arguments{
   \item{file}{

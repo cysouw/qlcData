@@ -30,7 +30,7 @@ A level 'area' was added to the tree, separating all languages in six areas: Eur
 
 Please note that the data provided here is not identical to the online version of Glottolog, as the online version is constantly being updated! This is Glottolog 2016. Updates might be made available when they are provided for download from the website.
 
-The format of the glottolog data might seem a bit convoluted, but by using\link{\code{getTree}} it is actually really easy to extract genealogical parts of the glottolog data and by using \code{\link[data.tree]{FromDataFrameNetwork}} this can be nicely plotted and turned into various tree format as used in R.
+The format of the glottolog data might seem a bit convoluted, but by using \code{\link{getTree}} it is actually really easy to extract genealogical parts of the glottolog data and by using \code{\link[data.tree]{FromDataFrameNetwork}} this can be nicely plotted and turned into various tree format as used in R.
 }
 \source{
 Glottolog 2016 data from \url{http://www.glottolog.org}. WALS 2013 data from \url{http://www.glottolog.org}. Information on macrolanguages from \url{http://www-01.sil.org/iso639-3/macrolanguages.asp}. All data downloaded in March 2017. Population numbers are from the 13th edition of the Ethnologue, licenced to the MPI-EVA in Leipzig.
@@ -50,7 +50,8 @@ data(glottolog)
 glottolog[glottolog$father == areas[1], "name"]
 
 \dontrun{
-# use FromDataFrameNetwork() to visualize the tree and export it into various other tree formats in R
+# use FromDataFrameNetwork() to visualize the tree
+# and export it into various other tree formats in R
 
 library(data.tree)
 treeF <- FromDataFrameNetwork(treeFull)

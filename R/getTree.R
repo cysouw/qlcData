@@ -3,8 +3,7 @@
 
 getTree <- function(up = NULL, kind = "iso", down = NULL, reduce = FALSE) {
 	
-  data(glottolog)
-  g <- glottolog
+  g <- qlcData::glottolog
   
 	if (!is.null(up)) {
 		avail <- up %in% unique(g[,kind])
@@ -82,8 +81,7 @@ getTree <- function(up = NULL, kind = "iso", down = NULL, reduce = FALSE) {
 
 .selectDown <- function(families) {
 	
-  data(glottolog)
-  g <- glottolog
+  g <- qlcData::glottolog
   
 	getChildren <- function(x) { which(g$father == g[x,"name"]) }
 		
@@ -99,8 +97,7 @@ getTree <- function(up = NULL, kind = "iso", down = NULL, reduce = FALSE) {
 
 .selectUp <- function(names, type = "name") {
 	
-  data(glottolog)
-  g <- glottolog
+  g <- qlcData::glottolog
   
 	getParents <- function(x) { which(g$name== g[x,"father"]) }
 	

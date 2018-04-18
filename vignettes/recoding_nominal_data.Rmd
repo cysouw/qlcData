@@ -20,7 +20,7 @@ library(qlcData)
 
 # Introduction
 
-A common situation in comparative linguistic data collection is that data is encoded as nominal ('categorical') attributes. An attribute is conceived as a finite list of possibilities, viz. the values of the attribute. Although this is of course a completely noremal and widespread practice in data encoding, in comparative linguistics it is mostly not trivial to decide on the delimitation of the different values. There is often ample discussion about the best way to separate the attested variation into types (terms like 'types', 'categories' or 'values' will the considered as equivalent here), and in general there is often no optimal or preferred way how to define the different types.
+A common situation in comparative linguistic data collection is that data is encoded as nominal ('categorical') attributes. An attribute is conceived as a finite list of possibilities, viz. the values of the attribute. Although this is of course a completely normal and widespread practice in data encoding, in comparative linguistics it is mostly not trivial to decide on the delimitation of the different values. There is often ample discussion about the best way to separate the attested variation into types (terms like 'types', 'categories' or 'values' will the considered as equivalent here), and in general there is often no optimal or preferred way how to define the different types.
 
 In practice then, different scholars will often like to interpret data differently. One common wish is to be able to recode data that has already been categorised into types by a different. Note that such a recoding of course will never be able to easily split types, because for that goal a complete reconsideration of all underlying raw data is necessary, something that will not be further considered here.
 
@@ -106,7 +106,7 @@ back_recoding <- list(
 recode(newdata, back_recoding)
 ```
 
-To get the indices (including zeros) of the link-vector right, one has to realize that the recoding of two attributes is based on the cross-section of the values from the two attributes, including possible NAs. Internally, this uses the function `expand.grid`, leading in the current example to the following four values to be recoded. For larger mergers (with multiple attributes, or with attributes that have many values) this can become rather tedious, because there are very many possible combinations that all have to linked in the link-vector.
+To get the indices (including zeros) of the link-vector right, one has to realize that the recoding of two attributes is based on the cross-section of the values from the two attributes, including possible NAs. Internally, this uses the function `expand.grid`, leading in the current example to the following four values to be recoded. For larger mergers (with multiple attributes, or with attributes that have many values) this can become rather tedious, because there are very many possible combinations that all have to linked in the link-vector. For such situations it is possible to use the option `all.options = FALSE` in the recoding template (see below) which results in only the attested combinations being listed. This of course is not foolproof if the dataset is expanded after the recoding profile is written. However, for non-changeable data this option can be highly useful.
 
 ```{r expandgrid}
 expand.grid(c(levels(newdata$size),NA),c(levels(newdata$age),NA))

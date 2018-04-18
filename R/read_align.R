@@ -2,7 +2,7 @@
 # read multialignments, allowing for different flavors of formatting
 # ==================================================================
 
-read.align <- function(file, flavor) {
+read_align <- function(file, flavor) {
 
   # ================================================
   # help function to make columnnames for alignments

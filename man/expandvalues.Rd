@@ -1,5 +1,5 @@
 \name{.expandValues}
-\alias{expandValues}
+\alias{.expandValues}
 \title{
 Internal helper
 }
@@ -7,7 +7,7 @@ Internal helper
 produce combinations of nominal variables
 }
 \usage{
-expandValues(attributes, data)
+.expandValues(attributes, data, all)
 }
 \arguments{
   \item{attributes}{
@@ -15,6 +15,9 @@ expandValues(attributes, data)
   }
   \item{data}{
   a data frame with nominal data, attributes as columns, observations as rows.
+  }
+  \item{all}{
+  Logical: should all values be produced or only those with existing data?
   }
 }
 \details{

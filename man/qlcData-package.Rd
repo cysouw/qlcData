@@ -12,11 +12,11 @@ The package offers various functions to read, transcode and process data. There 
 \tabular{ll}{
 Package: \tab qlcData\cr
 Type: \tab Package\cr
-Version: \tab 0.1.0\cr
-Date: \tab 2015-10-20\cr
+Version: \tab 0.2.1\cr
+Date: \tab 2018-01-05\cr
 License: \tab GPL-3\cr
 }
-Various functions to read specific data formats of QLC are documented in \code{\link{read.align}}, \code{\link{read.profile}}, \code{\link{read.recoding}}.
+Various functions to read specific data formats of QLC are documented in \code{\link{read_align}}, \code{\link{read.profile}}, \code{\link{read.recoding}}.
 
 The \code{\link{recode}} function allows for an easy and transparent way to specify a recoding of an existing nominal dataset. The specification of the recoding-decisions is preferably saved in an easily accessible YAML-file. There are utility function \code{\link{write.profile}} for writing and reading such files included.
 

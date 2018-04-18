@@ -1,13 +1,16 @@
 Package: qlcData
 Type: Package
 Title: Processing Data for Quantitative Language Comparison (QLC)
-Version: 0.1.0
-Date: 2015-10-20
+Version: 0.2.1
+Date: 2018-01-05
 Author: Michael Cysouw
 Maintainer: Michael Cysouw <cysouw@mac.com>
-Description: This is a collection of functions to read, recode, and transcode data.
+Description: This is a collection of functions to read, recode, and transcode data for QLC.
 License: GPL-3
+Depends: R (>= 2.10)
 Imports: stringi (>= 0.2-5), yaml (>= 2.1.11), shiny, docopt, data.tree, phytools, ape
 Encoding: UTF-8
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
+LazyData: true
+RoxygenNote: 6.0.1

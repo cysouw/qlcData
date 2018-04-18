@@ -8,7 +8,7 @@ Reading and writing of recoding files.
 Nominal data (`categorical data') are data that consist of attributes, and each attribute consists of various discrete values (`types'). The different values that are distinguished in comparative linguistics are mostly open to debate, and different scholars like to make different decisions as to the definition of values. The \code{\link{recode}} function allows for an easy and transparent way to specify a recoding of an existing dataset. The current functions help with the preparations and usage of recoding specifications.
 }
 \usage{
-write.recoding(data, attributes = NULL, file, yaml = TRUE)
+write.recoding(data, attributes = NULL, all.options = FALSE, file = NULL, yaml = TRUE)
 read.recoding(recoding, file = NULL, data = NULL)
 }
 \arguments{
@@ -20,6 +20,9 @@ read.recoding(recoding, file = NULL, data = NULL)
   }
   \item{attributes}{
   a list of attributes to be recoded. Vectors (as elements of the list) are possible to specify combinations of attributes to be recoded as a single complex attribute. When \code{NULL}, then all attributes are included individually.
+  }
+  \item{all.options}{
+  For combinations of attributes: should all theoretical interactions of the attributes be considered (TRUE) or should only the actually existing combinations in the data be presented (FALSE, by default) in the recoding?
   }
   \item{file}{
   file in which the recoding should be written.
@@ -34,10 +37,10 @@ Recoding nominal data is normally considered too complex to be performed purely 
 The \code{recoding data structure} in the YAML document basically consists of a list of recodings, each of which describes a new attribute, based on one or more attributes from the original data. Each new attribute is described by:
 \itemize{
   \item \emph{attribute}: the new attribute name.
-  \item \emph{values}: a character vector with the new value names.
-  \item \emph{link}: a numeric vector with length of the original number of values. Each entry specifies the number of the new value. Zero can be used for any values that should be ignored in the new attribute.
+  \item \emph{values}: a character vector with the new value names, optionally each value name has a linkage abbreviation (the name of the name)
+  \item \emph{link}: a vector with length of the original number of values. Each entry specifies a link to the new value. Zero can be used for any values that should be ignored in the new attribute. Either a pure numeric vector, using the numbering of the new values, or a vector of names of the new value names. It is also possible to use the new values here without specifying the values in the preceding item.
   \item \emph{recodingOf}: the name(s) of the original attribute that forms the basis of the recoding. If there are multiple attributes listed, then the new attribute will be a combination of the original attributes.
-  \item \emph{OriginalValues}: a character vector with the value names from the original attribute. These are only added to the template to make it easier to specify the recoding. In the actual recoding the listing in this file will be ignored. It is important to keep the ordering as specified, otherwise the linking will be wrong. The ordering of the values follows the result of \code{levels}, which is determined by the current locale.
+  \item \emph{OriginalFrequencies}: a character vector with the value names from the original attribute and their frequency of occurrence. These are only added to the template to make it easier to specify the recoding. In the actual recoding the listing in this file will be ignored. It is important to keep the ordering as specified, otherwise the linking will be wrong. The ordering of the values follows the result of \code{levels}, which is determined by the current locale.
 }
 
 For writing recodings by hand, there are various shortcuts allowed:
