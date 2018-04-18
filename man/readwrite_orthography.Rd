@@ -49,9 +49,13 @@ String are devided into default grapheme clusters as defined by the Unicode spec
 A dataframe with strings representing a skeleton of an orthography profile.
 }
 \note{
-There is a bash-executable distributed with this package (based on the \code{docopt} package) that let you use this function directly in a bash-terminal. The easiest way to use this executable is to softlink the executable to some directory in your bash PATH, for example \code{/usr/local/bin}. To softlink the function \code{writeprofile} to this directory, use something like the following in your bash terminal:
+There is a bash-executable distributed with this package (based on the \code{docopt} package) that let you use this function directly in a bash-terminal. The easiest way to use this executable is to softlink the executable to some directory in your bash PATH, for example \code{/usr/local/bin} or simply \code{~/bin}. To softlink the function \code{tokenize} to this directory, use something like the following in your bash terminal:
 
-\code{ln -is `Rscript -e 'cat(file.path(find.package("qlcData"), "exec", "writeprofile"))'` /usr/local/bin}
+\code{ln -is `Rscript -e 'cat(system.file("exec/writeprofile", package="qlcData"))'` ~/bin}
+
+From within R your can also use the following (again, optionally changing the linked-to directory from \code{~/bin} to anything more suitable on your system):
+
+\code{file.symlink(system.file("exec/writeprofile", package="qlcData"), "~/bin")}
 }
 \references{
 Moran & Cysouw (forthcoming)

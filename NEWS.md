@@ -1,5 +1,6 @@
 # qlcData 0.2
 
+* update instructions to link docopt executables
 * add glottolog data with access function getTree() and asPhylo()
 * add possibility for factors in recoding
 * including a shiny app for tokenization, with a helper launcher 'launch_shiny()'

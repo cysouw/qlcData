@@ -111,11 +111,15 @@ When \code{regex = TRUE}, regular expressions are acceptable in the columns `Gra
 Note that overlapping matching does not (yet) work with regular expressions. That means that for example "aa" is only found once in "aaa". In some special cases this might lead to problems that might have to be explicitly specified in the profile, e.g. a grapheme "aa" with a left context "a". See examples below. This problem arises because overlap is only available in literal searches \code{\link[stringi]{stri_opts_fixed}}, but the current function uses regex-searching, which does not catch overlap \code{\link[stringi]{stri_opts_regex}}.
 }
 \note{
-There is a bash-executable distributed with this package (based on the \code{docopt} package) that let you use this function directly in a bash-terminal. The easiest way to use this executable is to softlink the executable to some directory in your bash PATH, for example \code{/usr/local/bin}. To softlink the function \code{tokenize} to this directory, use something like the following in your bash terminal:
+There is a bash-executable distributed with this package (based on the \code{docopt} package) that let you use this function directly in a bash-terminal. The easiest way to use this executable is to softlink the executable to some directory in your bash PATH, for example \code{/usr/local/bin} or simply \code{~/bin}. To softlink the function \code{tokenize} to this directory, use something like the following in your bash terminal:
 
-\code{ln -is `Rscript -e 'cat(file.path(find.package("qlcData"), "exec", "tokenize"))'` /usr/local/bin}
+\code{ln -is `Rscript -e 'cat(system.file("exec/tokenize", package="qlcData"))'` ~/bin}
+
+From within R your can also use the following (again, optionally changing the linked-to directory from \code{~/bin} to anything more suitable on your system):
+
+\code{file.symlink(system.file("exec/tokenize", package="qlcData"), "~/bin")}
+
 }
-
 \author{
 Michael Cysouw <cysouw@mac.com>
 }
