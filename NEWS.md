@@ -3,6 +3,8 @@
 
 # qlcData 0.2
 
+
+* update instructions to link docopt executables
 * changing default recoding profile to empirically attested combinations of features
 * add glottolog data with access function getTree() and asPhylo()
 * add possibility for factors in recoding
