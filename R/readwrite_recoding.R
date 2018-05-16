@@ -30,7 +30,7 @@
 # write YAML-template
 # ===================
 
-write.recoding <- function(data, attributes = NULL, all.options = FALSE, file = NULL, yaml = TRUE) {
+write.recoding <- function(data, attributes = NULL, all.options = FALSE, file = NULL) {
   
   # prepare data when single column
   if (is.null(dim(data))) {
@@ -52,7 +52,7 @@ write.recoding <- function(data, attributes = NULL, all.options = FALSE, file = 
     return(list(
       recodingOf = attribute,
       attribute = NULL,
-      values = list(NULL, NULL),
+      values = list("1" = NULL,"2" = NULL),
       link = link,
       originalFrequency = originalValues,
       comments = NULL
@@ -70,10 +70,7 @@ write.recoding <- function(data, attributes = NULL, all.options = FALSE, file = 
   )
   
   # return the result, defaults to a yaml-file
-  if (yaml) {
-    if (is.null(file)) {
-      stop("please specify file")
-    }
+  if (!is.null(file)) {
     yaml <- yaml::as.yaml(result)
     yaml <- gsub("\n- recodingOf:","\n# ==========\n- recodingOf:",yaml)
     cat(yaml, file = file)
@@ -105,11 +102,12 @@ read.recoding <- function(recoding, file = NULL, data = NULL) {
   
   # Allow for various shortcuts in the writing of recodings
   # The following lines normalise the input to the cannonical form
-  
   reallabels <- c(
     "recodingOf", "attribute", "values", "link",
     "originalFrequency", "doNotRecode", "comments")
   remove <- c()
+
+  # ===============
   
   # This loop has become a mess, should be cleaned up!
   for (i in 1:length(recoding)) {
@@ -118,8 +116,13 @@ read.recoding <- function(recoding, file = NULL, data = NULL) {
     names(recoding[[i]]) <- reallabels[pmatch(names(recoding[[i]]),reallabels)]    
     
     # when doNotRecode is specified, you're ready to go
-    if (is.null(recoding[[i]]$doNotRecode)) {
-      # if not: then recodingOf is necessary, otherwise break
+    if (!is.null(recoding[[i]]$doNotRecode)) {
+      # but break on possible error
+      if (!is.null(recoding[[i]]$link)) {
+        stop(paste("Both doNotRecode and link specified in recoding number", i))
+      }
+    } else {
+      # if no doNotRecode: then recodingOf is necessary, otherwise break
       if (is.null(recoding[[i]]$recodingOf)) {
         stop(paste("Specify **recodingOf** for recoding number", i))
       }
@@ -127,41 +130,38 @@ read.recoding <- function(recoding, file = NULL, data = NULL) {
       if (length(unlist(recoding[[i]]$link)) == 0) { 
         recoding[[i]] <- list(doNotRecode = recoding[[i]]$recodingOf)
       } else {
- 
-        # prepare values
-        if (is.null(recoding[[i]]$values)) {
-          # make values from link
-          newValues <- levels(factor(unlist(recoding[[i]]$link)))
-          recoding[[i]]$values <- newValues
-          names(recoding[[i]]$values) <- newValues
-        } else {
-          recoding[[i]]$values <- unlist(recoding[[i]]$values)
-        }
         
-        # prepare link
-        if (is.null(names(recoding[[i]]$values))) {
-          # when values have no labels, interpret link as numeric
-          recoding[[i]]$link <- unlist(recoding[[i]]$link)
-        } else {
-          # when values have labels, interpret link as character
-          recoding[[i]]$link <- sapply(recoding[[i]]$link, as.character)
+        # make attribute names if necessary
+        if (is.null(recoding[[i]]$attribute)) {
+          recoding[[i]]$attribute <- paste0("Att", i)
         }
         
         # just for visual inspection
         recoding[[i]]$originalFrequency <- unlist(recoding[[i]]$originalFrequency)
         
-        # make attribute and value names if necessary
-        if (is.null(recoding[[i]]$attribute)) {
-          recoding[[i]]$attribute <- paste0("Att", i)
-        }
+        # prepare link
+        recoding[[i]]$link <- unlist(recoding[[i]]$link)
+        linkNumeric <- is.numeric(recoding[[i]]$link)
+        
+        # prepare values if not present
         if (is.null(unlist(recoding[[i]]$values))) {
-          recoding[[i]]$values <- paste0("val", 1:length(recoding[[i]]$link))
-        }
-      }
-    } else {
-      # break on possible error
-      if (!is.null(recoding[[i]]$link)) {
-        stop(paste("Both doNotRecode and link specified in recoding number", i))
+          # make values from link
+          newValues <- levels(factor(recoding[[i]]$link))
+          recoding[[i]]$values <- newValues
+          # make valuess when none specified
+          if (is.numeric(recoding[[i]]$link)) {
+            recoding[[i]]$values <- paste0("val", 1:length(recoding[[i]]$values))
+          } else {
+            # change link to indexes
+            newLink <- as.numeric(factor(recoding[[i]]$link))
+            names(newLink) <- names(recoding[[i]]$link)
+            recoding[[i]]$link <- newLink
+          }
+          names(recoding[[i]]$values) <- 1:length(newValues)
+        } else {
+          # take available values
+          recoding[[i]]$values <- unlist(recoding[[i]]$values)
+        } 
       }
     }
     

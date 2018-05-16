@@ -1,3 +1,6 @@
+# qlcData 0.3
+
+
 # qlcData 0.2
 
 * changing default recoding profile to empirically attested combinations of features
