@@ -3,15 +3,15 @@ title: "Recoding nominal data"
 author: "Michael Cysouw"
 date: "`r Sys.Date()`"
 output: 
-  rmarkdown::html_vignette:
   pdf_document:
     number_sections: yes
+  rmarkdown::html_vignette:
   md_document:
     variant: markdown_github
 vignette: >
   %\VignetteIndexEntry{Recoding nominal data}
-  %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r setup, include = FALSE}
@@ -121,7 +121,7 @@ The list of the attributes that one wants to recode should be specified as a **l
 The function `recode` also accepts a path to a YAML-file as an input of a recoding.
 
 ```{r yamloutput, echo = FALSE}
-cat(yaml::as.yaml(write.recoding(list(1,c(1,2)),data,yaml=F)))
+cat(yaml::as.yaml(write.recoding(list(1,c(1,2)),data)))
 ```
 
 # Using recoding shortcuts
