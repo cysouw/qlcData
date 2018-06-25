@@ -1,8 +1,8 @@
 # qlcData 0.3
 
+* various minor edits to recoding functions
 
 # qlcData 0.2
-
 
 * update instructions to link docopt executables
 * changing default recoding profile to empirically attested combinations of features
