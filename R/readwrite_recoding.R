@@ -65,7 +65,7 @@ write.recoding <- function(data, attributes = NULL, all.options = FALSE, file = 
     title = NULL,
     author = NULL,
     date = format(Sys.time(),"%Y-%m-%d"),
-    original_data = NULL,
+    originalData = NULL,
     recoding = sapply(attributes, function(x) { makeTemplate(x, data) }, simplify = FALSE)
   )
   

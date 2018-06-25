@@ -18,7 +18,10 @@ recode <- function(data, recoding) {
   if (singleColumn) {
     result <- .makeAttribute(recodings, data, singleColumn = TRUE)
   } else {
-    result <- as.data.frame(sapply(recodings, .makeAttribute, data = data, simplify = F))
+    result <- sapply(recodings, .makeAttribute, data = data, simplify = F)
+    names <- sapply(result, colnames)
+    result <- as.data.frame(result)
+    colnames(result) <- names
   }
   return(result)
 }
