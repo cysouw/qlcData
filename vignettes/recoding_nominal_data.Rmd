@@ -10,8 +10,10 @@ output:
   pdf_document:
     number_sections: yes
   rmarkdown::html_vignette: null
-vignette: |
-  %\VignetteIndexEntry{Recoding nominal data} \usepackage[utf8]{inputenc} %\VignetteEngine{knitr::rmarkdown}
+vignette: >
+  %\VignetteIndexEntry{Recoding nominal data}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
 ---
 
 ```{r setup, include = FALSE}
