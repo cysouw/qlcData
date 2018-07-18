@@ -19,7 +19,7 @@ recode <- function(data, recoding) {
     result <- .makeAttribute(recodings, data, singleColumn = TRUE)
   } else {
     result <- sapply(recodings, .makeAttribute, data = data, simplify = F)
-    names <- sapply(result, colnames)
+    names <- unlist(sapply(result, colnames))
     result <- as.data.frame(result)
     colnames(result) <- names
   }
@@ -37,6 +37,9 @@ recode <- function(data, recoding) {
     newAttribute <- data[,recoding$doNotRecode, drop = FALSE]
   } else {
     
+    recoding$link <- unlist(recoding$link)
+    recoding$values <- unlist(recoding$values)
+    
     recoding$link[recoding$link == 0]  <- NA
     
     # simple when it is based on a single old attribute
@@ -52,7 +55,7 @@ recode <- function(data, recoding) {
         if (!is.null(linkNames)) {
           # connect linkNames to levels newAttribite
           linkage <- match(levels(newAttribute[,1]),linkNames)
-          levels(newAttribute[,1]) <- recoding$values[linkage][recoding$link]
+          levels(newAttribute[,1]) <- recoding$values[recoding$link][linkage]
         } else {
           # assume order of link matches order of levels newAttribute
           levels(newAttribute[,1]) <- recoding$values[recoding$link]
@@ -64,13 +67,13 @@ recode <- function(data, recoding) {
       
       # a bit more complex for combinations of attributes
       newAttribute <- data[,recoding$recodingOf, drop = FALSE]
-      newAttribute <- apply(newAttribute,1,function(x){paste(x, collapse = " + ")})
+      newAttribute <- apply(newAttribute, 1, function(x){paste(x, collapse = " + ")})
       
       if(!is.null(names(recoding$link))){
         # when link has names are in profile, use these
         match <- names(recoding$link)
       } else if (!is.null(names(recoding$originalFrequency))) {
-        # when originalFrequency has nems, use these
+        # when originalFrequency has names, use these
         match <- names(recoding$originalFrequency)
       } else {
         # recreate all possible interactions and use those
@@ -79,7 +82,7 @@ recode <- function(data, recoding) {
             c(levels(data[,x]),NA) 
           }, simplify = FALSE )
         )
-        match <- apply(match,1,function(x){paste(x, collapse = " + ")})
+        match <- apply(match, 1, function(x){paste(x, collapse = " + ")})
       }
       
       newAttribute <- factor(newAttribute, levels = match)

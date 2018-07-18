@@ -2,16 +2,16 @@
 title: "Recoding nominal data"
 author: "Michael Cysouw"
 date: "`r Sys.Date()`"
-output: 
-  pdf_document:
-    number_sections: yes
-  rmarkdown::html_vignette:
+output:
+  html_document:
+    df_print: paged
   md_document:
     variant: markdown_github
-vignette: >
-  %\VignetteIndexEntry{Recoding nominal data}
-  \usepackage[utf8]{inputenc}
-  %\VignetteEngine{knitr::rmarkdown}
+  pdf_document:
+    number_sections: yes
+  rmarkdown::html_vignette: null
+vignette: |
+  %\VignetteIndexEntry{Recoding nominal data} \usepackage[utf8]{inputenc} %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r setup, include = FALSE}
@@ -41,7 +41,9 @@ data
 
 The first kind of recoding to be exemplified here is to merge values. The first attribute of in our data has four values: `large`, `small`, `very small` and `tiny`. Suppose we would like to merge the values `small`, `very small` and `tiny` into one value value `small`. What we have to do is to define a new attribute with new values, and link the original values to our new values. In practice such a recoding looks as shown below: a list with a new name for the new attribute (`attribute=`), names for the new values of this attribute (`values=`), the name of the original attribute that is to be recoded (`recodingOf=`), and the central informatin for the recoding: the link-vector (`link=`). 
 
-The link-vector has the same length as to the number of values of the original attribute in the order as given by `levels(data$size)` viz. in this case `r levels(data$size)`. These four original values are linked to the new values as specified in the link-vector: the first original value is linked to the first new value (1), the second original value is linked to the second new value (2), the third original value to the second new value (2), etc. A zero in this link-vector is designated for values that should not be linked (i.e. NA, but that does not work in YAML, see below.)
+The link-vector has the same length as to the number of values of the original attribute in the order as given by `levels(data$size)` viz. in this case `r levels(data$size)`.[^1] These four original values are linked to the new values as specified in the link-vector: the first original value is linked to the first new value (1), the second original value is linked to the second new value (2), the third original value to the second new value (2), etc. A zero in this link-vector is designated for values that should not be linked (i.e. NA, but that does not work in YAML, see below.)
+
+[^1]: The order of the levels is crucial when using a numerical link, and this order might be different depending on your locale! A more stable way is not to use a numerical link, but a named link, see below.
 
 The function `recode` taked the original data and the recoding-specification, and returns the new, recoded, data:
 
@@ -99,7 +101,7 @@ back_recoding <- list(
   list(
     recodingOf = c('size','age'),
     attribute = 'size+age',
-    values = c('large+old','large+young','small+old','small+young'),
+    values = c('largeOld','largeYoung','smallOld','smallYoung'),
     link = c(1,3,0,2,4,0,0,0,0,0)
     )
   )
@@ -116,12 +118,63 @@ expand.grid(c(levels(newdata$size),NA),c(levels(newdata$age),NA))
 
 Specifying recodings is often rather tedious within R. Also, the resulting nested list datastructure in R is not very insightful to share or publish. As an alternative, I propose to use a YAML representation of the recoding for editing and sharing. The function `write.recoding` can be used to produce a template that can then be manually edited. All the necessary information for the recoding will be included in the file.
 
-The list of the attributes that one wants to recode should be specified as a **list** in the function `write.recoding`. In that way it is possible to both recode individual attributes, but also combinations of attributes. For example, `write.recoding( list(1, c(1,2)), data = data, file = file)` will write the following YAML information to `file`. The tildes `~` show the missing information to be added. Note that the second recoding is a combination of two attributes.
+The list of the attributes that one wants to recode should be specified as a **list** in the function `write.recoding`. In that way it is possible to both recode individual attributes, but also combinations of attributes. For example, `write.recoding(data = data, attributes = list(1, c(1,2)), file = file)` will write the following YAML information to `file`. The tildes `~` show the missing information to be added. Note that the second recoding is a combination of two attributes.
 
-The function `recode` also accepts a path to a YAML-file as an input of a recoding.
+The function `recode` accepts a path to such a YAML-file as an input of a recoding.
 
 ```{r yamloutput, echo = FALSE}
-cat(yaml::as.yaml(write.recoding(list(1,c(1,2)),data)))
+cat(yaml::as.yaml(write.recoding(data, list(1,c(1,2)))))
+```
+
+# Named linking
+
+As can be seen in the recoding template, it is best practice to use named linking. This works as follows:
+
+- **The new values are now "key: value" pairs**, in which the key can be whatever you like (the template suggests 'a' and 'b', but this can be changed, and of course more keys can be added)
+- **The link are also "key: value" pairs**, in which the keys are the original attributes, and the values are to be added by the user: they should be the keys from the new values, i.e. 'a' or 'b' or whatever you have chosen for the new values.
+- **Any original attributes not named in 'link' are ignored**, i.e. they will get NA values after recoding. So, if you leave the tilde, or if you delete a line from the link-list, then these original values will be turned into NA after recoding.
+- **Combinations of attributes use the fixed delimiter ' + ', i.e. 'space-plus-space'**. You can easily build new combinations by combining original levels with the combining-delimiter 'space-plus-space'. This delimiter was chosen with the assumption that is will normally not occur in the data, and it is easily typeable and readable.
+
+Named linking is also extremely useful for merging of attributes. Repeating the example from above, but using names linking (note the sequence 'space-plus-space' in the key-names of the link. Also note the complete absence of any combination that should not be recoded and the unimportance of the order):
+
+```{r mergeattributes_v2}
+back_recoding <- list(
+  list(
+    recodingOf = c('size','age'),
+    attribute = 'size+age',
+    values = c( lo = 'largeOld'
+              , ly = 'largeYoung'
+              , so = 'smallOld'
+              , sy = 'smallYoung'
+      ),
+    link = c(  'small + young' = 'sy'
+             , 'small + old' = 'so'
+             , 'large + young' = "ly"
+             , 'large + old' = 'lo'
+      )
+    )
+  )
+recode(newdata, back_recoding)
+```
+
+Also note that this recoding looks much better and is easier to produce in YAML:
+
+```
+recoding:
+- recodingOf:
+  - size
+  - age
+  attribute: size+age
+  values:
+  - lo: largeOld
+  - ly: largeYoung
+  - so: smallOld
+  - sy: smallYoung
+  link:
+  - 'small + young': sy
+  - 'small + old': so
+  - 'large + young': ly
+  - 'large + old': lo
 ```
 
 # Using recoding shortcuts
@@ -147,6 +200,13 @@ short_recoding <- list(
     l = c(1,2,2,2),
     v = c('large','small')
     ),
+  # the same, using named linking
+  list(
+    r = 'size',
+    a = 'newSize',
+    v = list(a = 'large', b = 'small'),
+    l = list(tiny = 'b', 'very small' = 'b', small = 'b', large = 'a')
+    ),
   # same new attribute, but with automatically generated names
   list(
     r = 'size',
@@ -159,13 +219,13 @@ short_recoding <- list(
   # add three times the first original attribute
   # senseless, but it illustrates the possibilities
   list(
-    d = c(1,1,1)
+    d = c(1,2)
     )
   )
 recode(data, short_recoding)
 ```
 
-Note that this short_recoding would be really short when written manually in YAML:
+Note that this short_recoding would be really short and simple when written manually in YAML:
 
 ```
 recoding:
@@ -174,24 +234,35 @@ recoding:
   v: [large, small]
   l: [1,2,2,2]
 - r: size
+  a: newSize
+  v:
+  - a: large
+  - b: small
+  l:
+  - tiny: b
+  - very small: b
+  - small : b
+  - large: a
+- r: size
   l: [1,2,2,2]
 - r: 2
-- d: [1,1,1]
+- d: [1,2]
 ```
 
 To document the recoding, it is to be preferred to expand all the shortcuts to their full text. This can be done by using `read.recoding`. When `file` is specified here, then the result is written to a YAML file that can be easily shared or published as documentation of the recoding.
 
 ```{r expand_shortcuts_notrun, eval = FALSE}
-read.recoding(short_recoding, file = yourFile , data =  data)
+read.recoding(short_recoding, file = yourFile, data = data)
 ```
 
 ```{r expand_shortcuts, echo = FALSE}
 meta <- list(
   title = NULL,
   author = NULL,
-  date = format(Sys.time(),"%Y-%m-%d")
+  date = format(Sys.time(),"%Y-%m-%d"),
+  originalData = "data"
   )
-recoding <- read.recoding(short_recoding, file = NULL , data =  data)
+recoding <- read.recoding(short_recoding, file = NULL , data = data)
 outfile <- c(meta, list(recoding = recoding))
 cat(yaml::as.yaml(outfile))
 ```

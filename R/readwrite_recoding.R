@@ -1,31 +1,3 @@
-# ==========================================================
-# help function: expand values for combination of attributes
-# ==========================================================
-
-.expandValues <- function(attributes, data, all) {
-  
-  alldata <- data[, attributes, drop = FALSE]
-  alldata <- apply(alldata, 1, function(x){
-    paste(x, collapse = " + ")
-  })
-  freq <- table(alldata)
-  
-  if (all) {
-    combination <- expand.grid(
-      sapply( attributes, function(x){ 
-        c(levels(data[,x]),NA) 
-        }, simplify = FALSE )
-    )
-    combination <- apply(combination, 1, function(x){
-      paste(x, collapse = " + ")
-    })
-    freq <- freq[combination]
-    names(freq) <- combination
-    
-  }
-  return(as.list(freq))
-}
-
 # ===================
 # write YAML-template
 # ===================
@@ -60,12 +32,14 @@ write.recoding <- function(data, attributes = NULL, all.options = FALSE, file = 
   }
   
   # combine all templates
-  attributes <- as.list(sapply(attributes, function(x){colnames(data)[x]}))
+  attributes <- as.list(sapply(attributes, function(x) {
+                colnames(data[,x,drop = FALSE])
+                }))
   result <- list(
     title = NULL,
     author = NULL,
     date = format(Sys.time(),"%Y-%m-%d"),
-    originalData = NULL,
+    originalData = deparse(substitute(data)),
     recoding = sapply(attributes, function(x) { makeTemplate(x, data) }, simplify = FALSE)
   )
   
@@ -100,99 +74,9 @@ read.recoding <- function(recoding, file = NULL, data = NULL) {
     }
   }
   
-  # Allow for various shortcuts in the writing of recodings
-  # The following lines normalise the input to the cannonical form
-  reallabels <- c(
-    "recodingOf", "attribute", "values", "link",
-    "originalFrequency", "doNotRecode", "comments")
-  remove <- c()
-
-  # ===============
-  
-  # This loop has become a mess, should be cleaned up!
+  # This is the central loop expanding all recodings
   for (i in 1:length(recoding)) {
-    
-    # write labels in full
-    names(recoding[[i]]) <- reallabels[pmatch(names(recoding[[i]]),reallabels)]    
-    
-    # when doNotRecode is specified, you're ready to go
-    if (!is.null(recoding[[i]]$doNotRecode)) {
-      # but break on possible error
-      if (!is.null(recoding[[i]]$link)) {
-        stop(paste("Both doNotRecode and link specified in recoding number", i))
-      }
-    } else {
-      # if no doNotRecode: then recodingOf is necessary, otherwise break
-      if (is.null(recoding[[i]]$recodingOf)) {
-        stop(paste("Specify **recodingOf** for recoding number", i))
-      }
-      # with no link, add doNotRecode
-      if (length(unlist(recoding[[i]]$link)) == 0) { 
-        recoding[[i]] <- list(doNotRecode = recoding[[i]]$recodingOf)
-      } else {
-        
-        # make attribute names if necessary
-        if (is.null(recoding[[i]]$attribute)) {
-          recoding[[i]]$attribute <- paste0("Att", i)
-        }
-        
-        # just for visual inspection
-        recoding[[i]]$originalFrequency <- unlist(recoding[[i]]$originalFrequency)
-        
-        # prepare link
-        recoding[[i]]$link <- unlist(recoding[[i]]$link)
-        linkNumeric <- is.numeric(recoding[[i]]$link)
-        
-        # prepare values if not present
-        if (is.null(unlist(recoding[[i]]$values))) {
-          # make values from link
-          newValues <- levels(factor(recoding[[i]]$link))
-          recoding[[i]]$values <- newValues
-          # make valuess when none specified
-          if (is.numeric(recoding[[i]]$link)) {
-            recoding[[i]]$values <- paste0("val", 1:length(recoding[[i]]$values))
-          } else {
-            # change link to indexes
-            newLink <- as.numeric(factor(recoding[[i]]$link))
-            names(newLink) <- names(recoding[[i]]$link)
-            recoding[[i]]$link <- newLink
-          }
-          names(recoding[[i]]$values) <- 1:length(newValues)
-        } else {
-          # take available values
-          recoding[[i]]$values <- unlist(recoding[[i]]$values)
-        } 
-      }
-    }
-    
-    # when data is specified, add names of original attributes
-    # this leads to nicer documentation of the recoding
-    if (!is.null(data)) {
-      if (is.numeric(recoding[[i]]$recodingOf)) {
-        recoding[[i]]$recodingOf <- colnames(data)[recoding[[i]]$recodingOf]
-      }
-      if (is.numeric(recoding[[i]]$doNotRecode)) {
-        recoding[[i]]$doNotRecode <- colnames(data)[recoding[[i]]$doNotRecode]
-      }    
-    }
-    # put everything in the same order
-    recoding[[i]] <- recoding[[i]][reallabels]
-    recoding[[i]] <- recoding[[i]][na.omit(names(recoding[[i]]))]
-    
-    # merge sequences of doNotRecode
-    if (i > 1) {
-      if (!is.null(recoding[[i]]$doNotRecode) & 
-          !is.null(recoding[[i-1]]$doNotRecode)) {
-        recoding[[i]]$doNotRecode <- c( recoding[[i-1]]$doNotRecode
-                                       , recoding[[i]]$doNotRecode)
-        remove <- c(remove,(i-1))
-      }
-    }
-  }
-  
-  # remove superflous recodings because of contractions of doNotRecode
-  if (!is.null(remove)) {
-    recoding <- recoding[-remove]
+    recoding[[i]] <- .doExpandRecoding(recoding[[i]], counter = i, data = data)
   }
   
   # return result
@@ -200,6 +84,9 @@ read.recoding <- function(recoding, file = NULL, data = NULL) {
     return(recoding)
   } else {
     # add metadata and write out as yaml
+    if (!("originalData" %in% names(meta))) {
+      meta <- c(list(originalData = deparse(substitute(data))), meta)
+    }
     if (!("date" %in% names(meta))) {
       meta <- c(list(date = format(Sys.time(),"%Y-%m-%d")), meta)
     }
@@ -215,4 +102,142 @@ read.recoding <- function(recoding, file = NULL, data = NULL) {
     yaml <- gsub("\n- doNotRecode:","\n# ==========\n- doNotRecode:",yaml)
     cat(yaml, file = file)
   }
+}
+
+# ==========================================================
+# help function: expand values for combination of attributes
+# ==========================================================
+
+.expandValues <- function(attributes, data, all) {
+  
+  alldata <- data[, attributes, drop = FALSE]
+  alldata <- apply(alldata, 1, function(x){
+    paste(x, collapse = " + ") # This separator is currently hard coded!
+  })
+  freq <- table(alldata)
+  
+  if (all) {
+    combination <- expand.grid(
+      sapply( attributes, function(x){ 
+        c(levels(data[,x]),NA) 
+      }, simplify = FALSE )
+    )
+    combination <- apply(combination, 1, function(x){
+      paste(x, collapse = " + ")
+    })
+    freq <- freq[combination]
+    names(freq) <- combination
+    
+  }
+  return(as.list(freq))
+}
+
+# ======================================================
+# help function: expand shortcuts and normalize recoding
+# =======================================================
+
+.doExpandRecoding <- function(recoding, counter, data) {
+  
+  # =============
+  # preliminaries
+  # =============  
+  
+  # Allow for various shortcuts in the writing of recodings
+  # The following lines normalise the input to the cannonical form
+  reallabels <- c(
+    "recodingOf", "attribute", "values", "link",
+    "originalFrequency", "doNotRecode", "comments")
+  
+  # write labels in full
+  names(recoding) <- reallabels[pmatch(names(recoding),reallabels)]    
+  
+  # make template if data is available
+  if (!is.null(data)) {
+    template <- write.recoding(data = data, attributes = recoding$recodingOf)
+    template <- template$recoding[[1]]
+  }
+  
+  # when doNotRecode is specified, possibly add names
+  if (!is.null(recoding$doNotRecode)) {
+    if (!is.null(data)) {
+      recoding$doNotRecode <- colnames(data[,recoding$doNotRecode, drop = FALSE])
+    }
+    # but break on possible error
+    if (!is.null(recoding$link)) {
+      stop(paste("Both **doNotRecode** and **link** specified in recoding number"
+                 , counter))
+    }
+  } else {
+    # if no doNotRecode: then recodingOf is necessary, otherwise break
+    if (is.null(recoding$recodingOf)) {
+      stop(paste("Specify **recodingOf** for recoding number", counter))
+    }
+    
+    # =============================================     
+    # here starts the real expanding of information
+    # =============================================
+    
+    # with no link, add doNotRecode
+    if (length(unlist(recoding$link)) == 0) { 
+      recoding <- list(doNotRecode = recoding$recodingOf)
+      if (!is.null(data)) {
+        recoding$doNotRecode <- template$recodingOf
+      }
+    } else {
+      
+      # if recodingOf is number and data is available, look up names
+      if (is.numeric(recoding$recodingOf) & !is.null(data)) {
+        recoding$recodingOf <- template$recodingOf
+      }
+      
+      # make new attribute name if left blanc
+      if (is.null(recoding$attribute)) {
+        recoding$attribute <- paste0("Att", counter)
+      }    
+      
+      # prepare link
+      recoding$link <- unlist(recoding$link)
+      # numeric link: turn into integer
+      if (is.numeric(recoding$link)) {
+        recoding$link <- as.integer(recoding$link)
+      }
+      # when no names for link given, assume levels of data
+      if (!is.null(data) & is.null(names(recoding$link))) {
+        names(recoding$link) <- names(template$link)
+      }
+      
+      # prepare values if not present
+      if (is.null(unlist(recoding$values))) {
+        # make new values when none specified and link is numeric
+        if (is.numeric(recoding$link)) {
+          recoding$values <- paste0("val", 1:length(unique(recoding$link)))
+        } else {
+          # make values from link
+          recoding$values <- levels(factor(recoding$link))
+        } 
+      }
+      
+      # add frequencies from data if specified
+      # or copy data from profile
+      # will be left empty if neither is available
+      if (!is.null(data)) {
+        recoding$originalFrequency <- template$originalFrequency
+      } else {
+        recoding$originalFrequency <- unlist(recoding$originalFrequency)
+      }      
+    }
+  }
+  
+  # =======
+  # cleanup
+  # =======  
+  
+  # for yaml output: turn into lists
+  recoding$link <- as.list(recoding$link)
+  recoding$values <- as.list(recoding$values)
+  # put everything in the same order
+  recoding <- recoding[reallabels]
+  # remove superfluous
+  recoding <- recoding[sapply(recoding, length) > 0]
+  
 }
