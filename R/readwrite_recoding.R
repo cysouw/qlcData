@@ -4,46 +4,32 @@
 
 write.recoding <- function(data, attributes = NULL, all.options = FALSE, file = NULL) {
   
-  # prepare data when single column
+  # prepare data when vector
   if (is.null(dim(data))) {
     data <- as.data.frame(data)
     attributes <- 1
     colnames(data) <- 1
-  } else if (is.null(attributes)) {
+  }
+  # take all columns when not attributes are specified
+  if (is.null(attributes)) {
     attributes <- 1:ncol(data)
   }
-  
-  # prepare the template for one attribute
-  makeTemplate <- function(attribute, data) {
-    if (length(attribute) > 1) {
-      originalValues <- .expandValues(attribute, data, all = all.options)
-    } else {
-      originalValues <- as.list(table(data[,attribute]))
-    }
-    link <- sapply(originalValues, function(x){NULL})
-    return(list(
-      recodingOf = attribute,
-      attribute = NULL,
-      values = list(a = NULL,b = NULL),
-      link = link,
-      originalFrequency = originalValues,
-      comments = NULL
-    ))
-  }
+  # turn attributes into a list if necessary, replace numbers with names
+  attributes <- as.list(sapply(attributes, function(x) {
+    colnames(data[,x,drop = FALSE])
+  }))
+  names(attributes) <- NULL
   
   # combine all templates
-  attributes <- as.list(sapply(attributes, function(x) {
-                colnames(data[,x,drop = FALSE])
-                }))
   result <- list(
     title = NULL,
     author = NULL,
     date = format(Sys.time(),"%Y-%m-%d"),
     originalData = deparse(substitute(data)),
-    recoding = sapply(attributes, function(x) { makeTemplate(x, data) }, simplify = FALSE)
+    recoding = sapply(attributes, function(x) { .makeTemplate(x, data) }, simplify = FALSE)
   )
   
-  # return the result, defaults to a yaml-file
+  # return the result
   if (!is.null(file)) {
     yaml <- yaml::as.yaml(result)
     yaml <- gsub("\n- recodingOf:","\n# ==========\n- recodingOf:",yaml)
@@ -102,6 +88,27 @@ read.recoding <- function(recoding, file = NULL, data = NULL) {
     yaml <- gsub("\n- doNotRecode:","\n# ==========\n- doNotRecode:",yaml)
     cat(yaml, file = file)
   }
+}
+
+# ==========================================================
+# help function: prepare the template for one attribute
+# ==========================================================
+
+.makeTemplate <- function(attribute, data) {
+  if (length(attribute) > 1) {
+    originalValues <- .expandValues(attribute, data, all = all.options)
+  } else {
+    originalValues <- as.list(table(data[,attribute]))
+  }
+  link <- sapply(originalValues, function(x){NULL})
+  return(list(
+    recodingOf = attribute,
+    attribute = NULL,
+    values = list(a = NULL,b = NULL),
+    link = link,
+    originalFrequency = originalValues,
+    comments = NULL
+  ))
 }
 
 # ==========================================================
