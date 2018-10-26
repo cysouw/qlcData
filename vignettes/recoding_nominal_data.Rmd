@@ -60,7 +60,7 @@ recoding <- list(
     )
   )
 # Do the actual recoding and see the results
-recode(data, recoding)
+recode(recoding, data)
 ```
 
 # Split attributes
@@ -90,7 +90,7 @@ recoding <- list(
     )
   )
 # Do the recoding and show it
-newdata <- recode(data, recoding)
+newdata <- recode(recoding, data)
 newdata
 ```
 
@@ -107,7 +107,7 @@ back_recoding <- list(
     link = c(1,3,0,2,4,0,0,0,0,0)
     )
   )
-recode(newdata, back_recoding)
+recode(back_recoding, newdata)
 ```
 
 To get the indices (including zeros) of the link-vector right, one has to realize that the recoding of two attributes is based on the cross-section of the values from the two attributes, including possible NAs. Internally, this uses the function `expand.grid`, leading in the current example to the following four values to be recoded. For larger mergers (with multiple attributes, or with attributes that have many values) this can become rather tedious, because there are very many possible combinations that all have to linked in the link-vector. For such situations it is possible to use the option `all.options = FALSE` in the recoding template (see below) which results in only the attested combinations being listed. This of course is not foolproof if the dataset is expanded after the recoding profile is written. However, for non-changeable data this option can be highly useful.
@@ -156,7 +156,7 @@ back_recoding <- list(
       )
     )
   )
-recode(newdata, back_recoding)
+recode(back_recoding, newdata)
 ```
 
 Also note that this recoding looks much better and is easier to produce in YAML:
@@ -224,7 +224,7 @@ short_recoding <- list(
     d = c(1,2)
     )
   )
-recode(data, short_recoding)
+recode(short_recoding, data)
 ```
 
 Note that this short_recoding would be really short and simple when written manually in YAML:

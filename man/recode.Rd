@@ -7,14 +7,15 @@ Recoding nominal data
 Nominal data (`categorical data') are data that consist of attributes, and each attribute consists of various discrete values (`types'). The different values that are distinguished in comparative linguistics are mostly open to debate, and different scholars like to make different decisions as to the definition of values. The \code{recode} function allows for an easy and transparent way to specify a recoding of an existing dataset.
 }
 \usage{
-recode(data, recoding)
+recode(recoding, data = NULL)
 }
 \arguments{
-  \item{data}{
-  a data frame with nominal data, attributes as columns, observations as rows.
-  }
+
   \item{recoding}{
   a \code{recoding} data structure, specifying the decisions of the recoding. It can also be a path to a file containing the specifications in YAML format. See Details.
+  }
+   \item{data}{
+  a data frame with nominal data, attributes as columns, observations as rows. If nothing is provided, an attempt is made to read the data with \code{\link{read.csv}} from the relative path provided in \code{originalData} in the metadata of the recoding.
   }
 }
 \details{

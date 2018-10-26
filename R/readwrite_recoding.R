@@ -26,6 +26,7 @@ write.recoding <- function(data, attributes = NULL, all.options = FALSE, file = 
     author = NULL,
     date = format(Sys.time(),"%Y-%m-%d"),
     originalData = deparse(substitute(data)),
+    selectRows = NULL,
     recoding = sapply(attributes, function(x) { .makeTemplate(x, data) }, simplify = FALSE)
   )
   
@@ -67,9 +68,16 @@ read.recoding <- function(recoding, file = NULL, data = NULL) {
   
   # return result
   if (is.null(file)) {
+    # check for data-address in profile
+    if (!is.null(meta$originalData)) {
+      recoding$originalData <- meta$originalData
+    }
     return(recoding)
   } else {
     # add metadata and write out as yaml
+    if (!("selectRows" %in% names(meta))) {
+      meta <- c(list(selectRows = NULL), meta)
+    }    
     if (!("originalData" %in% names(meta))) {
       meta <- c(list(originalData = deparse(substitute(data))), meta)
     }
@@ -106,6 +114,7 @@ read.recoding <- function(recoding, file = NULL, data = NULL) {
     attribute = NULL,
     values = list(a = NULL,b = NULL),
     link = link,
+    newData = NULL,
     originalFrequency = originalValues,
     comments = NULL
   ))
@@ -152,7 +161,7 @@ read.recoding <- function(recoding, file = NULL, data = NULL) {
   # Allow for various shortcuts in the writing of recodings
   # The following lines normalise the input to the cannonical form
   reallabels <- c(
-    "recodingOf", "attribute", "values", "link",
+    "recodingOf", "attribute", "values", "link", "newData",
     "originalFrequency", "doNotRecode", "comments")
   
   # write labels in full

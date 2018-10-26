@@ -123,6 +123,7 @@ read.profile <- function(profile) {
                         , header = TRUE
                         , fill = TRUE
                         , colClasses = "character"
+                        , comment.char = ""
                         )
   
   # checking header

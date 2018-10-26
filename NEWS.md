@@ -1,5 +1,8 @@
 # qlcData 0.3
 
+* recoding now tries to read the data from originalData if not specified
+* read.profile now includes lines starting with a hash '#'
+* adding options for selectRows and addData to recoding
 * various minor edits to recoding functions
 
 # qlcData 0.2

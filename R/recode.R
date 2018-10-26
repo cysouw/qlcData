@@ -2,11 +2,21 @@
 # recode data according to specifications in recoding
 #=======================
 
-recode <- function(data, recoding) {
+recode <- function(recoding, data = NULL) {
 
   # expand the possible shortcuts in the formulation of a recoding
   recodings <- read.recoding(recoding)
 
+  # try to read csv data from relative path in profile
+  # when no explicit data is given here
+  if (is.null(data)) {
+    if (is.null(recodings$originalData)) {
+      stop("Specify data, either in recoding or in function-call")
+    } else {
+      data <- read.csv(recodings$originalData)
+    }
+  }
+  
   # prepare data when single column
   singleColumn <- FALSE
   if (is.null(dim(data))) {
@@ -18,7 +28,7 @@ recode <- function(data, recoding) {
   if (singleColumn) {
     result <- .makeAttribute(recodings, data, singleColumn = TRUE)
   } else {
-    result <- sapply(recodings, .makeAttribute, data = data, simplify = F)
+    result <- sapply(recodings, .makeAttribute, data = data, simplify = FALSE)
     names <- unlist(sapply(result, colnames))
     result <- as.data.frame(result)
     colnames(result) <- names
