@@ -125,7 +125,7 @@ The list of the attributes that one wants to recode should be specified as a **l
 The function `recode` accepts a path to such a YAML-file as an input of a recoding.
 
 ```{r yamloutput, echo = FALSE}
-cat(yaml::as.yaml(write.recoding(data, list(1,c(1,2)))))
+cat(yaml::as.yaml(write.recoding(data, attributes=list(1,c(1,2)))))
 ```
 
 # Named linking

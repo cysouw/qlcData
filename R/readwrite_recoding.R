@@ -27,7 +27,7 @@ write.recoding <- function(data, attributes = NULL, all.options = FALSE, file = 
     date = format(Sys.time(),"%Y-%m-%d"),
     originalData = deparse(substitute(data)),
     selectRows = NULL,
-    recoding = sapply(attributes, function(x) { .makeTemplate(x, data) }, simplify = FALSE)
+    recoding = sapply(attributes, function(x) { .makeTemplate(x, data, all.options) }, simplify = FALSE)
   )
   
   # return the result
@@ -102,7 +102,7 @@ read.recoding <- function(recoding, file = NULL, data = NULL) {
 # help function: prepare the template for one attribute
 # ==========================================================
 
-.makeTemplate <- function(attribute, data) {
+.makeTemplate <- function(attribute, data, all.options) {
   if (length(attribute) > 1) {
     originalValues <- .expandValues(attribute, data, all = all.options)
   } else {
