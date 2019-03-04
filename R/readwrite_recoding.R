@@ -25,7 +25,7 @@ write.recoding <- function(data, attributes = NULL, all.options = FALSE, file = 
     title = NULL,
     author = NULL,
     date = format(Sys.time(),"%Y-%m-%d"),
-    originalData = deparse(substitute(data)),
+    originalData = NULL,
     selectRows = NULL,
     recoding = sapply(attributes, function(x) { .makeTemplate(x, data, all.options) }, simplify = FALSE)
   )

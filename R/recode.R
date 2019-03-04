@@ -59,17 +59,18 @@ recode <- function(recoding, data = NULL) {
         newAttribute <- as.factor(data)
         levels(newAttribute) <- recoding$values[recoding$link]
       } else {
-        newAttribute <- data[,recoding$recodingOf, drop = FALSE]
+        newAttribute <- as.factor(data[,recoding$recodingOf])
         
         linkNames <- names(recoding$link)
         if (!is.null(linkNames)) {
           # connect linkNames to levels newAttribite
-          linkage <- match(levels(newAttribute[,1]),linkNames)
-          levels(newAttribute[,1]) <- recoding$values[recoding$link][linkage]
+          linkage <- match(levels(newAttribute),linkNames)
+          levels(newAttribute) <- recoding$values[recoding$link][linkage]
         } else {
           # assume order of link matches order of levels newAttribute
-          levels(newAttribute[,1]) <- recoding$values[recoding$link]
+          levels(newAttribute) <- recoding$values[recoding$link]
         }
+        newAttribute <- as.data.frame(newAttribute)
         colnames(newAttribute) <- recoding$attribute
       }
       
