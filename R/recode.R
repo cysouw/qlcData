@@ -65,7 +65,7 @@ recode <- function(recoding, data = NULL) {
         if (!is.null(linkNames)) {
           # connect linkNames to levels newAttribite
           linkage <- match(levels(newAttribute),linkNames)
-          levels(newAttribute) <- recoding$values[recoding$link][linkage]
+          levels(newAttribute) <- recoding$link[linkage]
         } else {
           # assume order of link matches order of levels newAttribute
           levels(newAttribute) <- recoding$values[recoding$link]
