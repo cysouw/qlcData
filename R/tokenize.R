@@ -32,6 +32,8 @@ tokenize <- function(strings
   
 	# separators
 	internal_sep <-  intToUtf8(1110000)
+	na_replace <- intToUtf8(1110001)
+	empty_string <- intToUtf8(1110002)
 	user_sep <- sep
 
 	# normalization
@@ -50,7 +52,9 @@ tokenize <- function(strings
 
   # collapse strings for doing everything at once
 	NAs <- which(is.na(strings))
-	strings[NAs] <- ""
+	strings[NAs] <- na_replace
+	empty <- which(strings == "")
+	strings[empty] <- empty_string
   all <- paste(strings, collapse = internal_sep)
   all <- paste0(internal_sep, all, internal_sep)
   
@@ -138,7 +142,7 @@ tokenize <- function(strings
   } else {
     
     # replace regex boundaries with internal separator
-    tmp <- intToUtf8(1110001)
+    tmp <- intToUtf8(1110003)
     
     right <- gsub("\\$", tmp, right, fixed = TRUE)
     right <- gsub("\\$$", internal_sep, right)
@@ -501,9 +505,11 @@ tokenize <- function(strings
   # ----------------------
   
   # reinsert NAs
-  tmp <- rep(NA, times = length(strings))
-  tmp[-NAs] <- tokenized
-  tokenized <- tmp
+  #tmp <- rep(NA, times = length(strings))
+  #tmp[-NAs] <- tokenized
+  #tokenized <- tmp
+  tokenized[NAs] <- NA
+  tokenized[empty] <- ""
   
   if (is.null(transliterate)) {
     
