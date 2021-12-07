@@ -500,7 +500,10 @@ tokenize <- function(strings
   # preparation of results
   # ----------------------
   
-  tokenized[NAs] <- NA
+  # reinsert NAs
+  tmp <- rep(NA, times = length(strings))
+  tmp[-NAs] <- tokenized
+  tokenized <- tmp
   
   if (is.null(transliterate)) {
     
