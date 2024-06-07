@@ -15,7 +15,7 @@ coords <- langs[, c("longitude","latitude")]
 rownames(coords) <- rownames(langs)
 
 # proj4
-# scan("http://spatialreference.org/ref/sr-org/gall-peters-orthographic-projection/proj4/", what="character",sep="\n")
+# scan("https://spatialreference.org/ref/sr-org/gall-peters-orthographic-projection/proj4/", what="character",sep="\n")
 
 pacific <- "+proj=longlat +lon_wrap=155 +lon_0=155 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +no_defs"
 atlantic <- "+proj=longlat +lon_wrap=8 +lon_0=8 +ellps=WGS84 +datum=WGS84 +no_defs"

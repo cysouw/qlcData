@@ -147,15 +147,12 @@ g[g$name=="Fante","iso"] <- "fat"
 g[g$name=="Asante","iso"] <- "twi"
 
 # code changes
-# http://www-01.sil.org/iso639-3/documentation.asp?id=tgg
 g[g$name=="Maket","iso"] <- "bjp"
 g[g$name=="Anir","iso"] <- "hrc"
 g[g$name=="Tanga","iso"] <- "hrw"
 
 # retired codes
-# http://www-01.sil.org/iso639-3/cr_files/2012-083.pdf
 g[which(g$iso=="daf"),"iso"] <- "dnj"
-# http://www-01.sil.org/iso639-3/documentation.asp?id=bkb
 g[which(g$iso=="bkb"),"iso"] <- "ebk"
 
 # missing in download?

@@ -37,7 +37,7 @@ There is a vignette available with detailed information about the process of rec
 \code{recode} returns a data frame with the recoded attributes
 }
 \references{
-Cysouw, Michael, Jeffrey Craig Good, Mihai Albu and Hans-Jörg Bibiko. 2005. Can GOLD "cope" with WALS? Retrofitting an ontology onto the World Atlas of Language Structures. \emph{Proceedings of E-MELD Workshop 2005}, \url{http://emeld.org/workshop/2005/papers/good-paper.pdf}
+Cysouw, Michael, Jeffrey Craig Good, Mihai Albu and Hans-Jörg Bibiko. 2005. Can GOLD "cope" with WALS? Retrofitting an ontology onto the World Atlas of Language Structures. \emph{Proceedings of E-MELD Workshop 2005}, \url{https://emeld.org/workshop/2005/papers/good-paper.pdf}
 }
 \author{
 Michael Cysouw <cysouw@mac.com>

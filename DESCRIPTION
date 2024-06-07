@@ -4,7 +4,7 @@ Title: Processing Data for Quantitative Language Comparison
 Description: Functionality to read, recode, and transcode data as used in 
   quantitative language comparison, specifically to deal with 
   multilingual orthographic variation and with the recoding of nominal data.
-Version: 0.2.2
+Version: 0.3
 Date: 2024-06-07
 Authors@R:
   person(

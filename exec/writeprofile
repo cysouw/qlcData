@@ -14,7 +14,7 @@
 # General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # =================
 
 # =====
@@ -28,7 +28,7 @@ USAGE:
 DESCRIPTION:
   Using the function write.profile() from the R-package qlcData to prepare 
   a skeleton for an orthography profile to be used with tokenize. Details:
-  http://www.rdocumentation.org/packages/qlcData/functions/readwrite_orthography
+  https://www.rdocumentation.org/packages/qlcData/functions/readwrite_orthography
 
   STRINGS can be piped through. The results is a tab-delimited file for manual
   editing. Note that the R-code allows for even more options, not all options 

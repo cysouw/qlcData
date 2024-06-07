@@ -2,7 +2,7 @@
 \alias{glottolog}
 \docType{data}
 \title{
-Glottolog data from \url{http://www.glottolog.org}
+Glottolog data from \url{https://glottolog.org}
 }
 \description{
 Data from Glottolog 2016 with added WALS codes and speaker-community size. Various minor corrections and additions were performed in the preparation of the data (see Details). All stocks (i.e. largest reconstructable units) are linked to macroareas, and they are linked to a single root node calles 'World'.
@@ -33,7 +33,7 @@ Please note that the data provided here is not identical to the online version o
 The format of the glottolog data might seem a bit convoluted, but by using \code{\link{getTree}} it is actually really easy to extract genealogical parts of the glottolog data and by using \code{\link[data.tree]{FromDataFrameNetwork}} this can be nicely plotted and turned into various tree format as used in R.
 }
 \source{
-Glottolog 2016 data from \url{http://www.glottolog.org}. WALS 2013 data from \url{http://www.glottolog.org}. Information on macrolanguages from \url{http://www-01.sil.org/iso639-3/macrolanguages.asp}. All data downloaded in March 2017. Population numbers are from the 13th edition of the Ethnologue, licenced to the MPI-EVA in Leipzig.
+Glottolog 2016 data from \url{https://glottolog.org}. WALS 2013 data from \url{https://glottolog.org}. Information on macrolanguages from \url{https://iso639-3.sil.org/code_tables/macrolanguage_mappings/data}. All data downloaded in March 2017. Population numbers are from the 13th edition of the Ethnologue, licenced to the MPI-EVA in Leipzig.
 }
 \examples{
 # use getTree() to select genealogical parts of the data

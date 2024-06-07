@@ -14,7 +14,7 @@
 # General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # =================
 
 # =====
@@ -28,7 +28,7 @@ USAGE:
 DESCRIPTION:
   Using the function tokenize() from the R-package qlcData for tokenization and
   transliteration of character strings based on an orthography profile. Details
-  http://www.rdocumentation.org/packages/qlcData/functions/tokenize.html
+  https://www.rdocumentation.org/packages/qlcData/functions/tokenize.html
 
   STRINGS can be piped through. When no PROFILE is specified, default Unicode
   tokenization is performed. Note that the R-code allows for even more options,

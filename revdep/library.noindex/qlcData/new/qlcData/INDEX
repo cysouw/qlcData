@@ -2,7 +2,7 @@
 asPhylo                 Convert Glottolog trees to phylo format
 getTree                 Extract parts out of the full Glottolog 2016
                         tree
-glottolog               Glottolog data from <http://www.glottolog.org>
+glottolog               Glottolog data from <https://glottolog.org>
 join_align              Join various multialignments into one combined
                         dataframe
 launch_shiny            Launch Shiny app

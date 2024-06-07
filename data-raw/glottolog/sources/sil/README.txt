@@ -1,4 +1,4 @@
-URL: http://www-01.sil.org/iso639-3/macrolanguages.asp
+URL: https://iso639-3.sil.org/code_tables/macrolanguage_mappings/data
 Contact:  WWW@sil.org
 
 Terms of Use | Privacy Policy | External Links

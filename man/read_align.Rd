@@ -28,7 +28,7 @@ Multialignment-files often contain various different kinds of information. An at
 \item{annotations}{: The columns of a multialignment can have annotations, e.g. metathesis or orthographic standard. These annotations are saved here as a dataframe with the same number of columns as the \code{$align} dataframe. The name of the annotation is put in the rownames.}
 }
 \references{
-BDPA is available at \url{http://alignments.lingpy.org}. PAD is available at \url{http://github.com/cysouw/PAD/}
+BDPA is available at \url{https://alignments.lingpy.org}. PAD is available at \url{https://github.com/cysouw/PAD/}
 }
 \author{
 Michael Cysouw <cysouw@mac.com>

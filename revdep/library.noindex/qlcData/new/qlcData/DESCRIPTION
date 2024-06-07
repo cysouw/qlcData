@@ -1,10 +1,10 @@
 Package: qlcData
 Type: Package
 Title: Processing Data for Quantitative Language Comparison
-Description: A collection of functions to read, recode, and transcode
-  data as used in quantitative language comparison, specifically to deal with 
-  multilingual orthographic representations and with recoding nominal data.
-Version: 0.2.2
+Description: Functionality to read, recode, and transcode data as used in 
+  quantitative language comparison, specifically to deal with 
+  multilingual orthographic variation and with the recoding of nominal data.
+Version: 0.3
 Date: 2024-06-07
 Authors@R: 
   person(
@@ -15,7 +15,7 @@ Authors@R:
   )
 License: GPL-3
 Encoding: UTF-8
-Depends: R (>= 2.10)
+Depends: R (>= 3.5.0)
 Imports: stringi (>= 0.2-5), yaml (>= 2.1.11), shiny, docopt,
         data.tree, phytools, ape
 Suggests: knitr, rmarkdown
@@ -24,7 +24,7 @@ LazyData: true
 RemoteType: local
 RemoteUrl: /Users/cysouw/Github/qlcData
 NeedsCompilation: no
-Packaged: 2024-06-07 10:47:32 UTC; cysouw
+Packaged: 2024-06-07 11:39:10 UTC; cysouw
 Author: Michael Cysouw [aut, cre] (<https://orcid.org/0000-0003-3168-4946>)
 Maintainer: Michael Cysouw <cysouw@mac.com>
-Built: R 4.4.0; ; 2024-06-07 10:47:32 UTC; unix
+Built: R 4.4.0; ; 2024-06-07 11:39:10 UTC; unix
