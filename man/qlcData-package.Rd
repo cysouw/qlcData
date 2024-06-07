@@ -12,8 +12,8 @@ The package offers various functions to read, transcode and process data. There 
 \tabular{ll}{
 Package: \tab qlcData\cr
 Type: \tab Package\cr
-Version: \tab 0.2.1\cr
-Date: \tab 2018-01-05\cr
+Version: \tab 0.2.2\cr
+Date: \tab 2024-06-07\cr
 License: \tab GPL-3\cr
 }
 Various functions to read specific data formats of QLC are documented in \code{\link{read_align}}, \code{\link{read.profile}}, \code{\link{read.recoding}}.

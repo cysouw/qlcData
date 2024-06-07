@@ -5,7 +5,7 @@
 qlcData
 ==========
 
-**Functions for data managements in Quantitative Language Comparison (QLC)**
+**Functions for data managements in Quantitative Language Comparison**
 
 The package combines various methods to deal with data in language comparison, and it is intended to grow in the future to allow different datasets to be used and compared.
 

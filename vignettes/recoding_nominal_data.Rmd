@@ -3,17 +3,17 @@ title: "Recoding nominal data"
 author: "Michael Cysouw"
 date: "`r Sys.Date()`"
 output:
-  html_document:
-    df_print: paged
+  rmarkdown::html_vignette: null
   md_document:
     variant: markdown_github
+  html_document:
+    df_print: paged
   pdf_document:
     number_sections: yes
-  rmarkdown::html_vignette: null
 vignette: >
   %\VignetteIndexEntry{Recoding nominal data}
-  %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r setup, include = FALSE}
