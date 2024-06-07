@@ -1,0 +1,19 @@
+.expandValues           Internal helper
+asPhylo                 Convert Glottolog trees to phylo format
+getTree                 Extract parts out of the full Glottolog 2016
+                        tree
+glottolog               Glottolog data from <http://www.glottolog.org>
+join_align              Join various multialignments into one combined
+                        dataframe
+launch_shiny            Launch Shiny app
+pass_align              Transfer alignment from one string to another
+qlcData-package         Processing data for quantitative language
+                        comparison (QLC)
+read_align              Reading different versions of linguistic
+                        multialignments.
+recode                  Recoding nominal data
+tokenize                Tokenization and transliteration of character
+                        strings based on an orthography profile
+write.profile           Writing (and reading) of an orthography profile
+                        skeleton
+write.recoding          Reading and writing of recoding files.

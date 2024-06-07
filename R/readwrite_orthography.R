@@ -21,7 +21,7 @@ write.profile <- function(strings
   # use characters
   if ( length(strings) == 1 && file.exists(strings) ) {
     strings <- scan(strings, sep = "\n", what = "character")
-  } else if (class(strings) == "data.frame") {
+  } else if (inherits(strings, "data.frame")) {
     strings <- unlist(strings)
   }
   strings <- as.character(strings)

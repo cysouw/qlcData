@@ -1,0 +1,17 @@
+qlcData-package	qlcData-package
+.expandValues	expandvalues
+asPhylo	asPhylo
+getTree	getTree
+glottolog	glottolog
+join.align	join_align
+join_align	join_align
+launch_shiny	launch_shiny
+pass_align	pass_align
+qlcData	qlcData-package
+read.profile	readwrite_orthography
+read.recoding	readwrite_recoding
+read_align	read_align
+recode	recode
+tokenize	tokenize
+write.profile	readwrite_orthography
+write.recoding	readwrite_recoding

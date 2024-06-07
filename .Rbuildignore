@@ -3,3 +3,4 @@
 ^cran-comments.md$
 ^not_used/*$
 ^data-raw$
+^revdep/*$

@@ -24,9 +24,11 @@ library(qlcData)
 
 A common situation in comparative linguistic data collection is that data is encoded as nominal ('categorical') attributes. An attribute is conceived as a finite list of possibilities, viz. the values of the attribute. Although this is of course a completely normal and widespread practice in data encoding, in comparative linguistics it is mostly not trivial to decide on the delimitation of the different values. There is often ample discussion about the best way to separate the attested variation into types (terms like 'types', 'categories' or 'values' will the considered as equivalent here), and in general there is often no optimal or preferred way how to define the different types.
 
-In practice then, different scholars will often like to interpret data differently. One common wish is to be able to recode data that has already been categorised into types by a different. Note that such a recoding of course will never be able to easily split types, because for that goal a complete reconsideration of all underlying raw data is necessary, something that will not be further considered here.
+In practice then, different scholars will often like to interpret data differently. One common wish is to be able to recode data that has already been categorised into types by another scholar. Note that such a recoding of course will never be able to easily split types, because for that goal a complete reconsideration of all underlying raw data is necessary, something that will not be further considered here.
 
-Given any given nominal data set (like for example the WALS data, as included in this package), there are various transformations that are often requested, and that are reasonably easy to perform: *merge values* and *split attributes*. A third kind recoding, *merge attributes* is also possible, but needs a bit more effort. Furthermore, the actual recoding will consist of just a few lists of information, which allows for an easy way to share and publish the actual recoding decisions.
+Given any given nominal data set (like for example the WALS data, as included in this package), there are various transformations that are often requested, and that are reasonably easy to perform: *merge values* and *split attributes*. A third kind recoding, *merge attributes* is also possible, but needs a bit more effort. Furthermore, the actual recoding will consist of just a few lists of information, which allows for an easy way to share and publish the actual recoding decisions in the form of a *recoding profile*. To produce such profiles, a *recoding template* is proposed that can be used to quickly document any recoding decisions.
+
+# Merge values
 
 As an example, consider the following toy data frame with two attributes `size` and `kind`.
 
@@ -38,8 +40,6 @@ data <- data.frame(
     )
 data
 ```
-
-# Merge values
 
 The first kind of recoding to be exemplified here is to merge values. The first attribute of in our data has four values: `large`, `small`, `very small` and `tiny`. Suppose we would like to merge the values `small`, `very small` and `tiny` into one value value `small`. What we have to do is to define a new attribute with new values, and link the original values to our new values. In practice such a recoding looks as shown below: a list with a new name for the new attribute (`attribute=`), names for the new values of this attribute (`values=`), the name of the original attribute that is to be recoded (`recodingOf=`), and the central informatin for the recoding: the link-vector (`link=`). 
 

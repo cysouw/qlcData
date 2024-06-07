@@ -1,0 +1,103 @@
+#!/usr/bin/env Rscript
+
+# =================
+# Copyright 2016 Michael Cysouw <cysouw@mac.com>
+#
+# This file is free software: you may copy, redistribute and/or modify it
+# under the terms of the GNU General Public License as published by the
+# Free Software Foundation, either version 3 of the License, or (at your
+# option) any later version.
+#
+# This file is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# =================
+
+# =====
+# usage
+# =====
+
+DOC <- "
+USAGE: 
+  writeprofile [-hiec] [-s SEP] [-n NORMALIZE] [<STRINGS>]
+
+DESCRIPTION:
+  Using the function write.profile() from the R-package qlcData to prepare 
+  a skeleton for an orthography profile to be used with tokenize. Details:
+  http://www.rdocumentation.org/packages/qlcData/functions/readwrite_orthography
+
+  STRINGS can be piped through. The results is a tab-delimited file for manual
+  editing. Note that the R-code allows for even more options, not all options 
+  are made available here for ease of use.
+
+OPTIONS:
+  -h, --help        Showing this help text
+  -i, --info        Add columns with Unicode information to profile
+  -e, --editing     Add empty columns for easy editing of profile
+  -c, --codepoints  Separate by Unicode codepoints (overrides any -s setting)
+  -s SEP            Separator used to separate the strings
+                      defaults to unicode character definition [default: NULL]
+  -n NORMALIZE      Normalization used to make profile. Possible options: NFD, NFC
+                      defaults to no normalization [default: NULL]
+                    
+EXAMPLES:
+  Note the differences between the following variants:
+
+    example='\xc3\x99\xc3\x9a\xc3\x9b\x55\xcc\x80\x55\xcc\x81\x55\xcc\x82'
+    echo -e $example
+    echo -e $example | writeprofile -i
+    echo -e $example | writeprofile -ic
+    echo -e $example | writeprofile -ic -n NFC
+    echo -e $example | writeprofile -ic -n NFD
+ 
+"
+
+# ==============
+# docopt parsing
+# ==============
+
+require(docopt, quietly = TRUE)
+attach(docopt::docopt(DOC))
+
+# for piping data
+if (length(STRINGS) == 0) {
+	STRINGS <- scan(file("stdin") , sep = "\n" , quiet = TRUE , what = "character")
+	closeAllConnections() 
+}
+
+# catch options
+if (info) { info <- TRUE } else { info <- FALSE }
+if (editing) { editing <- TRUE } else { editing <- FALSE }
+if (n == "NULL") { n <- NULL }
+if (s == "NULL") { s <- NULL }
+if (codepoints) { s <- "" }
+
+# ======
+# R code
+# ======
+
+require(qlcData, quietly = TRUE)
+
+result <- qlcData::write.profile(STRINGS
+	, normalize = n
+	, info = info
+	, editing = editing
+	, sep = s
+	)
+
+# =======================
+# Return output to stdout
+# =======================
+
+write.table(result
+	, file = ""
+	, sep = "\t"
+	, row.names = FALSE
+	, col.names = TRUE
+	, quote = FALSE
+	)
+	
