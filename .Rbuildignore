@@ -4,3 +4,4 @@
 ^not_used/*$
 ^data-raw$
 ^revdep/*$
+^.github/*$
