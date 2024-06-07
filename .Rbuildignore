@@ -6,3 +6,4 @@
 ^revdep/*$
 ^.github/*$
 ^revdep$
+^CRAN-SUBMISSION$

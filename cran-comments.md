@@ -15,6 +15,16 @@ This update should finally resolve those issues.
 ## R CMD check results
 There were 0 errors, 0 warnings, 0 notes
 
+winbuilder finds a NOTE:
+possibly misspelled words in DESCRIPTION:
+- recode
+- recoding
+- transcode
+
+Oxford Dictionary does include these words, so they are left as is:
+- https://www.oed.com/dictionary/recode_v
+- https://www.oed.com/dictionary/transcode_v
+
 ## Downstream dependencies
 checked via revdepcheck::revdep_check() on local macOS X 14.5
 None found
