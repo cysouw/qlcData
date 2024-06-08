@@ -7,3 +7,4 @@
 ^.github/*$
 ^revdep$
 ^CRAN-SUBMISSION$
+^CITATION.cff$

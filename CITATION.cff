@@ -1,0 +1,27 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: qlcData. Processing Data for Quantitative Language Comparison in R.
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Michael
+    family-names: Cysouw
+    email: cysouw@mac.com
+    orcid: 'https://orcid.org/0000-0003-3168-4946'
+    affiliation: Philipps Universität Marburg
+repository-code: 'https://github.com/cysouw/qlcData'
+abstract: >-
+  Functionality to read, recode, and transcode data as used in 
+  quantitative language comparison, specifically to deal with multilingual 
+  orthographic variation and with the recoding of nominal data.
+keywords:
+  - linguistics
+  - language comparison
+  - data quality
+license: GPL-3.0
+version: v0.3
+date-released: '2024-06-09'

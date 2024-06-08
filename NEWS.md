@@ -4,6 +4,7 @@
 * read.profile now includes lines starting with a hash '#'
 * adding options for selectRows and addData to recoding
 * various minor edits to recoding functions
+* various minor edits to satisfy CRAN policies
 
 # qlcData 0.2
 
