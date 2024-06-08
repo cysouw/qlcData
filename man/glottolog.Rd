@@ -17,7 +17,7 @@ Data from Glottolog 2016 with added WALS codes and speaker-community size. Vario
     \item{\code{glottocode}}{a character vector with the glottocode. The same identifier is added as rownames of the data.}
     \item{\code{iso}}{a character vector with ISO 639-3 language codes}
     \item{\code{wals}}{a character vector with WALS language codes}
-    \item{\code{level}}{a factor with levels \code{dialect}, \code{family} and \code{language}}
+    \item{\code{type}}{a factor with levels \code{dialect}, \code{family} and \code{language}}
     \item{\code{longitude}}{a numeric vector with geographic coordinates as available in the Glottolog}
     \item{\code{latitude}}{a numeric vector with geographic coordinates as available in the Glottolog}
     \item{\code{population}}{a numeric vector with speaker community size from an old Ethnologue version (13th Edition), licensed to the MPI-EVA in Leipzig.}
@@ -45,11 +45,11 @@ data(glottolog)
 ( treeReduced <- getTree(up = c("deu", "eng", "ind", "cha"), kind = "iso", reduce = TRUE) )
 
 # check out areas
-( areas <- glottolog[glottolog$level == "area", "name"] )
+( areas <- glottolog[glottolog$type == "area", "name"] )
 # stocks in Southeast Asia
 glottolog[glottolog$father == areas[1], "name"]
 
-\dontrun{
+\donttest{
 # use FromDataFrameNetwork() to visualize the tree
 # and export it into various other tree formats in R
 
@@ -66,7 +66,7 @@ plot(t)
 
 # turn into dendrogram
 t <- as.dendrogram(treeF)
-plot(t, center = T)
+plot(t, center = TRUE)
 }
 }
 \keyword{datasets}

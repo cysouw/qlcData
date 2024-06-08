@@ -2,7 +2,7 @@
 # just for convenience
 
 isolates <- function(){
-	g[g$father == "World" & g$level == "language", "name"]
+	g[g$father == "World" & g$type == "language", "name"]
 
 }
 

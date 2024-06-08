@@ -1,6 +1,13 @@
 ## New submission
   
 Package was archived on CRAN
+
+## Comments to review
+
+- literature reference added to DESCRIPTION
+- handling of par() improved as suggested
+- \dontrun replaced by \donttest
+- The use of "<<-" does not change anything in the global environment, no change
   
 ## This is a minor update to get this package back on CRAN
 
@@ -8,9 +15,9 @@ This package was archived on 2020-04-09 as check problems were not corrected.
 This update should finally resolve those issues.
 
 ## Test environments
-- local macOS 14.5 install, R version 4.4.0
-- rhub::rhub_check() for Linux, Windows and old macOS
+- devtools::check(remote = TRUE, manual = TRUE) on local macOS 14.5 install, R version 4.4.0
 - devtools::check_win_devel() for Windows on r-devel
+- rhub::rhub_check() for Linux, Windows and old macOS
 
 ## R CMD check results
 There were 0 errors, 0 warnings, 0 notes

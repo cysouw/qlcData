@@ -2,8 +2,9 @@ Package: qlcData
 Type: Package
 Title: Processing Data for Quantitative Language Comparison
 Description: Functionality to read, recode, and transcode data as used in 
-  quantitative language comparison, specifically to deal with 
-  multilingual orthographic variation and with the recoding of nominal data.
+  quantitative language comparison, specifically to deal with multilingual 
+  orthographic variation (Moran & Cysouw (2018) <doi:10.5281/zenodo.1296780>) 
+  and with the recoding of nominal data.
 Version: 0.3
 Date: 2024-06-07
 Authors@R:
@@ -17,6 +18,6 @@ License: GPL-3
 Encoding: UTF-8
 Depends: R (>= 3.5.0)
 Imports: stringi (>= 0.2-5), yaml (>= 2.1.11), shiny, docopt, data.tree, phytools, ape
-Suggests: knitr, rmarkdown
+Suggests: knitr, rmarkdown, DiagrammeR
 VignetteBuilder: knitr
 LazyData: true

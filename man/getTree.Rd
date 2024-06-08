@@ -48,7 +48,7 @@ data(glottolog)
 ( treeFull <- getTree(up = c("deu", "eng", "ind", "cha"), kind = "iso") )
 ( treeReduced <- getTree(up = c("deu", "eng", "ind", "cha"), kind = "iso", reduce = TRUE) )
 
-\dontrun{
+\donttest{
 # use FromDataFrameNetwork() to visualize the tree
 # and export it into various other tree formats in R
 
@@ -65,6 +65,6 @@ plot(t)
 
 # turn into dendrogram
 t <- as.dendrogram(treeF)
-plot(t, center = T)
+plot(t, center = TRUE)
 }
 }

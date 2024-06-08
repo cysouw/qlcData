@@ -58,7 +58,7 @@ There is a vignette available with detailed information about the process of rec
 \code{read.recoding} either reads a recoding from file, or a list structure within R, and cleans up all the shortcuts used. The output is by default a list structure to be used in \code{recode}, though it is also possible to write the result to a YAML-file (when \code{file} is specified). When \code{data} is specified, the output will be embelished with all the original names from the original data, which makes for an even better documentation of the recoding.
 }
 \references{
-Cysouw, Michael, Jeffrey Craig Good, Mihai Albu and Hans-Jörg Bibiko. 2005. Can GOLD "cope" with WALS? Retrofitting an ontology onto the World Atlas of Language Structures. \emph{Proceedings of E-MELD Workshop 2005}, \url{https://emeld.org/workshop/2005/papers/good-paper.pdf}
+Cysouw, Michael, Jeffrey Craig Good, Mihai Albu and Hans-Jörg Bibiko. 2005. Can GOLD "cope" with WALS? Retrofitting an ontology onto the World Atlas of Language Structures. \emph{Proceedings of E-MELD Workshop 2005}, \url{https://web.archive.org/web/20221007002846/https://emeld.org/workshop/2005/papers/good-paper.pdf}
 }
 \author{
 Michael Cysouw <cysouw@mac.com>

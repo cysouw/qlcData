@@ -44,7 +44,7 @@ g$family_pk[is.na(g$family_pk)] <- g$name[is.na(g$family_pk)]
 # clean structure
 rownames(g) <- g$id
 g <- g[,c(4,2,3,5,6,7,8,9)]
-colnames(g) <- c("name", "father", "stock", "glottocode","iso", "level", "longitude", "latitude")
+colnames(g) <- c("name", "father", "stock", "glottocode","iso", "type", "longitude", "latitude")
 
 # replace round brackets, because they interfere with newick format
 g$name <- gsub("\\(","[",g$name)
@@ -170,7 +170,7 @@ g["para1320",8:10] <- NA
 
 g$stock <- as.factor(g$stock)
 g$wals <- as.character(g$wals)
-g$level <- as.factor(g$level)
+g$type <- as.factor(g$type)
 g$longitude <- as.numeric(g$longitude)
 g$latitude <- as.numeric(g$latitude)
 g$population <- as.numeric(g$population)

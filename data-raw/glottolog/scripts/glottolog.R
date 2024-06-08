@@ -64,7 +64,7 @@ selectTree <- function(codes) {
 	# add selection
 	family <- cbind(family, selection = family$iso %in% codes )
 	# remove languages and dialects without data
-	family <- family[which( family$level=="family" | family$selection ),]
+	family <- family[which( family$type=="family" | family$selection ),]
 	# turn in to datatree
 	tree <- FromDataFrameNetwork(family)
 	# extend selection

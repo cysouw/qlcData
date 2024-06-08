@@ -35,7 +35,7 @@ Michael Cysouw <cysouw@mac.com
 This is experimental functionality! 
 }
 \examples{
-\dontrun{
+\donttest{
 # try something like this
 add_alias("tokenize")
 

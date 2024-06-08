@@ -56,13 +56,15 @@ isoCodes <- c("deu", "eng", "swe", "swh", "xho", "fin")
 treeWithInternal <- getTree(isoCodes, reduce = FALSE)
 treeNoInternal <- getTree(isoCodes, reduce = TRUE)
 
-\dontrun{
+\donttest{
 # to understand the influence of the option 'reduce' also check
 library(data.tree)
 plot(FromDataFrameNetwork(treeWithInternal))
-plot(FromDataFrameNetwork(treeNoInternal))}
+plot(FromDataFrameNetwork(treeNoInternal))
+}
 
 library(ape)
+oldpar <- par("mfcol")
 par(mfcol = c(2,3))
 
 phylo <- asPhylo(treeWithInternal, height = 20)
@@ -82,13 +84,13 @@ plot(phylo, main = "reduce = TRUE\nfixed.branches = 1", cex = 1)
 edgelabels(round(phylo$edge.length), cex = 1.5)
 
 phylo <- asPhylo(treeWithInternal, fixed.branches = 1, long.root = 10)
-plot(phylo, main = "reduce = FALSE\nfixed.branches = 1\nlong.root = 10", cex = 1)
+plot(phylo, main = "reduce = FALSE\nfixed.branches = 1, long.root = 10", cex = 1)
 edgelabels(round(phylo$edge.length), cex = 1.5)
 
 phylo <- asPhylo(treeNoInternal, fixed.branches = 1, long.root = 10)
-plot(phylo, main = "reduce = TRUE\nfixed.branches = 1\nlong.root = 10", cex = 1)
+plot(phylo, main = "reduce = TRUE\nfixed.branches = 1, long.root = 10", cex = 1)
 edgelabels(round(phylo$edge.length), cex = 1.5)
 
-par(mfcol=c(1,1))
+par(mfcol = oldpar)
 
 }

@@ -58,7 +58,7 @@ From within R your can also use the following (again, optionally changing the li
 \code{file.symlink(system.file("exec/writeprofile", package="qlcData"), "~/bin")}
 }
 \references{
-Moran & Cysouw (forthcoming)
+Moran & Cysouw (2018) "The Unicode cookbook for linguists". Language Science Press. <doi:10.5281/zenodo.1296780>.
 }
 \author{
 Michael Cysouw <cysouw@mac.com>
