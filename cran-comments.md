@@ -20,7 +20,7 @@ This update should finally resolve those issues.
 - rhub::rhub_check() for Linux, Windows and old macOS
 
 ## R CMD check results
-There were 0 errors, 0 warnings, 0 notes
+There were 0 errors, 0 warnings, 1 note
 
 winbuilder finds a NOTE:
 possibly misspelled words in DESCRIPTION:
